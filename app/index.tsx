@@ -1,5 +1,5 @@
-import { Text, View, TouchableOpacity } from "react-native";
-import { ThemeProvider, useTheme } from "../context/ThemeProvider";
+import { Text, TouchableOpacity } from "react-native";
+import { useTheme } from "../context/ThemeProvider";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
