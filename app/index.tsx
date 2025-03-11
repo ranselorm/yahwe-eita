@@ -1,11 +1,19 @@
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
+import { ThemeProvider, useTheme } from "../context/ThemeProvider";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <View className="justify-center items-center h-full bg-yellow-50 px-10">
-      <Text className="text-4xl underline uppercase text-center text-green-600">
-        Edit app/index.tsx to edit this screen. hellow{" "}
-      </Text>
-    </View>
+    <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-black">
+      <Text className="text-black dark:text-white">Current Theme: {theme}</Text>
+      <TouchableOpacity
+        className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-lg"
+        onPress={toggleTheme}
+      >
+        <Text className="text-black dark:text-white">Toggle Theme</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
