@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
 
 const Verify = () => {
@@ -10,5 +10,3 @@ const Verify = () => {
 };
 
 export default Verify;
-
-const styles = StyleSheet.create({});
