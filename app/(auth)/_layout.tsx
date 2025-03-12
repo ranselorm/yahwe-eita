@@ -2,10 +2,11 @@ import { Stack, Redirect } from "expo-router";
 
 export default function AuthLayout() {
   // const { isAuthenticated } = useAuth();
+  const isAuthenticated = false;
 
-  // if (isAuthenticated) {
-  //   return <Redirect href="/home" />;
-  // }
+  if (isAuthenticated) {
+    return <Redirect href="/(tabs)" />;
+  }
 
   return (
     <Stack>
