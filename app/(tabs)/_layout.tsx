@@ -1,9 +1,7 @@
 import { Tabs, Redirect } from "expo-router";
-// import { useAuth } from "../../context/AuthContext";
 
 export default function TabsLayout() {
-  // const { isAuthenticated } = useAuth();
-
+  // const isAuthenticated = false;
   // if (!isAuthenticated) {
   //   return <Redirect href="/landing" />;
   // }
