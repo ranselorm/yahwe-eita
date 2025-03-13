@@ -21,69 +21,90 @@ export default function RegisterScreen() {
   return (
     <SafeAreaView
       className={`flex-1 justify-center items-center px-4 ${
-        isDarkMode ? "bg-black" : "bg-white"
+        isDarkMode ? "bg-secondary-100" : "bg-white"
       }`}
     >
       {/* Header */}
       <Text
         className={`text-2xl font-semibold mb-6 ${
-          isDarkMode ? "text-white" : "text-black"
+          isDarkMode ? "text-white" : "text-secondary-100"
         }`}
       >
         Create an account
       </Text>
 
       {/* Input Fields */}
-      <View className="w-full max-w-sm space-y-4">
+      <View className="w-full max-w-sm gap-y-5">
         <TextInput
           placeholder="FULL NAME"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-          className={`border-2 rounded-lg p-3 text-lg ${
-            isDarkMode ? "border-white text-white" : "border-black text-black"
+          className={`border rounded-xl p-3 text-base text-center ${
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100"
           }`}
         />
         <TextInput
           placeholder="EMAIL"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
           keyboardType="email-address"
-          className={`border-2 rounded-lg p-3 text-lg ${
-            isDarkMode ? "border-white text-white" : "border-black text-black"
+          className={`border rounded-xl p-3 text-base text-center ${
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100"
           }`}
         />
         <TextInput
           placeholder="PHONE NUMBER (MOMO ENABLED)"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
           keyboardType="phone-pad"
-          className={`border-2 rounded-lg p-3 text-lg ${
-            isDarkMode ? "border-white text-white" : "border-black text-black"
+          className={`border rounded-xl p-3 text-base text-center ${
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100"
           }`}
         />
         <TextInput
           placeholder="GHANA CARD NUMBER"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-          className={`border-2 rounded-lg p-3 text-lg ${
-            isDarkMode ? "border-white text-white" : "border-black text-black"
+          className={`border rounded-xl p-3 text-base ${
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100 text-center"
           }`}
         />
         <TextInput
           placeholder="REFERRAL CODE"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-          className={`border-2 rounded-lg p-3 text-lg ${
-            isDarkMode ? "border-white text-white" : "border-black text-black"
+          className={`border rounded-xl p-3 text-base text-center ${
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100"
           }`}
         />
 
         {/* Select Network Dropdown */}
         <View
-          className={`border-2 rounded-lg p-3 ${
+          className={`border-2 rounded-lg h-[50px] justify-center relative ${
             isDarkMode ? "border-white" : "border-black"
           }`}
         >
+          {/* Fake Text Overlay to Center the Selected Value */}
+          <Text
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg"
+            style={{ color: isDarkMode ? "white" : "black" }}
+          >
+            {network ? network.toUpperCase() : "SELECT YOUR NETWORK"}
+          </Text>
+
+          {/* Actual Picker (Hidden Text) */}
           <Picker
             selectedValue={network}
             onValueChange={(itemValue) => setNetwork(itemValue)}
             style={{
-              color: isDarkMode ? "white" : "black",
+              opacity: 0,
+              width: "100%",
+              height: 50,
             }}
           >
             <Picker.Item label="SELECT YOUR NETWORK" value="" />
@@ -99,7 +120,9 @@ export default function RegisterScreen() {
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
           secureTextEntry
           className={`border-2 rounded-lg p-3 text-lg ${
-            isDarkMode ? "border-white text-white" : "border-black text-black"
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100"
           }`}
         />
       </View>
@@ -109,10 +132,12 @@ export default function RegisterScreen() {
         <Switch
           value={termsAccepted}
           onValueChange={() => setTermsAccepted(!termsAccepted)}
-          thumbColor={isDarkMode ? "black" : "white"}
+          thumbColor={isDarkMode ? "secondary-100" : "white"}
           trackColor={{ false: "#767577", true: "#34D399" }}
         />
-        <Text className={`ml-2 ${isDarkMode ? "text-white" : "text-black"}`}>
+        <Text
+          className={`ml-2 ${isDarkMode ? "text-white" : "text-secondary-100"}`}
+        >
           I AGREE TO THE{" "}
           <Text className="text-blue-500 underline">TERMS AND CONDITIONS</Text>
         </Text>
@@ -121,13 +146,13 @@ export default function RegisterScreen() {
       {/* Create Account Button */}
       <Pressable
         className={`w-full max-w-sm mt-6 p-3 rounded-lg items-center ${
-          isDarkMode ? "bg-white" : "bg-black"
+          isDarkMode ? "bg-white" : "bg-secondary-100"
         }`}
         disabled={!termsAccepted} // Disable if terms not accepted
       >
         <Text
           className={`text-lg font-semibold ${
-            isDarkMode ? "text-black" : "text-white"
+            isDarkMode ? "text-secondary-100" : "text-white"
           }`}
         >
           CREATE ACCOUNT
