@@ -1,7 +1,8 @@
 import { View, Text, ScrollView, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-// import BalanceCard from "../components/BalanceCard";
+import BalanceCard from "../../components/BalanceCard";
+// import ReferralList from "../../components/ReferralList";
 // import ReferralList from "../components/ReferralList";
 // import StatsCard from "../components/StatsCard";
 // import TimerCard from "../components/TimerCard";
@@ -21,7 +22,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-4`}
+      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-8`}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="flex-row justify-between items-center mt-4">
@@ -66,7 +67,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Balance Card */}
-        {/* <BalanceCard /> */}
+        <BalanceCard />
 
         {/* Referral List */}
         {/* <ReferralList /> */}
