@@ -43,7 +43,7 @@ export default function TabsLayout() {
                     height: 6,
                     borderRadius: 3,
                     backgroundColor: "orange",
-                    marginTop: 4, // Separate dot from the icon
+                    marginTop: 4,
                   }}
                 />
               )}

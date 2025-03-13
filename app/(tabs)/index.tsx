@@ -24,11 +24,20 @@ export default function HomeScreen() {
       className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-4`}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header with Greeting */}
         <View className="flex-row justify-between items-center mt-4">
           <View className="flex-row items-center gap-x-3">
-            <View className="border w-10 h-10 justify-center items-center rounded-full">
-              <Text className="">{name[0]}</Text>
+            <View
+              className={`border w-10 h-10 justify-center items-center rounded-full ${
+                isDarkMode ? "border-white" : "border-black"
+              }`}
+            >
+              <Text
+                className={`text-xl font-semibold ${
+                  isDarkMode ? "text-white" : "text-black -mt-1"
+                }`}
+              >
+                {name[0]}
+              </Text>
             </View>
             <View>
               <Text
@@ -47,8 +56,12 @@ export default function HomeScreen() {
               </Text>
             </View>
           </View>
-          <View className="w-10 h-10 rounded-xl border border-gray-400">
-            <Ionicons name="notifications-outline" size={24} color="black" />
+          <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
+            <Ionicons
+              name="notifications-outline"
+              size={24}
+              className={`${isDarkMode ? "text-white" : "text-white"}`}
+            />
           </View>
         </View>
 
