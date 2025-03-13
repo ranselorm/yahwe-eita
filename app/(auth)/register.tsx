@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function RegisterScreen() {
   const colorScheme = useColorScheme();
@@ -20,21 +21,29 @@ export default function RegisterScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 justify-center items-center px-4 ${
+      className={`flex-1 justify-center items-center px-3 ${
         isDarkMode ? "bg-secondary-100" : "bg-white"
       }`}
     >
       {/* Header */}
-      <Text
-        className={`text-2xl font-semibold mb-6 ${
-          isDarkMode ? "text-white" : "text-secondary-100"
-        }`}
-      >
-        Create an account
-      </Text>
+      <View className="items-center mb-4">
+        <MaterialCommunityIcons
+          name="account-outline"
+          size={38}
+          color="black"
+          className="mb-4"
+        />
+        <Text
+          className={`text-2xl font-semibold mb-6 ${
+            isDarkMode ? "text-white" : "text-secondary-100"
+          }`}
+        >
+          Create an account
+        </Text>
+      </View>
 
       {/* Input Fields */}
-      <View className="w-full max-w-sm gap-y-5">
+      <View className="w-full max-w-sm gap-y-6">
         <TextInput
           placeholder="FULL NAME"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
@@ -83,21 +92,18 @@ export default function RegisterScreen() {
           }`}
         />
 
-        {/* Select Network Dropdown */}
         <View
-          className={`border-2 rounded-lg h-[50px] justify-center relative ${
+          className={`border rounded-xl h-[50px] justify-center relative ${
             isDarkMode ? "border-white" : "border-black"
           }`}
         >
-          {/* Fake Text Overlay to Center the Selected Value */}
           <Text
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
             style={{ color: isDarkMode ? "white" : "black" }}
           >
             {network ? network.toUpperCase() : "SELECT YOUR NETWORK"}
           </Text>
 
-          {/* Actual Picker (Hidden Text) */}
           <Picker
             selectedValue={network}
             onValueChange={(itemValue) => setNetwork(itemValue)}
@@ -105,6 +111,7 @@ export default function RegisterScreen() {
               opacity: 0,
               width: "100%",
               height: 50,
+              fontSize: 10,
             }}
           >
             <Picker.Item label="SELECT YOUR NETWORK" value="" />
@@ -119,7 +126,7 @@ export default function RegisterScreen() {
           placeholder="PASSWORD"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
           secureTextEntry
-          className={`border-2 rounded-lg p-3 text-lg ${
+          className={`border rounded-xl p-3 text-base text-center ${
             isDarkMode
               ? "border-white text-white"
               : "border-secondary-100 text-secondary-100"
@@ -145,7 +152,7 @@ export default function RegisterScreen() {
 
       {/* Create Account Button */}
       <Pressable
-        className={`w-full max-w-sm mt-6 p-3 rounded-lg items-center ${
+        className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-secondary-100"
         }`}
         disabled={!termsAccepted} // Disable if terms not accepted
