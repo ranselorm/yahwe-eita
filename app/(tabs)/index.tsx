@@ -1,12 +1,69 @@
-import { Text, View } from "react-native";
-import React from "react";
+import { View, Text, ScrollView, useColorScheme } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Ionicons from "@expo/vector-icons/Ionicons";
+// import BalanceCard from "../components/BalanceCard";
+// import ReferralList from "../components/ReferralList";
+// import StatsCard from "../components/StatsCard";
+// import TimerCard from "../components/TimerCard";
 
-const Home = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  );
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
 };
 
-export default Home;
+export default function HomeScreen() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
+
+  const name = "Nana";
+
+  return (
+    <SafeAreaView
+      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-4`}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header with Greeting */}
+        <View className="flex-row justify-between items-center mt-4">
+          <View className="flex-row items-center gap-x-3">
+            <View className="border w-10 h-10 justify-center items-center rounded-full">
+              <Text className="">{name[0]}</Text>
+            </View>
+            <View>
+              <Text
+                className={`text-xl font-semibold ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
+                {getGreeting()}
+              </Text>
+              <Text
+                className={`text-xl font-semibold ${
+                  isDarkMode ? "text-white" : "text-black -mt-1"
+                }`}
+              >
+                {name && name}
+              </Text>
+            </View>
+          </View>
+          <View className="w-10 h-10 rounded-xl border border-gray-400">
+            <Ionicons name="notifications-outline" size={24} color="black" />
+          </View>
+        </View>
+
+        {/* Balance Card */}
+        {/* <BalanceCard /> */}
+
+        {/* Referral List */}
+        {/* <ReferralList /> */}
+
+        {/* Countdown Timer */}
+        {/* <TimerCard /> */}
+
+        {/* Stats Card */}
+        {/* <StatsCard /> */}
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

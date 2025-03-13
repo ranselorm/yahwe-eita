@@ -33,8 +33,21 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Octicons name="home" size={24} color="black" />
+          tabBarIcon: ({ color, focused, size }) => (
+            <View className="items-center">
+              <Octicons name="home" size={24} color="black" />
+              {focused && (
+                <View
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: "orange",
+                    marginTop: 4, // Separate dot from the icon
+                  }}
+                />
+              )}
+            </View>
           ),
         }}
       />
