@@ -1,8 +1,9 @@
 import { View, Text, ScrollView, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import BalanceCard from "../../components/BalanceCard";
-// import ReferralList from "../../components/ReferralList";
+import ReferralList from "../../components/ReferralList";
 // import ReferralList from "../components/ReferralList";
 // import StatsCard from "../components/StatsCard";
 // import TimerCard from "../components/TimerCard";
@@ -68,9 +69,20 @@ export default function HomeScreen() {
 
         {/* Balance Card */}
         <BalanceCard />
+        <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
+          <Text className="text-white text-lg font-semibold">
+            Create new referral code
+          </Text>
+          <MaterialCommunityIcons
+            name="email-open-outline"
+            size={24}
+            // color="white"
+            className="text-primary bg-white p-1 rounded-full"
+          />
+        </View>
 
         {/* Referral List */}
-        {/* <ReferralList /> */}
+        <ReferralList />
 
         {/* Countdown Timer */}
         {/* <TimerCard /> */}

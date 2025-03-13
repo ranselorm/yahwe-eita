@@ -1,5 +1,6 @@
 import { View, Text, Pressable, useColorScheme } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function BalanceCard() {
   const isDarkMode = useColorScheme() === "dark";
@@ -11,7 +12,9 @@ export default function BalanceCard() {
       }`}
     >
       <Text
-        className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+        className={`text-base mb-4 ${
+          isDarkMode ? "text-gray-400" : "text-gray-600"
+        }`}
       >
         Available Balance:
       </Text>
@@ -24,7 +27,7 @@ export default function BalanceCard() {
       </Text>
 
       {/* Action Buttons */}
-      <View className="flex-row justify-between mt-4">
+      <View className="flex-row justify-between mt-6">
         {[
           { label: "Topup", icon: "add" },
           { label: "Withdraw", icon: "arrow-downward" },
@@ -32,8 +35,20 @@ export default function BalanceCard() {
           { label: "Details", icon: "info" },
         ].map((item, index) => (
           <View key={index} className="items-center">
-            <Pressable className="w-12 h-12 rounded-full bg-primary items-center justify-center">
-              <MaterialIcons name={item.icon} size={24} color="white" />
+            <Pressable
+              className={`w-12 h-12 rounded-full items-center justify-center ${
+                item.label === "Topup" ? "bg-primary" : "bg-white"
+              }`}
+            >
+              {item.label !== "Details" ? (
+                <MaterialIcons
+                  name={item.icon}
+                  size={24}
+                  color={`${item.label === "Topup" ? "white" : "black"}`}
+                />
+              ) : (
+                <Ionicons name="menu-outline" size={24} color="black" />
+              )}
             </Pressable>
             <Text className="text-sm mt-1 text-gray-500">{item.label}</Text>
           </View>
