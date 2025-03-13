@@ -11,7 +11,6 @@ export default function VerifyScreen() {
         isDarkMode ? "bg-black" : "bg-white"
       }`}
     >
-      {/* Header Text */}
       <Text
         className={`text-2xl font-semibold mb-8 ${
           isDarkMode ? "text-white" : "text-black"
@@ -20,7 +19,6 @@ export default function VerifyScreen() {
         Verify your account
       </Text>
 
-      {/* OTP Input Field */}
       <TextInput
         placeholder="ENTER OTP"
         placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
@@ -30,7 +28,6 @@ export default function VerifyScreen() {
         }`}
       />
 
-      {/* Verify Button */}
       <Pressable
         className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-black"
