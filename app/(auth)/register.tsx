@@ -139,7 +139,7 @@ export default function RegisterScreen() {
         <Switch
           value={termsAccepted}
           onValueChange={() => setTermsAccepted(!termsAccepted)}
-          thumbColor={isDarkMode ? "secondary-100" : "white"}
+          thumbColor={isDarkMode ? "black" : "white"}
           trackColor={{ false: "#767577", true: "#34D399" }}
         />
         <Text
