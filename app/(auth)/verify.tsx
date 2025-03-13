@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { Text, TextInput, Pressable, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -32,6 +33,9 @@ export default function VerifyScreen() {
         className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-black"
         }`}
+        onPress={() => {
+          router.push("/(auth)/register");
+        }}
       >
         <Text
           className={`text-lg font-semibold ${
