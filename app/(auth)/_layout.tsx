@@ -9,8 +9,8 @@ export default function AuthLayout() {
 
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="landing" options={{ title: "Landing" }} />
+      {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
+      <Stack.Screen name="index" options={{ title: "Landing" }} />
       <Stack.Screen name="verify" options={{ title: "Verify" }} />
       <Stack.Screen name="register" options={{ title: "Register" }} />
     </Stack>
