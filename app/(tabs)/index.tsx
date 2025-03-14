@@ -5,7 +5,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import BalanceCard from "../../components/BalanceCard";
 import ReferralList from "../../components/ReferralList";
 // import ReferralList from "../components/ReferralList";
-// import StatsCard from "../components/StatsCard";
+import StatsCard from "../../components/StatsCard";
 // import TimerCard from "../components/TimerCard";
 
 const getGreeting = () => {
@@ -23,7 +23,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-8`}
+      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="flex-row justify-between items-center mt-4">
@@ -83,12 +83,27 @@ export default function HomeScreen() {
 
         {/* Referral List */}
         <ReferralList />
+        <View
+          className={`${
+            isDarkMode ? "bg-white" : "bg-dark-100"
+          } w-full p-4 mt-6 flex-row justify-center gap-x-3 items-center `}
+          style={{ borderRadius: 50 }}
+        >
+          <Ionicons name="time-outline" size={24} color="white" />
+          <Text
+            className={`${
+              isDarkMode ? "text-black" : "text-white"
+            } text-lg font-semibold`}
+          >
+            Time left until next level: 6d 23h 40m 3s
+          </Text>
+        </View>
 
         {/* Countdown Timer */}
         {/* <TimerCard /> */}
 
         {/* Stats Card */}
-        {/* <StatsCard /> */}
+        <StatsCard />
       </ScrollView>
     </SafeAreaView>
   );
