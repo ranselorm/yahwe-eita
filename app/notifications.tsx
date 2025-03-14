@@ -45,8 +45,7 @@ export default function NotificationsScreen() {
 
   return (
     <View className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}>
-      {/* Back Button & Title */}
-      {/* <View className="flex-row items-center mt-6">
+      <View className="flex-row items-center mt-4 justify-between">
         <Pressable onPress={() => router.back()}>
           <MaterialIcons
             name="arrow-back"
@@ -61,8 +60,15 @@ export default function NotificationsScreen() {
         >
           Notifications
         </Text>
-      </View> */}
-
+        <Text
+          className={`text-xl font-semibold ml-4 ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+          style={{ opacity: 0 }}
+        >
+          Not
+        </Text>
+      </View>
       {/* Notifications List */}
       <FlatList
         data={notifications}

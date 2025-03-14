@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
             </View>
           </View>
         ) : (
-          <TouchableOpacity onPress={() => router.push("/profile/settings")}>
+          <TouchableOpacity onPress={() => router.push("/settings")}>
             <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
               <AntDesign
                 name="setting"
@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
         )}
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={() => router.push("/profile/notifications")}
+          onPress={() => router.push("/notifications")}
         >
           <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
             <Ionicons

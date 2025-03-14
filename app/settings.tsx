@@ -1,5 +1,5 @@
 import { View, Text, Pressable, useColorScheme } from "react-native";
-import { useRouter } from "expo-router";
+import { router, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 
 function SettingsItem({ title, icon }: { title: string; icon: string }) {
@@ -29,15 +29,12 @@ function SettingsItem({ title, icon }: { title: string; icon: string }) {
 }
 
 export default function SettingsScreen() {
-  const router = useRouter();
   const isDarkMode = useColorScheme() === "dark";
 
   return (
-    <View
-      className={`flex-1 px-6 py-4 ${isDarkMode ? "bg-black" : "bg-white"}`}
-    >
+    <View className={`flex-1 px-6  ${isDarkMode ? "bg-black" : "bg-white"}`}>
       {/* Back Button & Title */}
-      {/* <View className="flex-row items-center mt-6">
+      <View className="flex-row items-center mt-4 justify-between">
         <Pressable onPress={() => router.back()}>
           <MaterialIcons
             name="arrow-back"
@@ -52,8 +49,15 @@ export default function SettingsScreen() {
         >
           Settings
         </Text>
-      </View> */}
-
+        <Text
+          className={`text-xl font-semibold ml-4 ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+          style={{ opacity: 0 }}
+        >
+          Set
+        </Text>
+      </View>
       {/* Settings List */}
       <View className="flex-1 justify-between">
         <View className="mt-6">
@@ -69,7 +73,7 @@ export default function SettingsScreen() {
 
       {/* Logout Button */}
       <Pressable
-        className="flex-row items-center mt-10 mx-auto"
+        className="flex-row items-center mt-10 mb-20  mx-auto"
         onPress={() => alert("Logging Out")}
       >
         <MaterialIcons name="logout" size={24} color="red" />
