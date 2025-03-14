@@ -5,7 +5,7 @@ export default function StatsCard() {
 
   return (
     <View
-      className={`p-4 mt-4 rounded-xl ${
+      className={`p-4 mt-8 rounded-xl ${
         isDarkMode ? "bg-dark-100" : "bg-gray-100"
       }`}
     >

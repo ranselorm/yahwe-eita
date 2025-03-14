@@ -8,13 +8,11 @@ export default function BalanceCard() {
   return (
     <View
       className={`p-4 rounded-xl mt-8 ${
-        isDarkMode ? "bg-gray-900" : "bg-gray-100"
+        isDarkMode ? "bg-dark-100" : "bg-gray-100"
       }`}
     >
       <Text
-        className={`text-base mb-4 ${
-          isDarkMode ? "text-gray-400" : "text-gray-600"
-        }`}
+        className={`text-base mb-4 ${isDarkMode ? "text-white" : "text-black"}`}
       >
         Available Balance:
       </Text>
