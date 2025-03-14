@@ -12,7 +12,7 @@ export default function BalanceCard() {
       }`}
     >
       <Text
-        className={`text-base mb-4 ${isDarkMode ? "text-white" : "text-black"}`}
+        className={`text-base mb-3 ${isDarkMode ? "text-white" : "text-black"}`}
       >
         Available Balance:
       </Text>
