@@ -9,18 +9,18 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { router } from "expo-router";
 
 export default function ProfileHeader() {
   const isDarkMode = useColorScheme() === "dark";
-  const name = "Nana Kwame";
 
   return (
     <View className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} mt-4`}>
       {/* Profile Picture */}
       <View className="flex-row justify-between items-center">
         <TouchableOpacity
-          onPress={() => Alert.alert("Settings")}
-          activeOpacity={1.5}
+          onPress={() => router.push("/profile/settings")}
+          activeOpacity={1.2}
         >
           <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
             <AntDesign
@@ -30,13 +30,18 @@ export default function ProfileHeader() {
             />
           </View>
         </TouchableOpacity>
-        <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
-          <Ionicons
-            name="notifications-outline"
-            size={20}
-            color={isDarkMode ? "white" : "black"}
-          />
-        </View>
+        <TouchableOpacity
+          onPress={() => router.push("/profile/notifications")}
+          activeOpacity={1.2}
+        >
+          <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
+            <Ionicons
+              name="notifications-outline"
+              size={20}
+              color={isDarkMode ? "white" : "black"}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
       <View className="items-center -mt-6">
         <View className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center">
