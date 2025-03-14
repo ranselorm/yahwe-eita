@@ -30,7 +30,7 @@ export default function ProfileScreen() {
               <Text className="text-gray-500 ">Sort By ▼</Text>
             </View>
           </View>
-          <View className="my-4">
+          <View className="my-8">
             <Text className="text-center font-semibold text-xl">
               Top Referral
             </Text>

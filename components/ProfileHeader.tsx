@@ -1,4 +1,11 @@
-import { View, Text, Pressable, useColorScheme } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  useColorScheme,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -11,13 +18,18 @@ export default function ProfileHeader() {
     <View className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} mt-4`}>
       {/* Profile Picture */}
       <View className="flex-row justify-between items-center">
-        <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
-          <AntDesign
-            name="setting"
-            size={20}
-            color={isDarkMode ? "white" : "black"}
-          />
-        </View>
+        <TouchableOpacity
+          onPress={() => Alert.alert("Settings")}
+          activeOpacity={1.5}
+        >
+          <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
+            <AntDesign
+              name="setting"
+              size={20}
+              color={isDarkMode ? "white" : "black"}
+            />
+          </View>
+        </TouchableOpacity>
         <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
           <Ionicons
             name="notifications-outline"
