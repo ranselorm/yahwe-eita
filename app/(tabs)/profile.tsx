@@ -2,6 +2,7 @@ import { View, ScrollView, useColorScheme, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileHeader from "../../components/ProfileHeader";
 import ReferralCard from "../../components/ReferralCard";
+import ReferralList from "@/components/ReferralList";
 // import BalanceCard from "../components/BalanceCard";
 
 export default function ProfileScreen() {
@@ -35,6 +36,27 @@ export default function ProfileScreen() {
               Top Referral
             </Text>
             <ReferralCard />
+            <ReferralList />
+            <View
+              className={`p-4 mt-6 rounded-full flex-row justify-between ${
+                isDarkMode ? "bg-gray-900" : "bg-gray-100"
+              }`}
+            >
+              <Text
+                className={`text-base ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
+                Available Balance:
+              </Text>
+              <Text
+                className={`text-2xl font-bold ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
+                GHS 80.00
+              </Text>
+            </View>
           </View>
         </View>
 
