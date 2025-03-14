@@ -43,34 +43,6 @@ export default function ProfileHeader() {
           </View>
         </TouchableOpacity>
       </View>
-      <View className="items-center -mt-6">
-        <View className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center">
-          <Text className="text-xl font-semibold">N</Text>
-        </View>
-
-        {/* User Info */}
-        <Text
-          className={`text-xl font-semibold mt-2 ${
-            isDarkMode ? "text-white" : "text-black"
-          }`}
-        >
-          Nana Kwame
-        </Text>
-        <Text
-          className={`text-sm font-semibold ${
-            isDarkMode ? "text-white" : "text-black"
-          }`}
-        >
-          testemail@email.com • +233 123 456 7890
-        </Text>
-        <View className="flex-row justify-between items-center my-2 gap-x-6">
-          <View className="h-2 w-[50%] bg-gray-300 mt-2 rounded-full overflow-hidden">
-            <View className="h-full w-2/4 bg-orange-500" />
-          </View>
-
-          <Text className="text-sm font-semibold mt-2">Level 4</Text>
-        </View>
-      </View>
 
       {/* Settings Button */}
     </View>

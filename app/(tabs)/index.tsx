@@ -6,27 +6,25 @@ import BalanceCard from "../../components/BalanceCard";
 import ReferralList from "../../components/ReferralList";
 // import ReferralList from "../components/ReferralList";
 import StatsCard from "../../components/StatsCard";
-// import TimerCard from "../components/TimerCard";
+import Header from "@/components/Header";
 
-const getGreeting = () => {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
-};
+// const getGreeting = () => {
+//   const hour = new Date().getHours();
+//   if (hour < 12) return "Good morning";
+//   if (hour < 18) return "Good afternoon";
+//   return "Good evening";
+// };
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-
-  const name = "Nana";
 
   return (
     <SafeAreaView
       className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="flex-row justify-between items-center mt-4">
+        {/* <View className="flex-row justify-between items-center mt-4">
           <View className="flex-row items-center gap-x-3">
             <View
               className={`border w-10 h-10 justify-center items-center rounded-full ${
@@ -65,7 +63,8 @@ export default function HomeScreen() {
               className={`${isDarkMode ? "text-white" : "text-white"}`}
             />
           </View>
-        </View>
+        </View> */}
+        <Header />
 
         {/* Balance Card */}
         <BalanceCard />
