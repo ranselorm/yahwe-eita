@@ -1,8 +1,21 @@
 import { View, Text, Pressable, FlatList, useColorScheme } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import ProgressBar from "@/components/ProgressBar";
 // import ReferralCard from "../../components/ReferralCard";
 
-function ReferralCard() {
+function ReferralCard({
+  name,
+  status,
+  invited,
+  level,
+  progress,
+}: {
+  name: string;
+  status: string;
+  invited: number;
+  level: number;
+  progress: number;
+}) {
   const isDarkMode = useColorScheme() === "dark";
 
   return (
@@ -19,8 +32,12 @@ function ReferralCard() {
         >
           Direct Referral
         </Text>
-        <Text className="bg-accent text-white px-3 py-1 rounded-full text-xs">
-          Active
+        <Text
+          className={`${
+            status === "Active" ? "bg-accent" : "bg-dark-100"
+          } text-white px-3 py-1 rounded-full text-xs`}
+        >
+          {status}
         </Text>
       </View>
 
@@ -32,18 +49,28 @@ function ReferralCard() {
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            Seth Agyemang
+            {name}
           </Text>
-          <MaterialCommunityIcons
-            name="account-check-outline"
-            size={20}
-            color={`${isDarkMode ? "white" : "black"}`}
-          />
+          {status === "Active" ? (
+            <MaterialCommunityIcons
+              name="account-check-outline"
+              size={20}
+              color={`${isDarkMode ? "white" : "black"}`}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              name="account-alert-outline"
+              size={20}
+              color={`${isDarkMode ? "white" : "black"}`}
+            />
+          )}
         </View>
-        <Text className="text-black mb-4 font-semibold">Invited: 3</Text>
+        <Text className="text-black mb-4 font-semibold">
+          Invited: {invited}
+        </Text>
 
         {/* Progress Bar */}
-        <ProgressBar progress={60} level={6} />
+        <ProgressBar progress={progress} level={level} />
       </View>
     </View>
   );
@@ -53,9 +80,30 @@ export default function GenealogyScreen() {
   const isDarkMode = useColorScheme() === "dark";
 
   const referrals = [
-    { id: "1", name: "Janelle Addae", status: "Active", invited: 1, level: 4 },
-    { id: "2", name: "Seth Agyemang", status: "Active", invited: 3, level: 6 },
-    { id: "3", name: "Andrew Peters", status: "Pending", invited: 0, level: 6 },
+    {
+      id: "1",
+      name: "Janelle Addae",
+      status: "Active",
+      invited: 1,
+      level: 4,
+      progress: 40,
+    },
+    {
+      id: "2",
+      name: "Seth Agyemang",
+      status: "Active",
+      invited: 3,
+      level: 6,
+      progress: 70,
+    },
+    {
+      id: "3",
+      name: "Andrew Peters",
+      status: "Pending",
+      invited: 0,
+      level: 6,
+      progress: 0,
+    },
   ];
 
   return (
@@ -84,6 +132,7 @@ export default function GenealogyScreen() {
             status={item.status}
             invited={item.invited}
             level={item.level}
+            progress={item.progress}
           />
         )}
         className="mt-6"
