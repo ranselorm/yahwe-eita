@@ -17,16 +17,18 @@ export default function ProfileScreen() {
         <View className="w-full h-[1px] bg-grey my-4" />
 
         {/* Active Invites & Sorting */}
-        <View className="flex-row justify-between items-center mt-4">
-          <Text
-            className={`text-lg font-semibold ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            Active Invites: 6
-          </Text>
-          <View className="border border-gray-400 px-3 py-1 rounded-lg">
-            <Text className="text-gray-500">Sort By ▼</Text>
+        <View className="px-6">
+          <View className="flex-row justify-between items-center mt-4">
+            <Text
+              className={`text-lg font-semibold ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              Active Invites: 6
+            </Text>
+            <View className="border border-gray-400 px-3 py-1 rounded-full">
+              <Text className="text-gray-500 ">Sort By ▼</Text>
+            </View>
           </View>
         </View>
 

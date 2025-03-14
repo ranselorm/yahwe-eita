@@ -35,7 +35,7 @@ export default function HomeScreen() {
             >
               <Text
                 className={`text-xl font-semibold ${
-                  isDarkMode ? "text-white" : "text-black -mt-1"
+                  isDarkMode ? "text-white" : "text-black"
                 }`}
               >
                 {name[0]}
@@ -61,7 +61,7 @@ export default function HomeScreen() {
           <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
             <Ionicons
               name="notifications-outline"
-              size={24}
+              size={20}
               className={`${isDarkMode ? "text-white" : "text-white"}`}
             />
           </View>
