@@ -17,7 +17,6 @@ export default function ProfileScreen() {
         </View>
         <View className="w-full h-[1px] bg-grey my-4" />
 
-        {/* Active Invites & Sorting */}
         <View className="px-6">
           <View className="flex-row justify-between items-center mt-4">
             <Text
@@ -59,11 +58,6 @@ export default function ProfileScreen() {
             </View>
           </View>
         </View>
-
-        {/* Referral Section */}
-
-        {/* Available Balance */}
-        {/* <BalanceCard /> */}
       </ScrollView>
     </SafeAreaView>
   );
