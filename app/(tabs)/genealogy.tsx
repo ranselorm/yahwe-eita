@@ -107,18 +107,18 @@ export default function GenealogyScreen() {
   ];
 
   return (
-    <View className={`flex-1 px-4 ${isDarkMode ? "bg-black" : "bg-white"}`}>
+    <View className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}>
       {/* Header with "View Tree" Button */}
-      <View className="items-center mt-6">
+      <View className="items-center mt-4">
         <Text
-          className={`text-xl font-semibold ${
+          className={`text-2xl font-semibold ${
             isDarkMode ? "text-white" : "text-black"
           }`}
         >
           Genealogy
         </Text>
-        <Pressable className="mt-2 px-4 py-2 rounded-lg bg-gray-200">
-          <Text className="text-black font-semibold">VIEW TREE</Text>
+        <Pressable className="mt-2 px-6 py-2 rounded-full bg-transparent border border-black">
+          <Text className="text-black font-semibold text-sm">VIEW TREE</Text>
         </Pressable>
       </View>
 
@@ -143,7 +143,9 @@ export default function GenealogyScreen() {
         <Pressable className="w-12 h-12 bg-black rounded-full items-center justify-center">
           <MaterialIcons name="add" size={24} color="white" />
         </Pressable>
-        <Text className="text-gray-500 mt-2">Invite More Referrals</Text>
+        <Text className="text-black text-semibold text-sm mt-2">
+          Invite More Referrals
+        </Text>
       </View>
     </View>
   );
