@@ -10,12 +10,12 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { router } from "expo-router";
 
 export default function RegisterScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
-  // State Management
   const [network, setNetwork] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
 
@@ -25,7 +25,6 @@ export default function RegisterScreen() {
         isDarkMode ? "bg-secondary-100" : "bg-white"
       }`}
     >
-      {/* Header */}
       <View className="items-center mb-4">
         <MaterialCommunityIcons
           name="account-outline"
@@ -42,7 +41,6 @@ export default function RegisterScreen() {
         </Text>
       </View>
 
-      {/* Input Fields */}
       <View className="w-full max-w-sm gap-y-6">
         <TextInput
           placeholder="FULL NAME"
@@ -121,7 +119,6 @@ export default function RegisterScreen() {
           </Picker>
         </View>
 
-        {/* Password Input */}
         <TextInput
           placeholder="PASSWORD"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
@@ -134,7 +131,6 @@ export default function RegisterScreen() {
         />
       </View>
 
-      {/* Terms & Conditions */}
       <View className="flex-row items-center mt-4">
         <Switch
           value={termsAccepted}
@@ -150,12 +146,12 @@ export default function RegisterScreen() {
         </Text>
       </View>
 
-      {/* Create Account Button */}
       <Pressable
         className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-secondary-100"
         }`}
-        disabled={!termsAccepted} // Disable if terms not accepted
+        disabled={!termsAccepted}
+        onPress={() => router.replace("/(tabs)")}
       >
         <Text
           className={`text-lg font-semibold ${

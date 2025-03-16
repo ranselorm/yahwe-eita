@@ -1,11 +1,11 @@
 import { Stack, Redirect } from "expo-router";
 
 export default function AuthLayout() {
-  const isAuthenticated = true; // fetch user dynamically later
+  // const isAuthenticated = true; // fetch user dynamically later
 
-  if (isAuthenticated) {
-    return <Redirect href="/(tabs)" />;
-  }
+  // if (isAuthenticated) {
+  //   return <Redirect href="/(tabs)" />;
+  // }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
