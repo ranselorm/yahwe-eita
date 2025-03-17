@@ -11,8 +11,9 @@ import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@/context/ThemeProvider";
+import { saveUserData } from "@/utils";
 
-const LoginScreen = () => {
+export const LoginScreen = () => {
   const [email, setEmail] = useState("gbedzrah1@gmail.com");
   const [password, setPassword] = useState("p@ssw0rd123");
   const router = useRouter();
@@ -25,7 +26,8 @@ const LoginScreen = () => {
     mutation.mutate(
       { email, password },
       {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
+          await saveUserData(data); // Persist user data
           console.log("Login successful!", data);
           router.replace("/(tabs)");
         },
@@ -95,5 +97,3 @@ const LoginScreen = () => {
     </SafeAreaView>
   );
 };
-
-export default LoginScreen;

@@ -12,7 +12,7 @@ const SplashScreen = () => {
       if (user) {
         router.replace("/(tabs)"); // Navigate if user exists
       } else {
-        router.replace("/login"); // Otherwise, go to login
+        router.replace("/(auth)"); // Otherwise, go to login
       }
       setLoading(false);
     };
