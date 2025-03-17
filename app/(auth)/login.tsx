@@ -5,6 +5,7 @@ import {
   Text,
   useColorScheme,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "expo-router";
@@ -12,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@/context/ThemeProvider";
 import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("gbedzrah1@gmail.com");
@@ -23,13 +25,32 @@ export default function LoginScreen() {
   //   const { theme, toggleTheme } = useTheme();
   const { setUser } = useUser();
 
+  const updateUserSession = async (responseData: any) => {
+    try {
+      const decodedToken: any = jwtDecode(responseData?.data?.id_token);
+      const updatedUser = {
+        isLoggedIn: true,
+        name: `${decodedToken.name}`,
+        id: decodedToken.sub,
+        email: decodedToken.email,
+        picture: decodedToken.picture,
+        exp: decodedToken.exp,
+        token: responseData?.data?.access_token,
+      };
+      setUser(updatedUser);
+      await saveUserData(updatedUser);
+    } catch (error) {
+      console.error("Error updating session:", error);
+      Alert.alert("Error", "Failed to update user session.");
+    }
+  };
+
   const handleLogin = () => {
     mutation.mutate(
       { email, password },
       {
         onSuccess: async (data) => {
-          await saveUserData(data);
-          setUser(data);
+          updateUserSession(data);
           console.log("Login successful!", data);
           router.replace("/(tabs)");
         },

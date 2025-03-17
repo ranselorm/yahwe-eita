@@ -7,6 +7,7 @@ import ReferralList from "../../components/ReferralList";
 // import ReferralList from "../components/ReferralList";
 import StatsCard from "../../components/StatsCard";
 import Header from "@/components/Header";
+import { useUser } from "@/context/userContext";
 
 // const getGreeting = () => {
 //   const hour = new Date().getHours();
@@ -18,6 +19,7 @@ import Header from "@/components/Header";
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
+  const { user } = useUser();
 
   return (
     <SafeAreaView

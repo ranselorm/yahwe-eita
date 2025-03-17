@@ -1,14 +1,15 @@
-import { View, ScrollView, useColorScheme, Text } from "react-native";
+import { View, ScrollView, useColorScheme, Text, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProfileHeader from "../../components/ProfileHeader";
 import ReferralCard from "../../components/ReferralCard";
 import ReferralList from "@/components/ReferralList";
 import Header from "@/components/Header";
+import { useUser } from "@/context/userContext";
 // import BalanceCard from "../components/BalanceCard";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
+  const { user } = useUser();
 
   return (
     <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
@@ -16,9 +17,15 @@ export default function ProfileScreen() {
         <View className="px-6">
           <Header isProfileScreen />
           <View className="items-center -mt-6">
-            <View className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center">
-              <Text className="text-xl font-semibold">N</Text>
-            </View>
+            {/* <View className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center"> */}
+            <Image
+              source={{
+                uri: user?.picture || "",
+              }}
+              style={{ width: 40, height: 40, borderRadius: 50 }}
+            />
+            {/* <Text className="text-xl font-semibold">N</Text> */}
+            {/* </View> */}
 
             {/* User Info */}
             <Text
@@ -26,14 +33,14 @@ export default function ProfileScreen() {
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              Nana Kwame
+              {user?.name}
             </Text>
             <Text
               className={`text-sm font-semibold ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              testemail@email.com • +233 123 456 7890
+              {user?.email} • +233 123 456 7890
             </Text>
             <View className="flex-row justify-between items-center my-2 gap-x-6">
               <View className="h-2 w-[50%] bg-gray-300 mt-2 rounded-full overflow-hidden">

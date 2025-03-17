@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useUser } from "@/context/userContext";
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -23,6 +24,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
+  const { user } = useUser();
 
   return (
     <>
@@ -39,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
                   isDarkMode ? "text-white" : "text-black"
                 }`}
               >
-                {"Nana"[0]}
+                {user?.name[0]}
               </Text>
             </View>
             <View>
@@ -55,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
                   isDarkMode ? "text-white" : "text-black -mt-1"
                 }`}
               >
-                Nana
+                {user?.name}
               </Text>
             </View>
           </View>

@@ -3,8 +3,11 @@ import { getUserData, saveUserData, clearUserData } from "@/utils";
 
 interface User {
   id: number;
+  isLoggedIn: boolean;
   name: string;
   email: string;
+  picture: string;
+  exp: string;
   token: string;
 }
 
