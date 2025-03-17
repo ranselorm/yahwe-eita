@@ -21,16 +21,24 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  // Function to update user state globally and save to storage
-  const loginUser = async (userData: User) => {
-    setUser(userData);
-    await saveUserData(userData);
+  // ✅ FIX: Make `setUser` synchronous
+  const loginUser = (userData: User | null) => {
+    if (userData) {
+      setUser(userData); // Update state synchronously
+      saveUserData(userData).catch((err) =>
+        console.error("Error saving user data:", err)
+      ); // Handle async separately
+    } else {
+      setUser(null);
+    }
   };
 
-  // Logout function
-  const logout = async () => {
+  // ✅ FIX: Logout remains synchronous, handling async separately
+  const logout = () => {
     setUser(null);
-    await clearUserData();
+    clearUserData().catch((err) =>
+      console.error("Error clearing user data:", err)
+    ); // Handle async separately
   };
 
   return (
