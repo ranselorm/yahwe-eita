@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@/context/ThemeProvider";
 import { saveUserData } from "@/utils";
 
-export const LoginScreen = () => {
+export default function LoginScreen() {
   const [email, setEmail] = useState("gbedzrah1@gmail.com");
   const [password, setPassword] = useState("p@ssw0rd123");
   const router = useRouter();
@@ -96,4 +96,4 @@ export const LoginScreen = () => {
       {mutation.isError && <Text style={{ color: "red" }}>Login failed</Text>}
     </SafeAreaView>
   );
-};
+}

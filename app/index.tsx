@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { router } from "expo-router";
 import { getUserData } from "@/utils";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SplashScreen = () => {
   const [loading, setLoading] = useState(true);
@@ -21,7 +22,11 @@ const SplashScreen = () => {
   }, []);
 
   if (loading) {
-    return <ActivityIndicator size="large" />;
+    return (
+      <SafeAreaView className={"flex-1 bg-white justify-center items-center"}>
+        <ActivityIndicator size="large" />;
+      </SafeAreaView>
+    );
   }
 
   return (
