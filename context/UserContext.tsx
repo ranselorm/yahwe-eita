@@ -25,9 +25,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const loginUser = (userData: User | null) => {
     if (userData) {
       setUser(userData); // Update state synchronously
-      saveUserData(userData).catch((err) =>
-        console.error("Error saving user data:", err)
-      ); // Handle async separately
     } else {
       setUser(null);
     }
@@ -36,9 +33,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   // ✅ FIX: Logout remains synchronous, handling async separately
   const logout = () => {
     setUser(null);
-    clearUserData().catch((err) =>
-      console.error("Error clearing user data:", err)
-    ); // Handle async separately
   };
 
   return (

@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const saveUserData = async (userData: any) => {
   try {
     await AsyncStorage.setItem("userData", JSON.stringify(userData));
+
     console.log("user saved");
   } catch (error) {
     console.error("Error saving user data:", error);
@@ -22,6 +23,7 @@ export const getUserData = async () => {
 export const clearUserData = async () => {
   try {
     await AsyncStorage.removeItem("userData");
+    console.log("user cleared!!!");
   } catch (error) {
     console.error("Error clearing user data:", error);
   }

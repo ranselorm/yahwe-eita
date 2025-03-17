@@ -11,6 +11,7 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@/context/ThemeProvider";
 import { saveUserData } from "@/utils";
+import { useUser } from "@/context/userContext";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("gbedzrah1@gmail.com");
@@ -19,14 +20,16 @@ export default function LoginScreen() {
   const mutation = useLogin();
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { theme, toggleTheme } = useTheme();
+  //   const { theme, toggleTheme } = useTheme();
+  const { setUser } = useUser();
 
   const handleLogin = () => {
     mutation.mutate(
       { email, password },
       {
         onSuccess: async (data) => {
-          await saveUserData(data); // Persist user data
+          await saveUserData(data);
+          setUser(data);
           console.log("Login successful!", data);
           router.replace("/(tabs)");
         },
