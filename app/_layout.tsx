@@ -7,7 +7,7 @@ const client = new QueryClient();
 
 export default function RootLayout() {
   return (
-    <QueryClientProvider>
+    <QueryClientProvider client={client}>
       <ThemeProvider>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(auth)" />
