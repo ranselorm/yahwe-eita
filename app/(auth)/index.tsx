@@ -13,7 +13,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 export default function Landing() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { theme, toggleTheme } = useTheme();
+  // const { theme, toggleTheme } = useTheme();
 
   return (
     <SafeAreaView
@@ -89,7 +89,7 @@ export default function Landing() {
             </Pressable>
           </Link>
 
-          <Link href="/verify" asChild>
+          <Link href="/login" asChild>
             <Pressable
               className={`mt-4 p-3 rounded-xl items-center ${
                 isDarkMode ? "bg-white" : "bg-black"
