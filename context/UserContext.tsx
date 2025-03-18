@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { getUserData, saveUserData, clearUserData } from "@/utils";
 
 interface User {
   id: number;
@@ -24,16 +23,14 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  // ✅ FIX: Make `setUser` synchronous
   const loginUser = (userData: User | null) => {
     if (userData) {
-      setUser(userData); // Update state synchronously
+      setUser(userData);
     } else {
       setUser(null);
     }
   };
 
-  // ✅ FIX: Logout remains synchronous, handling async separately
   const logout = () => {
     setUser(null);
   };
@@ -45,7 +42,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Hook to use UserContext
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) throw new Error("useUser must be used within a UserProvider");
