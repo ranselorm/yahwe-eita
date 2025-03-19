@@ -286,8 +286,9 @@ export default function RegisterScreen() {
             className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
-            onPress={handleSubmit}
-            disabled={registerMutation.isPending}
+            // onPress={handleSubmit}
+            onPress={() => router.replace("/(tabs)")}
+            // disabled={registerMutation.isPending}
           >
             <Text
               className={`text-lg font-semibold ${

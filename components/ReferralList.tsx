@@ -10,7 +10,7 @@ export default function ReferralList() {
   ];
 
   return (
-    <View className="mt-8">
+    <View className="mt-6">
       <View className="flex-row justify-between mb-4">
         <Text
           className={`font-semibold text-lg ${

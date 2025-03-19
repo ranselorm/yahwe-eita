@@ -8,6 +8,8 @@ import ReferralList from "../../components/ReferralList";
 import StatsCard from "../../components/StatsCard";
 import Header from "@/components/Header";
 import { useUser } from "@/context/userContext";
+import ProgressBar from "@/components/ProgressBar";
+import { FontAwesome } from "@expo/vector-icons";
 
 // const getGreeting = () => {
 //   const hour = new Date().getHours();
@@ -69,6 +71,27 @@ export default function HomeScreen() {
         <Header />
 
         {/* Balance Card */}
+        <View
+          className={`${
+            isDarkMode ? "bg-white" : "bg-dark-100"
+          } w-full p-4 mt-6`}
+          style={{ borderRadius: 20 }}
+        >
+          <View className="flex-row justify-center gap-x-3 items-center">
+            <Ionicons name="time-outline" size={24} color="white" />
+            <Text
+              className={`${
+                isDarkMode ? "text-black" : "text-white"
+              } text-lg font-semibold`}
+            >
+              Time left until next level: 6d 23h 40m 3s
+            </Text>
+          </View>
+          <View className="flex-row items-center justify-between mt-4 px-4">
+            <ProgressBar level={4} progress={50} />
+            <Text className="text-white">Level 4</Text>
+          </View>
+        </View>
         <BalanceCard />
         <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
           <Text className="text-white text-lg font-semibold">
@@ -82,29 +105,31 @@ export default function HomeScreen() {
           />
         </View>
 
-        {/* Referral List */}
-        <ReferralList />
-        <View
-          className={`${
-            isDarkMode ? "bg-white" : "bg-dark-100"
-          } w-full p-4 mt-6 flex-row justify-center gap-x-3 items-center `}
-          style={{ borderRadius: 50 }}
-        >
-          <Ionicons name="time-outline" size={24} color="white" />
-          <Text
-            className={`${
-              isDarkMode ? "text-black" : "text-white"
-            } text-lg font-semibold`}
-          >
-            Time left until next level: 6d 23h 40m 3s
-          </Text>
-        </View>
-
-        {/* Countdown Timer */}
-        {/* <TimerCard /> */}
-
         {/* Stats Card */}
-        <StatsCard />
+        <View className="flex-row justify-between w-full mt-6 gap-x-2">
+          <View className="bg-accent p-6 w-[47%] rounded-xl">
+            <Text className="text-white">Earnings this week</Text>
+            <View className="flex-row items-center justify-between mt-5">
+              <FontAwesome name="money" size={24} color="white" />
+              <Text className="text-white text-xl font-semibold">+GHS10</Text>
+            </View>
+          </View>
+          <View className="bg-gray-100 p-6 w-[47%] rounded-xl">
+            <Text className="text-black">Referrals this week</Text>
+            <View className="flex-row items-center justify-between mt-5">
+              <MaterialCommunityIcons
+                name="account-check-outline"
+                size={24}
+                color="black"
+              />
+              <Text className="text-black text-xl font-semibold">
+                +2 People
+              </Text>
+            </View>
+          </View>
+        </View>
+        <ReferralList />
+        {/* <StatsCard /> */}
       </ScrollView>
     </SafeAreaView>
   );

@@ -90,7 +90,6 @@ export default function WelcomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View className="flex-1 items-center justify-center px-2">
-          {/* Welcome Title */}
           <FontAwesome
             name="handshake-o"
             size={30}
