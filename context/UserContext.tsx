@@ -14,6 +14,8 @@ interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   logout: () => void;
+  referenceCode: string;
+  setReferenceCode: (code: string) => void;
 }
 
 // Create context
@@ -22,6 +24,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 // Provider component
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [referenceCode, setReferenceCode] = useState<string>("");
 
   const loginUser = (userData: User | null) => {
     if (userData) {
@@ -36,7 +39,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser: loginUser, logout }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser: loginUser,
+        logout,
+        referenceCode,
+        setReferenceCode,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

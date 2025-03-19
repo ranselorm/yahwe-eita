@@ -16,9 +16,9 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import * as yup from "yup";
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
-import { useRegister } from "@/hooks/useRegister"; // ✅ Import the hook
+import { useRegister } from "@/hooks/useRegister";
+import { useUser } from "@/context/userContext";
 
-// ✅ Validation Schema using Yup
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
   email: yup
@@ -48,6 +48,9 @@ const validationSchema = yup.object().shape({
 
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
+  const { referenceCode } = useUser();
+
+  console.log("The reference code is this:...", referenceCode);
 
   // State for form inputs
   const [formData, setFormData] = useState({
@@ -60,7 +63,7 @@ export default function RegisterScreen() {
     termsAccepted: false,
   });
 
-  const registerMutation = useRegister(); // ✅ Use the hook
+  const registerMutation = useRegister();
 
   // Function to update form state
   const handleChange = (name: string, value: string | boolean) => {
@@ -84,12 +87,10 @@ export default function RegisterScreen() {
     referenceCode: "qTIkAzqQzinPX",
     ghanaCardNumber: formData.ghanaCardNumber,
   };
-  // Handle form submission
   const handleSubmit = async () => {
     try {
       await validationSchema.validate(formData);
 
-      // ✅ API Call using the hook
       registerMutation.mutate(payload, {
         onSuccess: () => {
           Toast.show({

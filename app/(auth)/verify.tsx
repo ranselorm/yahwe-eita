@@ -12,16 +12,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { useVerifyRefCode } from "@/hooks/useVerifyRefCode";
+import { useUser } from "@/context/userContext";
 
 export default function VerifyScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
+  const { setReferenceCode } = useUser();
 
   const [reference, setReference] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpModalVisible, setOtpModalVisible] = useState(false);
   const [pinId, setPinId] = useState("");
 
+  setReference(reference);
   const verifyMutation = useVerifyRefCode();
 
   // Handle OTP Submission
