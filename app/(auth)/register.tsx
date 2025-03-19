@@ -16,13 +16,17 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { z } from "zod"; // Zod for validation
 import { useForm, Controller } from "react-hook-form";
 import { router } from "expo-router";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // Zod Schema for form validation
 const schema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   email: z.string().email("Invalid email address"),
-  network: z.string().min(1, "Network is required"),
-  password: z.string().min(6, "Password should be at least 6 characters"),
+  // network: z.string(),
+  password: z.string().min(8, "Password should be at least 6 characters"),
+  phone: z.string().min(10, "Phone number should be at least 10 characters"),
+  referenceCode: z.string().min(5, "Reference is required"),
+  ghanaCardNumber: z.string().min(6, "Ghana card number is required"),
   termsAccepted: z
     .boolean()
     .refine((val) => val === true, "You must accept the terms"),
@@ -37,17 +41,16 @@ export default function RegisterScreen() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: (data) => schema.safeParse(data), // Apply validation schema
+    resolver: zodResolver(schema),
   });
 
   const [network, setNetwork] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   // Handle form submission
-  const onSubmit = (data) => {
-    // Here you can handle the form submission to the server
+  const onSubmit = (data: any) => {
     console.log(data);
-    router.replace("/(tabs)"); // Navigate to tabs screen
+    // router.replace("/(tabs)");
   };
 
   return (
@@ -97,9 +100,10 @@ export default function RegisterScreen() {
                 />
               )}
             />
-            {errors.fullName && (
+            {errors?.fullName && (
               <Text className="text-red-500 text-xs">
-                {errors.fullName.message}
+                {typeof errors?.fullName?.message === "string" &&
+                  errors.fullName.message}
               </Text>
             )}
 
@@ -124,7 +128,107 @@ export default function RegisterScreen() {
             />
             {errors.email && (
               <Text className="text-red-500 text-xs">
-                {errors.email.message}
+                {typeof errors.email?.message === "string" &&
+                  errors.email.message}
+              </Text>
+            )}
+
+            {/* Password Input */}
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="PASSWORD"
+                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+                  secureTextEntry
+                  className={`border rounded-xl p-3 text-base text-center ${
+                    isDarkMode
+                      ? "border-white text-white"
+                      : "border-secondary-100 text-secondary-100"
+                  }`}
+                />
+              )}
+            />
+            {errors.password && (
+              <Text className="text-red-500 text-xs">
+                {typeof errors.password?.message === "string" &&
+                  errors.password.message}
+              </Text>
+            )}
+
+            <Controller
+              control={control}
+              name="phone"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="PHONE NUMBER(MOMO ENABLED)"
+                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+                  keyboardType="numeric"
+                  className={`border rounded-xl p-3 text-base text-center ${
+                    isDarkMode
+                      ? "border-white text-white"
+                      : "border-secondary-100 text-secondary-100"
+                  }`}
+                />
+              )}
+            />
+            {errors.phone && (
+              <Text className="text-red-500 text-xs">
+                {typeof errors.phone?.message === "string" &&
+                  errors.phone.message}
+              </Text>
+            )}
+
+            <Controller
+              control={control}
+              name="referenceCode"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="REFERENCE CODE"
+                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+                  className={`border rounded-xl p-3 text-base text-center ${
+                    isDarkMode
+                      ? "border-white text-white"
+                      : "border-secondary-100 text-secondary-100"
+                  }`}
+                />
+              )}
+            />
+            {errors.referenceCode && (
+              <Text className="text-red-500 text-xs">
+                {typeof errors.referenceCode?.message === "string" &&
+                  errors.referenceCode.message}
+              </Text>
+            )}
+
+            <Controller
+              control={control}
+              name="ghanaCardNumber"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="GHANA CARD NUMBER"
+                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+                  className={`border rounded-xl p-3 text-base text-center ${
+                    isDarkMode
+                      ? "border-white text-white"
+                      : "border-secondary-100 text-secondary-100"
+                  }`}
+                />
+              )}
+            />
+            {errors.ghanaCardNumber && (
+              <Text className="text-red-500 text-xs">
+                {typeof errors.ghanaCardNumber?.message === "string" &&
+                  errors.ghanaCardNumber.message}
               </Text>
             )}
 
@@ -157,36 +261,12 @@ export default function RegisterScreen() {
                 <Picker.Item label="AirtelTigo" value="airteltigo" />
               </Picker>
             </View>
-            {errors.network && (
+            {/* {errors.network && (
               <Text className="text-red-500 text-xs">
-                {errors.network.message}
+                {typeof errors.network?.message === "string" &&
+                  errors.network.message}
               </Text>
-            )}
-
-            {/* Password Input */}
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="PASSWORD"
-                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-                  secureTextEntry
-                  className={`border rounded-xl p-3 text-base text-center ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                />
-              )}
-            />
-            {errors.password && (
-              <Text className="text-red-500 text-xs">
-                {errors.password.message}
-              </Text>
-            )}
+            )} */}
 
             {/* Terms Acceptance */}
             <View className="flex-row items-center mt-4">
@@ -215,7 +295,7 @@ export default function RegisterScreen() {
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
             disabled={!termsAccepted}
-            onPress={handleSubmit(onSubmit)} // Submit handler
+            onPress={handleSubmit(onSubmit)}
           >
             <Text
               className={`text-lg font-semibold ${
