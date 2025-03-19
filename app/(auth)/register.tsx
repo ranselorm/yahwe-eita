@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -18,6 +19,8 @@ import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useRegister } from "@/hooks/useRegister";
 import { useUser } from "@/context/userContext";
+import { jwtDecode } from "jwt-decode";
+import { saveUserData } from "@/utils";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -48,9 +51,9 @@ const validationSchema = yup.object().shape({
 
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
-  const { referenceCode } = useUser();
+  const { referenceCode, setUser } = useUser();
 
-  console.log("The reference code is this:...", referenceCode);
+  // console.log("The reference code is this:...", referenceCode);
 
   // State for form inputs
   const [formData, setFormData] = useState({
@@ -84,22 +87,43 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: formData.phone,
-    referenceCode: "qTIkAzqQzinPX",
+    referenceCode: referenceCode,
     ghanaCardNumber: formData.ghanaCardNumber,
   };
+
+  const updateUserSession = async (responseData: any) => {
+    try {
+      const decodedToken: any = jwtDecode(responseData?.data?.id_token);
+      const updatedUser = {
+        isLoggedIn: true,
+        name: `${decodedToken.name}`,
+        id: decodedToken.sub,
+        email: decodedToken.email,
+        picture: decodedToken.picture,
+        exp: decodedToken.exp,
+        token: responseData?.data?.access_token,
+      };
+      setUser(updatedUser);
+      await saveUserData(updatedUser);
+    } catch (error) {
+      console.error("Error updating session:", error);
+      Alert.alert("Error", "Failed to update user session.");
+    }
+  };
   const handleSubmit = async () => {
+    console.log(payload);
     try {
       await validationSchema.validate(formData);
 
       registerMutation.mutate(payload, {
-        onSuccess: () => {
+        onSuccess: (data) => {
           Toast.show({
             type: "success",
             text1: "Registration Successful",
             text2: "Redirecting to home...",
             position: "top",
           });
-
+          updateUserSession(data);
           setTimeout(() => {
             router.replace("/(tabs)");
           }, 2000);
@@ -110,7 +134,7 @@ export default function RegisterScreen() {
             type: "error",
             text1: "Registration Failed",
             text2:
-              (error as any)?.response?.data?.message ||
+              (error as any)?.response?.data?.issue?.message ||
               "Something went wrong!",
             position: "top",
           });

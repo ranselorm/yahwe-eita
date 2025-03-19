@@ -13,6 +13,7 @@ import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { useVerifyRefCode } from "@/hooks/useVerifyRefCode";
 import { useUser } from "@/context/userContext";
+import { useVerifyOtp } from "@/hooks/useVerifyOtp"; // Import OTP hook
 
 export default function VerifyScreen() {
   const colorScheme = useColorScheme();
@@ -24,11 +25,38 @@ export default function VerifyScreen() {
   const [isOtpModalVisible, setOtpModalVisible] = useState(false);
   const [pinId, setPinId] = useState("");
 
-  setReference(reference);
+  console.log(pinId);
+
+  //hooks
   const verifyMutation = useVerifyRefCode();
+  const verifyOtpMutation = useVerifyOtp();
 
   // Handle OTP Submission
-  const handleOtpSubmit = () => {
+  // const handleOtpSubmit = () => {
+  //   if (otp.length !== 6) {
+  //     Toast.show({
+  //       type: "error",
+  //       text1: "Invalid OTP",
+  //       text2: "Please enter a valid 6-digit OTP.",
+  //       position: "top",
+  //     });
+  //     return;
+  //   }
+
+  //   // Assume OTP validation is successful, navigate to register
+  //   Toast.show({
+  //     type: "success",
+  //     text1: "OTP Verified",
+  //     text2: "Redirecting to registration...",
+  //     position: "top",
+  //   });
+
+  //   setTimeout(() => {
+  //     router.push("/(auth)/register");
+  //   }, 2000);
+  // };
+
+  const handleOtpSubmit = async () => {
     if (otp.length !== 6) {
       Toast.show({
         type: "error",
@@ -39,21 +67,41 @@ export default function VerifyScreen() {
       return;
     }
 
-    // Assume OTP validation is successful, navigate to register
-    Toast.show({
-      type: "success",
-      text1: "OTP Verified",
-      text2: "Redirecting to registration...",
-      position: "top",
-    });
+    // Call the verify OTP API with pinId
+    verifyOtpMutation.mutate(
+      { pinId },
+      {
+        onSuccess: (data) => {
+          if (data.status) {
+            // Successfully verified OTP
+            Toast.show({
+              type: "success",
+              text1: "OTP Verified",
+              text2: "Redirecting to registration...",
+              position: "top",
+            });
 
-    setTimeout(() => {
-      router.push("/(auth)/register");
-    }, 2000);
+            setTimeout(() => {
+              router.push("/(auth)/register");
+            }, 2000);
+          }
+        },
+        onError: (error) => {
+          // Handle any error from the API
+          Toast.show({
+            type: "error",
+            text1: "OTP Verification Failed",
+            text2: error.message || "Something went wrong. Please try again.",
+            position: "top",
+          });
+        },
+      }
+    );
   };
 
   // Handle Reference Code Submission
   const handleVerification = async () => {
+    setReferenceCode(reference);
     if (!reference.trim()) {
       Toast.show({
         type: "error",
@@ -167,8 +215,15 @@ export default function VerifyScreen() {
             <Pressable
               className="bg-black p-3 rounded-md items-center"
               onPress={handleOtpSubmit}
+              disabled={verifyOtpMutation.isPending}
             >
-              <Text className="text-white text-lg font-semibold">Submit</Text>
+              <Text className="text-white text-lg font-semibold">
+                {verifyOtpMutation.isPending ? (
+                  <ActivityIndicator size={"small"} />
+                ) : (
+                  "Submit"
+                )}
+              </Text>
             </Pressable>
 
             <Pressable
