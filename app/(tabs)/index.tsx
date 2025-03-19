@@ -11,13 +11,6 @@ import { useUser } from "@/context/userContext";
 import ProgressBar from "@/components/ProgressBar";
 import { FontAwesome } from "@expo/vector-icons";
 
-// const getGreeting = () => {
-//   const hour = new Date().getHours();
-//   if (hour < 12) return "Good morning";
-//   if (hour < 18) return "Good afternoon";
-//   return "Good evening";
-// };
-
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
@@ -28,54 +21,14 @@ export default function HomeScreen() {
       className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <View className="flex-row justify-between items-center mt-4">
-          <View className="flex-row items-center gap-x-3">
-            <View
-              className={`border w-10 h-10 justify-center items-center rounded-full ${
-                isDarkMode ? "border-white" : "border-black"
-              }`}
-            >
-              <Text
-                className={`text-xl font-semibold ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                {name[0]}
-              </Text>
-            </View>
-            <View>
-              <Text
-                className={`text-xl font-semibold ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                {getGreeting()}
-              </Text>
-              <Text
-                className={`text-xl font-semibold ${
-                  isDarkMode ? "text-white" : "text-black -mt-1"
-                }`}
-              >
-                {name && name}
-              </Text>
-            </View>
-          </View>
-          <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
-            <Ionicons
-              name="notifications-outline"
-              size={20}
-              className={`${isDarkMode ? "text-white" : "text-white"}`}
-            />
-          </View>
-        </View> */}
         <Header />
 
         {/* Balance Card */}
         <View
           className={`${
             isDarkMode ? "bg-white" : "bg-dark-100"
-          } w-full p-4 mt-6`}
-          style={{ borderRadius: 20 }}
+          } w-full p-4 mt-6 rounded-xl`}
+          // style={{ borderRadius: 20 }}
         >
           <View className="flex-row justify-center gap-x-3 items-center">
             <Ionicons name="time-outline" size={24} color="white" />
