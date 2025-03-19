@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useTheme } from "@/context/ThemeProvider";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
@@ -73,21 +73,22 @@ export default function Landing() {
         </View>
 
         <View className="w-full max-w-sm">
-          <Link href="/register" asChild>
-            <Pressable
-              className={`border rounded-xl p-3 items-center ${
-                isDarkMode ? "border-white" : "border-black"
+          {/* <Link href="/verify" asChild> */}
+          <Pressable
+            className={`border rounded-xl p-3 items-center ${
+              isDarkMode ? "border-white" : "border-black"
+            }`}
+            onPress={() => router.push("/verify")}
+          >
+            <Text
+              className={`text-lg font-semibold ${
+                isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              <Text
-                className={`text-lg font-semibold ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                CREATE AN ACCOUNT
-              </Text>
-            </Pressable>
-          </Link>
+              CREATE AN ACCOUNT
+            </Text>
+          </Pressable>
+          {/* </Link> */}
 
           <Link href="/login" asChild>
             <Pressable

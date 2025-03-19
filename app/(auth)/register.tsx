@@ -9,13 +9,14 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import * as yup from "yup";
 import { router } from "expo-router";
+import Toast from "react-native-toast-message";
+import { useRegister } from "@/hooks/useRegister"; // ✅ Import the hook
 
 // ✅ Validation Schema using Yup
 const validationSchema = yup.object().shape({
@@ -37,10 +38,6 @@ const validationSchema = yup.object().shape({
     .string()
     .min(10, "Phone number should be at least 10 digits")
     .required("Phone number is required"),
-  // referenceCode: yup
-  //   .string()
-  //   .min(5, "Reference code is required")
-  //   .required("Reference code is required"),
   ghanaCardNumber: yup
     .string()
     .min(6, "Ghana card number is required")
@@ -58,15 +55,25 @@ export default function RegisterScreen() {
     email: "",
     password: "",
     phone: "",
-    // referenceCode: "",
     ghanaCardNumber: "",
     network: "",
     termsAccepted: false,
   });
 
+  const registerMutation = useRegister(); // ✅ Use the hook
+
   // Function to update form state
-  const handleChange = (name: any, value: any) => {
+  const handleChange = (name: string, value: string | boolean) => {
     setFormData({ ...formData, [name]: value });
+  };
+
+  const showErrorToast = (message: string) => {
+    Toast.show({
+      type: "error",
+      text1: "Validation Error",
+      text2: message,
+      position: "top",
+    });
   };
 
   const payload = {
@@ -74,18 +81,42 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: formData.phone,
+    referenceCode: "qTIkAzqQzinPX",
     ghanaCardNumber: formData.ghanaCardNumber,
   };
-
   // Handle form submission
   const handleSubmit = async () => {
     try {
       await validationSchema.validate(formData);
-      console.log("PAYLOAD", payload);
-      // API Call or Navigation
-      // router.replace("/(tabs)");
+
+      // ✅ API Call using the hook
+      registerMutation.mutate(payload, {
+        onSuccess: () => {
+          Toast.show({
+            type: "success",
+            text1: "Registration Successful",
+            text2: "Redirecting to home...",
+            position: "top",
+          });
+
+          setTimeout(() => {
+            router.replace("/(tabs)");
+          }, 2000);
+        },
+
+        onError: (error) => {
+          Toast.show({
+            type: "error",
+            text1: "Registration Failed",
+            text2:
+              (error as any)?.response?.data?.message ||
+              "Something went wrong!",
+            position: "top",
+          });
+        },
+      });
     } catch (error) {
-      Alert.alert("Validation Error", (error as Error).message);
+      showErrorToast((error as any).message);
     }
   };
 
@@ -120,7 +151,6 @@ export default function RegisterScreen() {
 
           {/* Form Fields */}
           <View className="w-full max-w-sm gap-y-6">
-            {/** Full Name */}
             <TextInput
               placeholder="FULL NAME"
               value={formData.fullName}
@@ -132,7 +162,6 @@ export default function RegisterScreen() {
               }`}
             />
 
-            {/** Email */}
             <TextInput
               placeholder="EMAIL"
               value={formData.email}
@@ -145,7 +174,6 @@ export default function RegisterScreen() {
               }`}
             />
 
-            {/** Password */}
             <TextInput
               placeholder="PASSWORD"
               value={formData.password}
@@ -158,7 +186,6 @@ export default function RegisterScreen() {
               }`}
             />
 
-            {/** Phone Number */}
             <TextInput
               placeholder="PHONE NUMBER (MOMO ENABLED)"
               value={formData.phone}
@@ -171,19 +198,6 @@ export default function RegisterScreen() {
               }`}
             />
 
-            {/** Reference Code */}
-            {/* <TextInput
-              placeholder="REFERENCE CODE"
-              value={formData.referenceCode}
-              onChangeText={(value) => handleChange("referenceCode", value)}
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            /> */}
-
-            {/** Ghana Card Number */}
             <TextInput
               placeholder="GHANA CARD NUMBER"
               value={formData.ghanaCardNumber}
@@ -195,7 +209,6 @@ export default function RegisterScreen() {
               }`}
             />
 
-            {/** Network Picker */}
             <View
               className={`border rounded-xl h-[50px] justify-center relative ${
                 isDarkMode ? "border-white" : "border-black"
@@ -221,7 +234,6 @@ export default function RegisterScreen() {
               </Picker>
             </View>
 
-            {/** Terms Acceptance */}
             <View className="flex-row items-center mt-4">
               <Switch
                 value={formData.termsAccepted}
@@ -244,21 +256,25 @@ export default function RegisterScreen() {
             </View>
           </View>
 
-          {/** Submit Button */}
+          {/* Submit Button */}
           <Pressable
             className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
             onPress={handleSubmit}
+            disabled={registerMutation.isPending}
           >
             <Text
               className={`text-lg font-semibold ${
                 isDarkMode ? "text-secondary-100" : "text-white"
               }`}
             >
-              CREATE ACCOUNT
+              {registerMutation.isPending ? "Processing..." : "CREATE ACCOUNT"}
             </Text>
           </Pressable>
+
+          {/* Toast Messages */}
+          <Toast />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
