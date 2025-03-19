@@ -9,48 +9,76 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { z } from "zod"; // Zod for validation
-import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
 import { router } from "expo-router";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-// Zod Schema for form validation
-const schema = z.object({
-  fullName: z.string().min(1, "Full name is required"),
-  email: z.string().email("Invalid email address"),
-  // network: z.string(),
-  password: z.string().min(8, "Password should be at least 6 characters"),
-  phone: z.string().min(10, "Phone number should be at least 10 characters"),
-  referenceCode: z.string().min(5, "Reference is required"),
-  ghanaCardNumber: z.string().min(6, "Ghana card number is required"),
-  termsAccepted: z
-    .boolean()
-    .refine((val) => val === true, "You must accept the terms"),
+// ✅ Validation Schema using Yup
+const validationSchema = yup.object().shape({
+  fullName: yup.string().required("Full name is required"),
+  email: yup
+    .string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "Password must contain at least one symbol"
+    )
+    .required("Password is required"),
+  phone: yup
+    .string()
+    .min(10, "Phone number should be at least 10 digits")
+    .required("Phone number is required"),
+  referenceCode: yup
+    .string()
+    .min(5, "Reference code is required")
+    .required("Reference code is required"),
+  ghanaCardNumber: yup
+    .string()
+    .min(6, "Ghana card number is required")
+    .required("Ghana card number is required"),
+  network: yup.string().required("Network is required"),
+  termsAccepted: yup.boolean().oneOf([true], "You must accept the terms"),
 });
 
 export default function RegisterScreen() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
+  const isDarkMode = useColorScheme() === "dark";
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
+  // State for form inputs
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    phone: "",
+    referenceCode: "",
+    ghanaCardNumber: "",
+    network: "",
+    termsAccepted: false,
   });
 
-  const [network, setNetwork] = useState("");
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  // Function to update form state
+  const handleChange = (name: any, value: any) => {
+    setFormData({ ...formData, [name]: value });
+  };
 
   // Handle form submission
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // router.replace("/(tabs)");
+  const handleSubmit = async () => {
+    try {
+      await validationSchema.validate(formData);
+      console.log("Form Data:", formData);
+      // API Call or Navigation
+      router.replace("/(tabs)");
+    } catch (error) {
+      Alert.alert("Validation Error", (error as Error).message);
+    }
   };
 
   return (
@@ -65,6 +93,7 @@ export default function RegisterScreen() {
             isDarkMode ? "bg-secondary-100" : "bg-white"
           }`}
         >
+          {/* Header */}
           <View className="items-center mb-4">
             <MaterialCommunityIcons
               name="account-outline"
@@ -81,158 +110,84 @@ export default function RegisterScreen() {
             </Text>
           </View>
 
+          {/* Form Fields */}
           <View className="w-full max-w-sm gap-y-6">
-            {/* Full Name Input */}
-            <Controller
-              control={control}
-              name="fullName"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="FULL NAME"
-                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-                  className={`border rounded-xl p-3 text-base text-center ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                />
-              )}
+            {/** Full Name */}
+            <TextInput
+              placeholder="FULL NAME"
+              value={formData.fullName}
+              onChangeText={(value) => handleChange("fullName", value)}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
-            {errors?.fullName && (
-              <Text className="text-red-500 text-xs">
-                {typeof errors?.fullName?.message === "string" &&
-                  errors.fullName.message}
-              </Text>
-            )}
 
-            {/* Email Input */}
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="EMAIL"
-                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-                  keyboardType="email-address"
-                  className={`border rounded-xl p-3 text-base text-center ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                />
-              )}
+            {/** Email */}
+            <TextInput
+              placeholder="EMAIL"
+              value={formData.email}
+              onChangeText={(value) => handleChange("email", value)}
+              keyboardType="email-address"
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
-            {errors.email && (
-              <Text className="text-red-500 text-xs">
-                {typeof errors.email?.message === "string" &&
-                  errors.email.message}
-              </Text>
-            )}
 
-            {/* Password Input */}
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="PASSWORD"
-                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-                  secureTextEntry
-                  className={`border rounded-xl p-3 text-base text-center ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                />
-              )}
+            {/** Password */}
+            <TextInput
+              placeholder="PASSWORD"
+              value={formData.password}
+              onChangeText={(value) => handleChange("password", value)}
+              secureTextEntry
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
-            {errors.password && (
-              <Text className="text-red-500 text-xs">
-                {typeof errors.password?.message === "string" &&
-                  errors.password.message}
-              </Text>
-            )}
 
-            <Controller
-              control={control}
-              name="phone"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="PHONE NUMBER(MOMO ENABLED)"
-                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-                  keyboardType="numeric"
-                  className={`border rounded-xl p-3 text-base text-center ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                />
-              )}
+            {/** Phone Number */}
+            <TextInput
+              placeholder="PHONE NUMBER (MOMO ENABLED)"
+              value={formData.phone}
+              onChangeText={(value) => handleChange("phone", value)}
+              keyboardType="phone-pad"
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
-            {errors.phone && (
-              <Text className="text-red-500 text-xs">
-                {typeof errors.phone?.message === "string" &&
-                  errors.phone.message}
-              </Text>
-            )}
 
-            <Controller
-              control={control}
-              name="referenceCode"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="REFERENCE CODE"
-                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-                  className={`border rounded-xl p-3 text-base text-center ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                />
-              )}
+            {/** Reference Code */}
+            <TextInput
+              placeholder="REFERENCE CODE"
+              value={formData.referenceCode}
+              onChangeText={(value) => handleChange("referenceCode", value)}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
-            {errors.referenceCode && (
-              <Text className="text-red-500 text-xs">
-                {typeof errors.referenceCode?.message === "string" &&
-                  errors.referenceCode.message}
-              </Text>
-            )}
 
-            <Controller
-              control={control}
-              name="ghanaCardNumber"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="GHANA CARD NUMBER"
-                  placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-                  className={`border rounded-xl p-3 text-base text-center ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                />
-              )}
+            {/** Ghana Card Number */}
+            <TextInput
+              placeholder="GHANA CARD NUMBER"
+              value={formData.ghanaCardNumber}
+              onChangeText={(value) => handleChange("ghanaCardNumber", value)}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
-            {errors.ghanaCardNumber && (
-              <Text className="text-red-500 text-xs">
-                {typeof errors.ghanaCardNumber?.message === "string" &&
-                  errors.ghanaCardNumber.message}
-              </Text>
-            )}
 
-            {/* Network Picker */}
+            {/** Network Picker */}
             <View
               className={`border rounded-xl h-[50px] justify-center relative ${
                 isDarkMode ? "border-white" : "border-black"
@@ -242,18 +197,14 @@ export default function RegisterScreen() {
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
                 style={{ color: isDarkMode ? "white" : "black" }}
               >
-                {network ? network.toUpperCase() : "SELECT YOUR NETWORK"}
+                {formData.network
+                  ? formData.network.toUpperCase()
+                  : "SELECT YOUR NETWORK"}
               </Text>
-
               <Picker
-                selectedValue={network}
-                onValueChange={(itemValue) => setNetwork(itemValue)}
-                style={{
-                  opacity: 0,
-                  width: "100%",
-                  height: 50,
-                  fontSize: 10,
-                }}
+                selectedValue={formData.network}
+                onValueChange={(value) => handleChange("network", value)}
+                style={{ opacity: 0, width: "100%", height: 50, fontSize: 10 }}
               >
                 <Picker.Item label="SELECT YOUR NETWORK" value="" />
                 <Picker.Item label="MTN" value="mtn" />
@@ -261,18 +212,14 @@ export default function RegisterScreen() {
                 <Picker.Item label="AirtelTigo" value="airteltigo" />
               </Picker>
             </View>
-            {/* {errors.network && (
-              <Text className="text-red-500 text-xs">
-                {typeof errors.network?.message === "string" &&
-                  errors.network.message}
-              </Text>
-            )} */}
 
-            {/* Terms Acceptance */}
+            {/** Terms Acceptance */}
             <View className="flex-row items-center mt-4">
               <Switch
-                value={termsAccepted}
-                onValueChange={() => setTermsAccepted(!termsAccepted)}
+                value={formData.termsAccepted}
+                onValueChange={() =>
+                  handleChange("termsAccepted", !formData.termsAccepted)
+                }
                 thumbColor={isDarkMode ? "black" : "white"}
                 trackColor={{ false: "#767577", true: "#34D399" }}
               />
@@ -289,13 +236,12 @@ export default function RegisterScreen() {
             </View>
           </View>
 
-          {/* Submit Button */}
+          {/** Submit Button */}
           <Pressable
             className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
-            disabled={!termsAccepted}
-            onPress={handleSubmit(onSubmit)}
+            onPress={handleSubmit}
           >
             <Text
               className={`text-lg font-semibold ${
