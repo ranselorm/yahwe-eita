@@ -37,10 +37,10 @@ const validationSchema = yup.object().shape({
     .string()
     .min(10, "Phone number should be at least 10 digits")
     .required("Phone number is required"),
-  referenceCode: yup
-    .string()
-    .min(5, "Reference code is required")
-    .required("Reference code is required"),
+  // referenceCode: yup
+  //   .string()
+  //   .min(5, "Reference code is required")
+  //   .required("Reference code is required"),
   ghanaCardNumber: yup
     .string()
     .min(6, "Ghana card number is required")
@@ -58,7 +58,7 @@ export default function RegisterScreen() {
     email: "",
     password: "",
     phone: "",
-    referenceCode: "",
+    // referenceCode: "",
     ghanaCardNumber: "",
     network: "",
     termsAccepted: false,
@@ -69,13 +69,21 @@ export default function RegisterScreen() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const payload = {
+    fullName: formData.fullName,
+    email: formData.email,
+    password: formData.password,
+    phone: formData.phone,
+    ghanaCardNumber: formData.ghanaCardNumber,
+  };
+
   // Handle form submission
   const handleSubmit = async () => {
     try {
       await validationSchema.validate(formData);
-      console.log("Form Data:", formData);
+      console.log("PAYLOAD", payload);
       // API Call or Navigation
-      router.replace("/(tabs)");
+      // router.replace("/(tabs)");
     } catch (error) {
       Alert.alert("Validation Error", (error as Error).message);
     }
@@ -164,7 +172,7 @@ export default function RegisterScreen() {
             />
 
             {/** Reference Code */}
-            <TextInput
+            {/* <TextInput
               placeholder="REFERENCE CODE"
               value={formData.referenceCode}
               onChangeText={(value) => handleChange("referenceCode", value)}
@@ -173,7 +181,7 @@ export default function RegisterScreen() {
                   ? "border-white text-white"
                   : "border-secondary-100 text-secondary-100"
               }`}
-            />
+            /> */}
 
             {/** Ghana Card Number */}
             <TextInput
