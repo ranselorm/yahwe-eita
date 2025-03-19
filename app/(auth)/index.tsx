@@ -2,111 +2,155 @@ import {
   View,
   Text,
   Pressable,
+  ScrollView,
   useColorScheme,
-  TouchableOpacity,
 } from "react-native";
+import { useState } from "react";
+import {
+  FontAwesome,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, router } from "expo-router";
-import { useTheme } from "@/context/ThemeProvider";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { router } from "expo-router";
 
-export default function Landing() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
-  // const { theme, toggleTheme } = useTheme();
+function Checkbox({ checked, onChange }: any) {
+  const isDarkMode = useColorScheme() === "dark";
+
+  return (
+    <Pressable
+      onPress={() => onChange(!checked)}
+      className="w-6 h-6 border rounded-md"
+    >
+      {checked && (
+        <MaterialIcons
+          name="check"
+          size={24}
+          color={isDarkMode ? "white" : "black"}
+          className="absolute -top-1 -left-1"
+        />
+      )}
+    </Pressable>
+  );
+}
+
+export default function WelcomeScreen() {
+  const isDarkMode = useColorScheme() === "dark";
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <SafeAreaView
-      className={`flex-1 justify-center items-center px-4 py-20 ${
+      className={`flex-1 ${
         isDarkMode ? "bg-black" : "bg-white"
-      }`}
+      } px-4 py-6 items-center justify-center h-full`}
     >
-      <View className="items-center px-4 flex-1 justify-between w-full">
-        <View>
-          <View className="mb-20 items-center">
-            <MaterialCommunityIcons
-              name="account-outline"
-              size={38}
-              color="black"
-              className="mb-4"
-            />
-            <Text
-              className={`text-2xl font-bold ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
-            >
-              YAHWE-EITA
-            </Text>
-          </View>
-
-          <View className="flex-row gap-x-2 mb-4 mx-auto">
-            <View
-              className={`h-2 w-2 rounded-full ${
-                isDarkMode ? "bg-gray-400" : "bg-black"
-              }`}
-            />
-            <View
-              className={`h-2 w-2 rounded-full ${
-                isDarkMode ? "bg-gray-400" : "bg-black"
-              }`}
-            />
-
-            <View
-              className={`h-2 w-2 rounded-full ${
-                isDarkMode ? "bg-gray-400" : "bg-black"
-              }`}
-            />
-            <View
-              className={`h-2 w-2 rounded-full ${
-                isDarkMode ? "bg-gray-400" : "bg-white border border-black"
-              }`}
-            />
-          </View>
-
+      <View>
+        <View className="mb-5 items-center">
+          <MaterialCommunityIcons
+            name="account-outline"
+            size={38}
+            color="black"
+            className="mb-4"
+          />
           <Text
-            className={`mb-6 text-center text-2xl font-bold px-16 mt-4 ${
+            className={`text-2xl font-bold ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            Create your account to start winning
+            YAHWE-EITA
           </Text>
         </View>
 
-        <View className="w-full max-w-sm">
-          {/* <Link href="/verify" asChild> */}
-          <Pressable
-            className={`border rounded-xl p-3 items-center ${
-              isDarkMode ? "border-white" : "border-black"
+        {/* <View className="flex-row gap-x-2 mb-4 mx-auto">
+          <View
+            className={`h-2 w-2 rounded-full ${
+              isDarkMode ? "bg-gray-400" : "bg-black"
             }`}
-            onPress={() => router.push("/verify")}
-          >
-            <Text
-              className={`text-lg font-semibold ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
-            >
-              CREATE AN ACCOUNT
-            </Text>
-          </Pressable>
-          {/* </Link> */}
+          />
+          <View
+            className={`h-2 w-2 rounded-full ${
+              isDarkMode ? "bg-gray-400" : "bg-black"
+            }`}
+          />
 
-          <Link href="/login" asChild>
-            <Pressable
-              className={`mt-4 p-3 rounded-xl items-center ${
-                isDarkMode ? "bg-white" : "bg-black"
+          <View
+            className={`h-2 w-2 rounded-full ${
+              isDarkMode ? "bg-gray-400" : "bg-black"
+            }`}
+          />
+          <View
+            className={`h-2 w-2 rounded-full ${
+              isDarkMode ? "bg-gray-400" : "bg-white border border-black"
+            }`}
+          />
+        </View> */}
+      </View>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="flex-1 items-center justify-center px-2">
+          {/* Welcome Title */}
+          <FontAwesome
+            name="handshake-o"
+            size={30}
+            color="#dc6115"
+            className="mb-4"
+          />
+
+          <Text
+            className={`text-3xl font-bold text-center ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            WELCOME
+          </Text>
+
+          {/* Description Text */}
+          <Text
+            className={`mt-5 text-lg text-center ${
+              isDarkMode ? "text-white" : "text-gray-800"
+            }`}
+          >
+            Dear Prospect,
+            {"\n"}
+            Congratulations on your decision to join Synergesta Culture Ltd, a
+            registered company.
+            {"\n\n"}
+            Synergesta Culture, is a Sales and Marketers concept designed to
+            drive sales of goods and services online. The concept is a
+            membership affiliate program that is designed essentially to bring
+            customers of a chosen brand, via a simple referral and compensation
+            formula.
+          </Text>
+
+          {/* Checkbox for Terms and Conditions */}
+          <View className="mt-6 flex-row items-center">
+            <Checkbox checked={isChecked} onChange={setIsChecked} />
+            <Text
+              className={`ml-2 text-sm ${
+                isDarkMode ? "text-white" : "text-gray-600"
               }`}
             >
-              <Text
-                className={`text-lg font-semibold ${
-                  isDarkMode ? "text-black" : "text-white"
-                }`}
-              >
-                LOGIN
-              </Text>
-            </Pressable>
-          </Link>
+              I agree to the{" "}
+              <Text className="text-orange-500">terms and conditions</Text>
+            </Text>
+          </View>
         </View>
-      </View>
+      </ScrollView>
+
+      {/* Get Started Button */}
+      <Pressable
+        disabled={!isChecked}
+        className={`mt-6 px-6 py-3 rounded-lg w-[80%] ${
+          isChecked ? "bg-primary" : "bg-gray-400"
+        }`}
+        onPress={() => router.push("/(auth)/landing")}
+      >
+        <Text className="text-white text-lg font-semibold text-center">
+          GET STARTED
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 }

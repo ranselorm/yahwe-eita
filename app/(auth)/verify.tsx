@@ -69,7 +69,7 @@ export default function VerifyScreen() {
 
     // Call the verify OTP API with pinId
     verifyOtpMutation.mutate(
-      { pinId },
+      { pinId, otp },
       {
         onSuccess: (data) => {
           if (data.status) {
@@ -150,6 +150,24 @@ export default function VerifyScreen() {
       }
     );
   };
+  const handleNext = async () => {
+    setReferenceCode(reference);
+
+    {
+      // Show success toast and open OTP modal
+      Toast.show({
+        type: "success",
+        text1: "OTP Sent",
+        text2: "Success", // Display message from API
+        position: "top",
+      });
+
+      // Store pinId and show OTP modal
+      setTimeout(() => {
+        router.replace("/(auth)/register");
+      }, 2000);
+    }
+  };
 
   return (
     <SafeAreaView
@@ -179,7 +197,8 @@ export default function VerifyScreen() {
         className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-black"
         } ${verifyMutation.isPending ? "opacity-50" : ""}`}
-        onPress={handleVerification}
+        // onPress={handleVerification}
+        onPress={handleNext}
         disabled={verifyMutation.isPending}
       >
         {verifyMutation.isPending ? (
@@ -215,6 +234,7 @@ export default function VerifyScreen() {
             <Pressable
               className="bg-black p-3 rounded-md items-center"
               onPress={handleOtpSubmit}
+              // onPress={() => router.replace("/(auth)/register")}
               disabled={verifyOtpMutation.isPending}
             >
               <Text className="text-white text-lg font-semibold">
