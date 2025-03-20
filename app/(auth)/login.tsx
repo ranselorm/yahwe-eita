@@ -28,6 +28,7 @@ export default function LoginScreen() {
   const updateUserSession = async (responseData: any) => {
     try {
       const decodedToken: any = jwtDecode(responseData?.data?.id_token);
+      console.log(decodedToken, "DECODED TOKEN");
       const updatedUser = {
         isLoggedIn: true,
         name: `${decodedToken.name}`,

@@ -40,16 +40,16 @@ const genealogyData = [
 
 export default function Tree() {
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "light";
+  const isDarkMode = colorScheme === "dark";
 
   const UserNode = ({ user }: { user: any }) => {
     console.log(user?.recruits, "NODE");
     return (
       <View className="items-center relative">
         {/* Parent Node */}
-        <View className="items-center bg-white shadow-md p-2 rounded-lg w-16 h-16 text-center border relative z-10">
-          {/* <Icon icon={"tabler:user"} /> */}
-          <Text className="text-[7px] font-medium mt-1">{user.name}</Text>
+        <View className="items-center justify-center bg-white shadow-md p-2 rounded-lg w-12 h-12 text-center border relative z-10">
+          <Ionicons name="person-outline" size={24} color="black" />{" "}
+          {/* <Text className="text-[7px] font-medium mt-1">{user.name}</Text> */}
         </View>
 
         {/* Recruits */}
@@ -82,7 +82,7 @@ export default function Tree() {
     <SafeAreaView
       className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
-      <View className="mt-4 flex-row justify-between items-center">
+      <View className="mt-4 flex-row justify-between items-center mb-8">
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons
             name="arrow-back-outline"
