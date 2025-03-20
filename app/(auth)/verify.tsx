@@ -13,7 +13,7 @@ import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { useVerifyRefCode } from "@/hooks/useVerifyRefCode";
 import { useUser } from "@/context/userContext";
-import { useVerifyOtp } from "@/hooks/useVerifyOtp"; // Import OTP hook
+import { useVerifyOtp } from "@/hooks/useVerifyOtp";
 
 export default function VerifyScreen() {
   const colorScheme = useColorScheme();

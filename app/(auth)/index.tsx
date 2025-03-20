@@ -60,30 +60,6 @@ export default function WelcomeScreen() {
             YAHWE-EITA
           </Text>
         </View>
-
-        {/* <View className="flex-row gap-x-2 mb-4 mx-auto">
-          <View
-            className={`h-2 w-2 rounded-full ${
-              isDarkMode ? "bg-gray-400" : "bg-black"
-            }`}
-          />
-          <View
-            className={`h-2 w-2 rounded-full ${
-              isDarkMode ? "bg-gray-400" : "bg-black"
-            }`}
-          />
-
-          <View
-            className={`h-2 w-2 rounded-full ${
-              isDarkMode ? "bg-gray-400" : "bg-black"
-            }`}
-          />
-          <View
-            className={`h-2 w-2 rounded-full ${
-              isDarkMode ? "bg-gray-400" : "bg-white border border-black"
-            }`}
-          />
-        </View> */}
       </View>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
@@ -105,7 +81,6 @@ export default function WelcomeScreen() {
             WELCOME
           </Text>
 
-          {/* Description Text */}
           <Text
             className={`mt-5 text-lg text-center ${
               isDarkMode ? "text-white" : "text-gray-800"
@@ -123,7 +98,6 @@ export default function WelcomeScreen() {
             formula.
           </Text>
 
-          {/* Checkbox for Terms and Conditions */}
           <View className="mt-6 flex-row items-center">
             <Checkbox checked={isChecked} onChange={setIsChecked} />
             <Text
@@ -138,7 +112,6 @@ export default function WelcomeScreen() {
         </View>
       </ScrollView>
 
-      {/* Get Started Button */}
       <Pressable
         disabled={!isChecked}
         className={`mt-6 px-6 py-3 rounded-lg w-[80%] ${
