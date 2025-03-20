@@ -55,9 +55,9 @@ export default function VerifyScreen() {
               position: "top",
             });
 
-            // setTimeout(() => {
-            //   router.push("/(auth)/register");
-            // }, 2000);
+            setTimeout(() => {
+              router.push("/(auth)/register");
+            }, 2000);
           }
         },
         onError: (error) => {
@@ -123,6 +123,24 @@ export default function VerifyScreen() {
         },
       }
     );
+  };
+  const handleNext = async () => {
+    setReferenceCode(reference);
+
+    {
+      // Show success toast and open OTP modal
+      Toast.show({
+        type: "success",
+        text1: "OTP Sent",
+        text2: "Success", // Display message from API
+        position: "top",
+      });
+
+      // Store pinId and show OTP modal
+      setTimeout(() => {
+        router.replace("/(auth)/register");
+      }, 2000);
+    }
   };
 
   return (
