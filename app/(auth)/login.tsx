@@ -16,7 +16,7 @@ import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("gbedzrah1@gmail.com");
+  const [email, setEmail] = useState("godsonselorm@gmail.com");
   const [password, setPassword] = useState("p@ssw0rd123");
   const router = useRouter();
   const mutation = useLogin();
