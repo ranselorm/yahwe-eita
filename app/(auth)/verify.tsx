@@ -41,13 +41,11 @@ export default function VerifyScreen() {
       return;
     }
 
-    // Call the verify OTP API with pinId
     verifyOtpMutation.mutate(
       { pinId, pin },
       {
         onSuccess: (data) => {
           if (data.status) {
-            // Successfully verified OTP
             Toast.show({
               type: "success",
               text1: "OTP Verified",
@@ -61,7 +59,6 @@ export default function VerifyScreen() {
           }
         },
         onError: (error) => {
-          // Handle any error from the API
           Toast.show({
             type: "error",
             text1: "OTP Verification Failed",
@@ -73,7 +70,6 @@ export default function VerifyScreen() {
     );
   };
 
-  // Handle Reference Code Submission
   const handleVerification = async () => {
     setReferenceCode(reference);
     if (!reference.trim()) {
@@ -98,15 +94,13 @@ export default function VerifyScreen() {
               position: "top",
             });
           } else {
-            // Show success toast and open OTP modal
             Toast.show({
               type: "success",
               text1: "OTP Sent",
-              text2: data.message, // Display message from API
+              text2: data.message,
               position: "top",
             });
 
-            // Store pinId and show OTP modal
             setPinId(data.data.pinId);
             setTimeout(() => {
               setOtpModalVisible(true);
@@ -123,24 +117,6 @@ export default function VerifyScreen() {
         },
       }
     );
-  };
-  const handleNext = async () => {
-    setReferenceCode(reference);
-
-    {
-      // Show success toast and open OTP modal
-      Toast.show({
-        type: "success",
-        text1: "OTP Sent",
-        text2: "Success", // Display message from API
-        position: "top",
-      });
-
-      // Store pinId and show OTP modal
-      setTimeout(() => {
-        router.replace("/(auth)/register");
-      }, 2000);
-    }
   };
 
   return (
@@ -172,7 +148,6 @@ export default function VerifyScreen() {
           isDarkMode ? "bg-white" : "bg-black"
         } ${verifyMutation.isPending ? "opacity-50" : ""}`}
         onPress={handleVerification}
-        // onPress={handleNext}
         disabled={verifyMutation.isPending}
       >
         {verifyMutation.isPending ? (
@@ -188,7 +163,6 @@ export default function VerifyScreen() {
         )}
       </Pressable>
 
-      {/* OTP Modal */}
       <Modal visible={isOtpModalVisible} transparent animationType="slide">
         <View className="flex-1 justify-center items-center bg-black/60">
           <View className="bg-white p-6 rounded-lg w-80">

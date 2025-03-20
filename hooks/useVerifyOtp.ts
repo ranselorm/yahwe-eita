@@ -4,7 +4,6 @@ import axios from "axios";
 const VERIFY_OTP_API_URL =
   "https://yahwe-eita-api-dev.azurewebsites.net/api/otp/verify";
 
-// Hook to verify OTP with pin_id and OTP
 export const useVerifyOtp = () => {
   return useMutation({
     mutationFn: async ({ pinId, pin }: { pinId: string; pin: string }) => {
