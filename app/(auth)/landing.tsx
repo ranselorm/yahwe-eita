@@ -1,19 +1,11 @@
-import {
-  View,
-  Text,
-  Pressable,
-  useColorScheme,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Pressable, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
-import { useTheme } from "@/context/ThemeProvider";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function Landing() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  // const { theme, toggleTheme } = useTheme();
 
   return (
     <SafeAreaView
@@ -73,7 +65,6 @@ export default function Landing() {
         </View>
 
         <View className="w-full max-w-sm">
-          {/* <Link href="/verify" asChild> */}
           <Pressable
             className={`border rounded-xl p-3 items-center ${
               isDarkMode ? "border-white" : "border-black"
@@ -88,7 +79,6 @@ export default function Landing() {
               CREATE AN ACCOUNT
             </Text>
           </Pressable>
-          {/* </Link> */}
 
           <Link href="/login" asChild>
             <Pressable
