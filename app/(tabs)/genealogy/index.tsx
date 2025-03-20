@@ -1,6 +1,7 @@
 import { View, Text, Pressable, FlatList, useColorScheme } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import ProgressBar from "@/components/ProgressBar";
+import { router } from "expo-router";
 // import ReferralCard from "../../components/ReferralCard";
 
 function ReferralCard({
@@ -108,7 +109,6 @@ export default function GenealogyScreen() {
 
   return (
     <View className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}>
-      {/* Header with "View Tree" Button */}
       <View className="items-center mt-4">
         <Text
           className={`text-2xl font-semibold ${
@@ -117,12 +117,14 @@ export default function GenealogyScreen() {
         >
           Genealogy
         </Text>
-        <Pressable className="mt-2 px-6 py-2 rounded-full bg-transparent border border-black">
+        <Pressable
+          className="mt-2 px-6 py-2 rounded-full bg-transparent border border-black"
+          onPress={() => router.push("/(tabs)/genealogy/tree")}
+        >
           <Text className="text-black font-semibold text-sm">VIEW TREE</Text>
         </Pressable>
       </View>
 
-      {/* Referrals List */}
       <FlatList
         data={referrals}
         keyExtractor={(item) => item.id}
@@ -138,7 +140,6 @@ export default function GenealogyScreen() {
         className="mt-6"
       />
 
-      {/* Invite More Button */}
       <View className="absolute bottom-6 left-1/2 -translate-x-1/2 items-center">
         <Pressable className="w-12 h-12 bg-black rounded-full items-center justify-center">
           <MaterialIcons name="add" size={24} color="white" />
