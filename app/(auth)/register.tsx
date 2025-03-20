@@ -55,7 +55,6 @@ export default function RegisterScreen() {
 
   console.log("The reference code is this:...", referenceCode);
 
-  // State for form inputs
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -68,7 +67,6 @@ export default function RegisterScreen() {
 
   const registerMutation = useRegister();
 
-  // Function to update form state
   const handleChange = (name: string, value: string | boolean) => {
     setFormData({ ...formData, [name]: value });
   };
@@ -281,13 +279,11 @@ export default function RegisterScreen() {
             </View>
           </View>
 
-          {/* Submit Button */}
           <Pressable
             className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
             onPress={handleSubmit}
-            // onPress={() => router.replace("/(tabs)")}
             disabled={registerMutation.isPending}
           >
             <Text
@@ -295,11 +291,10 @@ export default function RegisterScreen() {
                 isDarkMode ? "text-secondary-100" : "text-white"
               }`}
             >
-              {registerMutation.isPending ? "Processing..." : "CREATE ACCOUNT"}
+              {registerMutation.isPending ? "PLEASE WAIT..." : "CREATE ACCOUNT"}
             </Text>
           </Pressable>
 
-          {/* Toast Messages */}
           <Toast />
         </SafeAreaView>
       </TouchableWithoutFeedback>
