@@ -9,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useGenealogy } from "@/hooks/useGenealogy";
 
 const genealogyData = [
   {
@@ -38,45 +39,50 @@ const genealogyData = [
   },
 ];
 
+const UserNode = ({ user }: { user: any }) => {
+  console.log(user?.recruits, "NODE");
+  return (
+    <View className="items-center relative">
+      {/* Parent Node */}
+      <View className="items-center justify-center bg-white shadow-md p-2 rounded-lg w-12 h-12 text-center border relative z-10">
+        <Ionicons name="person-outline" size={24} color="black" />{" "}
+        {/* <Text className="text-[7px] font-medium mt-1">{user.name}</Text> */}
+      </View>
+
+      {/* Recruits */}
+      {user?.recruits && user?.recruits.length > 0 && (
+        <View className="relative mt-3">
+          <View className="relative justify-center items-center flex-row">
+            {user?.recruits.length > 1 && (
+              <View className="absolute top-[-4px] left-0 right-0 h-0.5 bg-gray-300"></View>
+            )}
+            {/* Flex Row for Recruits */}
+            <View className="flex flex-row justify-center items-center space-x-6">
+              {user?.recruits.map((invitee: any, index: number) => (
+                <View key={index} className="items-center relative">
+                  {user?.recruits.length > 1 && (
+                    <View className="w-0.5 bg-gray-400 h-4 mb-1"></View>
+                  )}
+                  {/* Recursively Render Recruits */}
+                  <UserNode user={invitee} />
+                </View>
+              ))}
+            </View>
+          </View>
+        </View>
+      )}
+    </View>
+  );
+};
+
 export default function Tree() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
-  const UserNode = ({ user }: { user: any }) => {
-    console.log(user?.recruits, "NODE");
-    return (
-      <View className="items-center relative">
-        {/* Parent Node */}
-        <View className="items-center justify-center bg-white shadow-md p-2 rounded-lg w-12 h-12 text-center border relative z-10">
-          <Ionicons name="person-outline" size={24} color="black" />{" "}
-          {/* <Text className="text-[7px] font-medium mt-1">{user.name}</Text> */}
-        </View>
+  const { data: genealogy, isError, isPending } = useGenealogy();
+  if (isPending) return <Text>Loading</Text>;
 
-        {/* Recruits */}
-        {user?.recruits && user?.recruits.length > 0 && (
-          <View className="relative mt-3">
-            <View className="relative justify-center items-center flex-row">
-              {user?.recruits.length > 1 && (
-                <View className="absolute top-[-4px] left-0 right-0 h-0.5 bg-gray-300"></View>
-              )}
-              {/* Flex Row for Recruits */}
-              <View className="flex flex-row justify-center items-center space-x-6">
-                {user?.recruits.map((invitee: any, index: number) => (
-                  <View key={index} className="items-center relative">
-                    {user?.recruits.length > 1 && (
-                      <View className="w-0.5 bg-gray-400 h-4 mb-1"></View>
-                    )}
-                    {/* Recursively Render Recruits */}
-                    <UserNode user={invitee} />
-                  </View>
-                ))}
-              </View>
-            </View>
-          </View>
-        )}
-      </View>
-    );
-  };
+  console.log(genealogy && genealogy);
 
   return (
     <SafeAreaView
