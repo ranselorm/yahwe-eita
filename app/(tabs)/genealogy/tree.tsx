@@ -40,7 +40,7 @@ const genealogyData = [
 
 export default function Tree() {
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
+  const isDarkMode = colorScheme === "light";
 
   const UserNode = ({ user }: { user: any }) => {
     console.log(user?.recruits, "NODE");
@@ -99,7 +99,9 @@ export default function Tree() {
         </Text>
         <Text className="opacity-0">Tree</Text>
       </View>
-      <ScrollView className="px-4 py-4 bg-white">
+      <ScrollView
+        className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      >
         {genealogyData.map((parent: any) => (
           <UserNode key={parent.id} user={parent} />
         ))}
