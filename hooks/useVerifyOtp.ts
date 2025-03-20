@@ -7,10 +7,10 @@ const VERIFY_OTP_API_URL =
 // Hook to verify OTP with pin_id and OTP
 export const useVerifyOtp = () => {
   return useMutation({
-    mutationFn: async ({ pinId, otp }: { pinId: string; otp: string }) => {
+    mutationFn: async ({ pinId, pin }: { pinId: string; pin: string }) => {
       const response = await axios.post(
         `${VERIFY_OTP_API_URL}?pin_id=${pinId}`,
-        { otp }, // Send OTP in the request body
+        { pin },
         {
           headers: { "Content-Type": "application/json" },
         }

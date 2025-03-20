@@ -32,12 +32,11 @@ function SettingsItem({ title, icon }: { title: string; icon: string }) {
 
 export default function SettingsScreen() {
   const { user, logout } = useUser();
-  console.log(user, "in profile");
 
   const handleLogout = () => {
     logout();
     clearUserData();
-    router.replace("/(auth)");
+    router.replace("/(auth)/landing");
   };
 
   const isDarkMode = useColorScheme() === "dark";

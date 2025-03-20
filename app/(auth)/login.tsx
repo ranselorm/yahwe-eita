@@ -14,9 +14,10 @@ import { useTheme } from "@/context/ThemeProvider";
 import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("godsonselorm@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("p@ssw0rd123");
   const router = useRouter();
   const mutation = useLogin();
@@ -57,6 +58,12 @@ export default function LoginScreen() {
         },
         onError: (error) => {
           console.error("Login failed:", error.message);
+          Toast.show({
+            type: "error",
+            text1: "Login failed",
+            text2: "Wrong email or password.",
+            position: "top",
+          });
         },
       }
     );
@@ -117,7 +124,6 @@ export default function LoginScreen() {
           Login
         </Text>
       </Pressable>
-      {mutation.isError && <Text style={{ color: "red" }}>Login failed</Text>}
     </SafeAreaView>
   );
 }

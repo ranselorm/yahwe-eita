@@ -11,7 +11,7 @@ const fetchGenealogy = async (token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    return response.data?.data;
   } catch (error) {
     console.error("Error fetching genealogy:", error);
     throw error;
@@ -19,7 +19,6 @@ const fetchGenealogy = async (token: string) => {
 };
 
 export const useGenealogy = () => {
-  // const token = useSelector((state: RootState) => state.user.token);
   const { user } = useUser();
   const token = user?.token;
 

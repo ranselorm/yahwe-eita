@@ -21,43 +21,17 @@ export default function VerifyScreen() {
   const { setReferenceCode } = useUser();
 
   const [reference, setReference] = useState("");
-  const [otp, setOtp] = useState("");
+  const [pin, setPin] = useState("");
   const [isOtpModalVisible, setOtpModalVisible] = useState(false);
   const [pinId, setPinId] = useState("");
-
-  console.log(pinId);
+  console.log(pinId, pin);
 
   //hooks
   const verifyMutation = useVerifyRefCode();
   const verifyOtpMutation = useVerifyOtp();
 
-  // Handle OTP Submission
-  // const handleOtpSubmit = () => {
-  //   if (otp.length !== 6) {
-  //     Toast.show({
-  //       type: "error",
-  //       text1: "Invalid OTP",
-  //       text2: "Please enter a valid 6-digit OTP.",
-  //       position: "top",
-  //     });
-  //     return;
-  //   }
-
-  //   // Assume OTP validation is successful, navigate to register
-  //   Toast.show({
-  //     type: "success",
-  //     text1: "OTP Verified",
-  //     text2: "Redirecting to registration...",
-  //     position: "top",
-  //   });
-
-  //   setTimeout(() => {
-  //     router.push("/(auth)/register");
-  //   }, 2000);
-  // };
-
   const handleOtpSubmit = async () => {
-    if (otp.length !== 6) {
+    if (pin.length !== 6) {
       Toast.show({
         type: "error",
         text1: "Invalid OTP",
@@ -69,7 +43,7 @@ export default function VerifyScreen() {
 
     // Call the verify OTP API with pinId
     verifyOtpMutation.mutate(
-      { pinId, otp },
+      { pinId, pin },
       {
         onSuccess: (data) => {
           if (data.status) {
@@ -81,9 +55,9 @@ export default function VerifyScreen() {
               position: "top",
             });
 
-            setTimeout(() => {
-              router.push("/(auth)/register");
-            }, 2000);
+            // setTimeout(() => {
+            //   router.push("/(auth)/register");
+            // }, 2000);
           }
         },
         onError: (error) => {
@@ -150,24 +124,6 @@ export default function VerifyScreen() {
       }
     );
   };
-  const handleNext = async () => {
-    setReferenceCode(reference);
-
-    {
-      // Show success toast and open OTP modal
-      Toast.show({
-        type: "success",
-        text1: "OTP Sent",
-        text2: "Success", // Display message from API
-        position: "top",
-      });
-
-      // Store pinId and show OTP modal
-      setTimeout(() => {
-        router.replace("/(auth)/register");
-      }, 2000);
-    }
-  };
 
   return (
     <SafeAreaView
@@ -197,8 +153,8 @@ export default function VerifyScreen() {
         className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-black"
         } ${verifyMutation.isPending ? "opacity-50" : ""}`}
-        // onPress={handleVerification}
-        onPress={handleNext}
+        onPress={handleVerification}
+        // onPress={handleNext}
         disabled={verifyMutation.isPending}
       >
         {verifyMutation.isPending ? (
@@ -223,8 +179,8 @@ export default function VerifyScreen() {
             </Text>
 
             <TextInput
-              value={otp}
-              onChangeText={setOtp}
+              value={pin}
+              onChangeText={setPin}
               placeholder="6-digit OTP"
               keyboardType="number-pad"
               maxLength={6}
@@ -234,7 +190,6 @@ export default function VerifyScreen() {
             <Pressable
               className="bg-black p-3 rounded-md items-center"
               onPress={handleOtpSubmit}
-              // onPress={() => router.replace("/(auth)/register")}
               disabled={verifyOtpMutation.isPending}
             >
               <Text className="text-white text-lg font-semibold">
@@ -255,9 +210,6 @@ export default function VerifyScreen() {
           </View>
         </View>
       </Modal>
-
-      {/* Toast Message Component */}
-      <Toast />
     </SafeAreaView>
   );
 }

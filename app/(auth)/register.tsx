@@ -31,7 +31,7 @@ const validationSchema = yup.object().shape({
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters")
-    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    // .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
     .matches(
       /[!@#$%^&*(),.?":{}|<>]/,
       "Password must contain at least one symbol"
@@ -53,7 +53,7 @@ export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const { referenceCode, setUser } = useUser();
 
-  // console.log("The reference code is this:...", referenceCode);
+  console.log("The reference code is this:...", referenceCode);
 
   // State for form inputs
   const [formData, setFormData] = useState({
@@ -274,7 +274,7 @@ export default function RegisterScreen() {
                 }`}
               >
                 I AGREE TO THE{" "}
-                <Text className="text-blue-500 underline">
+                <Text className="text-accent underline">
                   TERMS AND CONDITIONS
                 </Text>
               </Text>
@@ -286,9 +286,9 @@ export default function RegisterScreen() {
             className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
-            // onPress={handleSubmit}
-            onPress={() => router.replace("/(tabs)")}
-            // disabled={registerMutation.isPending}
+            onPress={handleSubmit}
+            // onPress={() => router.replace("/(tabs)")}
+            disabled={registerMutation.isPending}
           >
             <Text
               className={`text-lg font-semibold ${
