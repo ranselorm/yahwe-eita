@@ -16,16 +16,62 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useInvite } from "@/hooks/useInvite";
 import Toast from "react-native-toast-message";
+import { useInvitedUsers } from "@/hooks/useInvitedUsers";
 // import ReferralCard from "../../components/ReferralCard";
+
+const referrals = [
+  {
+    id: "1",
+    name: "Janelle Addae",
+    status: "Active",
+    invited: 1,
+    level: 4,
+    progress: 40,
+  },
+  {
+    id: "2",
+    name: "Seth Agyemang",
+    status: "Active",
+    invited: 3,
+    level: 6,
+    progress: 70,
+  },
+  {
+    id: "3",
+    name: "Andrew Peters",
+    status: "Pending",
+    invited: 0,
+    level: 6,
+    progress: 0,
+  },
+  {
+    id: "4",
+    name: "Andrew Peters",
+    status: "Pending",
+    invited: 0,
+    level: 6,
+    progress: 0,
+  },
+  {
+    id: "5",
+    name: "Andrew Peters",
+    status: "Pending",
+    invited: 0,
+    level: 6,
+    progress: 0,
+  },
+];
 
 function ReferralCard({
   name,
+  phone,
   status,
   invited,
   level,
   progress,
 }: {
   name: string;
+  phone: number;
   status: string;
   invited: number;
   level: number;
@@ -49,7 +95,7 @@ function ReferralCard({
         </Text>
         <Text
           className={`${
-            status === "Active" ? "bg-accent" : "bg-dark-100"
+            status === "ACCEPTED" ? "bg-accent" : "bg-dark-100"
           } text-white px-3 py-1 rounded-full text-xs`}
         >
           {status}
@@ -59,12 +105,19 @@ function ReferralCard({
       {/* Referral Info */}
       <View className="mt-2">
         <View className="flex-row justify-between items-center my-4">
-          <Text
+          {/* <Text
             className={`text-xl font-semibold ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
             {name}
+          </Text> */}
+          <Text
+            className={`text-xl font-semibold ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            {phone}
           </Text>
           {status === "Active" ? (
             <MaterialCommunityIcons
@@ -97,32 +150,10 @@ export default function GenealogyScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   console.log(phone, "Phone");
 
-  const referrals = [
-    {
-      id: "1",
-      name: "Janelle Addae",
-      status: "Active",
-      invited: 1,
-      level: 4,
-      progress: 40,
-    },
-    {
-      id: "2",
-      name: "Seth Agyemang",
-      status: "Active",
-      invited: 3,
-      level: 6,
-      progress: 70,
-    },
-    {
-      id: "3",
-      name: "Andrew Peters",
-      status: "Pending",
-      invited: 0,
-      level: 6,
-      progress: 0,
-    },
-  ];
+  const { data: invitedUsers, isLoading: loadingInvitedUsers } =
+    useInvitedUsers();
+
+  console.log(invitedUsers, "Invited users");
 
   const inviteMutation = useInvite();
 
@@ -176,11 +207,12 @@ export default function GenealogyScreen() {
       </View>
 
       <FlatList
-        data={referrals}
+        data={invitedUsers}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <ReferralCard
             name={item.name}
+            phone={item.phone}
             status={item.status}
             invited={item.invited}
             level={item.level}
@@ -201,6 +233,7 @@ export default function GenealogyScreen() {
           Invite More Referrals
         </Text>
       </View>
+
       <Modal visible={isModalVisible} transparent animationType="slide">
         <View className="flex-1 justify-center items-center bg-black/60">
           <View className="bg-white p-6 rounded-lg w-80">
