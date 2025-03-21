@@ -119,7 +119,7 @@ function ReferralCard({
           >
             {phone}
           </Text>
-          {status === "Active" ? (
+          {status === "ACCEPTED" ? (
             <MaterialCommunityIcons
               name="account-check-outline"
               size={20}
