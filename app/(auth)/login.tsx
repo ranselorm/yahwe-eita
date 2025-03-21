@@ -10,7 +10,6 @@ import {
 import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "@/context/ThemeProvider";
 import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
