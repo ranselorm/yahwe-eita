@@ -1,20 +1,66 @@
-import { View, Text, ScrollView, useColorScheme } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  useColorScheme,
+  Modal,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import BalanceCard from "../../components/BalanceCard";
 import ReferralList from "../../components/ReferralList";
 // import ReferralList from "../components/ReferralList";
-import StatsCard from "../../components/StatsCard";
+// import StatsCard from "../../components/StatsCard";
 import Header from "@/components/Header";
-import { useUser } from "@/context/userContext";
+// import { useUser } from "@/context/userContext";
 import ProgressBar from "@/components/ProgressBar";
 import { FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
+import Toast from "react-native-toast-message";
+import { useInvite } from "@/hooks/useInvite";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { user } = useUser();
+  // const { user } = useUser();
+  const [phone, setPhone] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  //hooks
+  const inviteMutation = useInvite();
+
+  const handleInvite = () => {
+    if (!phone) return;
+
+    inviteMutation.mutate(
+      { phone },
+      {
+        onSuccess: () => {
+          Toast.show({
+            type: "success",
+            text1: "Invitation sent",
+            text2: "Success",
+            position: "top",
+          });
+          console.log("Sending sucessful");
+          setTimeout(() => setModalVisible(false), 500);
+        },
+        onError: (error) => {
+          console.error("Error sending invite:", error);
+          Toast.show({
+            type: "error",
+            text1: "Error sending invite",
+            text2: "An error occurred. Please try again.",
+            position: "top",
+          });
+        },
+      }
+    );
+  };
 
   return (
     <SafeAreaView
@@ -46,17 +92,19 @@ export default function HomeScreen() {
           </View>
         </View>
         <BalanceCard />
-        <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
-          <Text className="text-white text-lg font-semibold">
-            Create new referral code
-          </Text>
-          <MaterialCommunityIcons
-            name="email-open-outline"
-            size={24}
-            // color="white"
-            className="text-primary bg-white p-1 rounded-full"
-          />
-        </View>
+        <Pressable onPress={() => setModalVisible(true)}>
+          <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
+            <Text className="text-white text-lg font-semibold">
+              Create new referral code
+            </Text>
+            <MaterialCommunityIcons
+              name="email-open-outline"
+              size={24}
+              // color="white"
+              className="text-primary bg-white p-1 rounded-full"
+            />
+          </View>
+        </Pressable>
 
         {/* Stats Card */}
         <View className="flex-row justify-between w-full mt-6 gap-x-2">
@@ -84,6 +132,46 @@ export default function HomeScreen() {
         <ReferralList />
         {/* <StatsCard /> */}
       </ScrollView>
+      <Modal visible={isModalVisible} transparent animationType="slide">
+        <View className="flex-1 justify-center items-center bg-black/60">
+          <View className="bg-white p-6 rounded-lg w-80">
+            <Text className="text-lg font-semibold mb-4 text-black">
+              Enter Phone Number
+            </Text>
+
+            <TextInput
+              value={phone}
+              onChangeText={setPhone}
+              // placeholder="0234567891"
+              keyboardType="number-pad"
+              maxLength={10}
+              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+            />
+
+            <Pressable
+              className="bg-black p-3 rounded-md items-center"
+              onPress={handleInvite}
+              // onPress={() => router.replace("/(auth)/register")}
+              // disabled={verifyOtpMutation.isPending}
+            >
+              <Text className="text-white text-lg font-semibold">
+                {inviteMutation.isPending ? (
+                  <ActivityIndicator size={"small"} />
+                ) : (
+                  "Submit"
+                )}
+              </Text>
+            </Pressable>
+
+            <Pressable
+              className="mt-4 items-center"
+              onPress={() => setModalVisible(false)}
+            >
+              <Text className="text-gray-600 text-sm">Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

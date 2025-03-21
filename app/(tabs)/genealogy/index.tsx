@@ -148,12 +148,9 @@ export default function GenealogyScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
-  console.log(phone, "Phone");
 
   const { data: invitedUsers, isLoading: loadingInvitedUsers } =
     useInvitedUsers();
-
-  console.log(invitedUsers, "Invited users");
 
   const inviteMutation = useInvite();
 
