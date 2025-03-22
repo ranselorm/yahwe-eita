@@ -71,7 +71,7 @@ export default function HomeScreen() {
         <Header />
 
         {/* Balance Card */}
-        {/* <View
+        <View
           className={`${
             isDarkMode ? "bg-white" : "bg-dark-100"
           } w-full p-4 mt-6 rounded-xl`}
@@ -83,15 +83,14 @@ export default function HomeScreen() {
                 isDarkMode ? "text-black" : "text-white"
               } text-lg font-semibold`}
             >
-              Time left until next level: 6d 23h 40m 3s
+              Time left until next level: <Countdown />
             </Text>
           </View>
           <View className="flex-row items-center justify-between mt-4 px-4">
             <ProgressBar level={4} progress={50} />
             <Text className="text-white">Level 4</Text>
           </View>
-        </View> */}
-        <Countdown />
+        </View>
         <BalanceCard />
         <Pressable onPress={() => setModalVisible(true)}>
           <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">

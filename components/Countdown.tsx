@@ -31,13 +31,7 @@ const Countdown: React.FC = () => {
     return () => clearInterval(interval);
   }, [endTime]);
 
-  return (
-    <View style={{ backgroundColor: "black", padding: 16 }}>
-      <Text style={{ color: "white", fontSize: 18, fontWeight: "600" }}>
-        {timeLeft}
-      </Text>
-    </View>
-  );
+  return <Text>{timeLeft}</Text>;
 };
 
 export default Countdown;
