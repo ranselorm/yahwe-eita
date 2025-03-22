@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   Pressable,
@@ -14,6 +14,8 @@ import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCountdown } from "@/context/CountdownContext";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -22,7 +24,6 @@ export default function LoginScreen() {
   const mutation = useLogin();
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  //   const { theme, toggleTheme } = useTheme();
   const { setUser } = useUser();
 
   const updateUserSession = async (responseData: any) => {

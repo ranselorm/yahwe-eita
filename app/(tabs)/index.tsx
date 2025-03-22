@@ -22,6 +22,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useState } from "react";
 import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
+import Countdown from "@/components/Countdown";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -70,11 +71,10 @@ export default function HomeScreen() {
         <Header />
 
         {/* Balance Card */}
-        <View
+        {/* <View
           className={`${
             isDarkMode ? "bg-white" : "bg-dark-100"
           } w-full p-4 mt-6 rounded-xl`}
-          // style={{ borderRadius: 20 }}
         >
           <View className="flex-row justify-center gap-x-3 items-center">
             <Ionicons name="time-outline" size={24} color="white" />
@@ -90,7 +90,8 @@ export default function HomeScreen() {
             <ProgressBar level={4} progress={50} />
             <Text className="text-white">Level 4</Text>
           </View>
-        </View>
+        </View> */}
+        <Countdown />
         <BalanceCard />
         <Pressable onPress={() => setModalVisible(true)}>
           <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
