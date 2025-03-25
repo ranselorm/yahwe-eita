@@ -129,8 +129,10 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-        <ReferralList />
-        {/* <StatsCard /> */}
+        
+        <ReferralList
+         />
+
       </ScrollView>
       <Modal visible={isModalVisible} transparent animationType="slide">
         <View className="flex-1 justify-center items-center bg-black/60">
