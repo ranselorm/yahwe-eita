@@ -1,6 +1,5 @@
-// Countdown.tsx
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import { useCountdown } from "@/context/CountdownContext";
 
 const Countdown: React.FC = () => {
