@@ -31,7 +31,7 @@ function SettingsItem({ title, icon }: { title: string; icon: string }) {
 }
 
 export default function SettingsScreen() {
-  const { user, logout } = useUser();
+  const { logout } = useUser();
 
   const handleLogout = () => {
     logout();
@@ -43,7 +43,6 @@ export default function SettingsScreen() {
 
   return (
     <View className={`flex-1 px-6  ${isDarkMode ? "bg-black" : "bg-white"}`}>
-      {/* Back Button & Title */}
       <View className="flex-row items-center mt-4 justify-between">
         <Pressable onPress={() => router.back()}>
           <MaterialIcons
@@ -68,7 +67,6 @@ export default function SettingsScreen() {
           Set
         </Text>
       </View>
-      {/* Settings List */}
       <View className="flex-1 justify-between">
         <View className="mt-6">
           <SettingsItem title="My Account" icon="person-outline" />
@@ -81,7 +79,6 @@ export default function SettingsScreen() {
         </View>
       </View>
 
-      {/* Logout Button */}
       <Pressable
         className="flex-row items-center mt-10 mb-20  mx-auto"
         onPress={handleLogout}
