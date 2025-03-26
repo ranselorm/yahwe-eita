@@ -14,9 +14,9 @@ const SplashScreen = () => {
       const user = await getUserData();
       if (user) {
         setUser(user);
-        router.replace("/(tabs)"); // Navigate if user exists
+        router.replace("/(tabs)");
       } else {
-        router.replace("/(auth)"); // Otherwise, go to login
+        router.replace("/(auth)");
         setUser(null);
       }
       setLoading(false);
