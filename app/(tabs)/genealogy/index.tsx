@@ -17,7 +17,6 @@ import { useState } from "react";
 import { useInvite } from "@/hooks/useInvite";
 import Toast from "react-native-toast-message";
 import { useInvitedUsers } from "@/hooks/useInvitedUsers";
-// import ReferralCard from "../../components/ReferralCard";
 
 const referrals = [
   {
