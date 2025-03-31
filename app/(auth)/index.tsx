@@ -42,7 +42,7 @@ export default function WelcomeScreen() {
     <SafeAreaView
       className={`flex-1 ${
         isDarkMode ? "bg-black" : "bg-white"
-      } px-4 py-6 items-center justify-center h-full`}
+      } px-6 py-6 items-center justify-center h-full`}
     >
       <View>
         <View className="mb-5 items-center">
