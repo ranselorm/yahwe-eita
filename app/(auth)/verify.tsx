@@ -89,7 +89,7 @@ export default function VerifyScreen() {
           if (!data.status) {
             Toast.show({
               type: "error",
-              text1: "Invalid Reference Code",
+              text1: "Sponsor not found",
               text2: "You need to be invited by a sponsor to continue.",
               position: "top",
             });
@@ -134,8 +134,8 @@ export default function VerifyScreen() {
       </Text>
 
       <TextInput
-        value={reference}
-        onChangeText={setReference}
+        value={phone}
+        onChangeText={setPhone}
         // placeholder="ENTER PHONE NUMBER"
         placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
         className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
