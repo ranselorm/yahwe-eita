@@ -126,17 +126,17 @@ export default function VerifyScreen() {
       }`}
     >
       <Text
-        className={`text-2xl font-semibold mb-8 ${
+        className={`text-2xl font-semibold mb-8 text-center ${
           isDarkMode ? "text-white" : "text-black"
         }`}
       >
-        Verify your account
+        Enter the phone number of your sponsor
       </Text>
 
       <TextInput
         value={reference}
         onChangeText={setReference}
-        placeholder="ENTER REFERENCE CODE"
+        // placeholder="ENTER PHONE NUMBER"
         placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
         className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
           isDarkMode ? "border-white text-white" : "border-black text-black"
