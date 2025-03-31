@@ -101,7 +101,7 @@ export default function WelcomeScreen() {
           <View className="mt-6 flex-row items-center">
             <Checkbox checked={isChecked} onChange={setIsChecked} />
             <Text
-              className={`ml-2 text-sm ${
+              className={`ml-2 text-base ${
                 isDarkMode ? "text-white" : "text-gray-600"
               }`}
             >
