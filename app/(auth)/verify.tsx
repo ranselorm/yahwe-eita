@@ -20,7 +20,7 @@ export default function VerifyScreen() {
   const isDarkMode = colorScheme === "dark";
   const { setReferenceCode } = useUser();
 
-  const [reference, setReference] = useState("");
+  const [phone, setPhone] = useState("");
   const [pin, setPin] = useState("");
   const [isOtpModalVisible, setOtpModalVisible] = useState(false);
   const [pinId, setPinId] = useState("");
@@ -71,8 +71,8 @@ export default function VerifyScreen() {
   };
 
   const handleVerification = async () => {
-    setReferenceCode(reference);
-    if (!reference.trim()) {
+    setReferenceCode(phone);
+    if (!phone.trim()) {
       Toast.show({
         type: "error",
         text1: "Reference Code Required",
@@ -83,7 +83,7 @@ export default function VerifyScreen() {
     }
 
     verifyMutation.mutate(
-      { reference },
+      { phone },
       {
         onSuccess: (data) => {
           if (!data.status) {
@@ -101,7 +101,7 @@ export default function VerifyScreen() {
               position: "top",
             });
 
-            setPinId(data.data.pinId);
+            setPinId(data?.data?.pinId);
             setTimeout(() => {
               setOtpModalVisible(true);
             }, 2000);
