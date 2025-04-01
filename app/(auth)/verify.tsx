@@ -20,7 +20,7 @@ export default function VerifyScreen() {
   const isDarkMode = colorScheme === "dark";
   const { setReferenceCode } = useUser();
 
-  const [phone, setPhone] = useState("");
+  const [reference, setReference] = useState("");
   const [pin, setPin] = useState("");
   const [isOtpModalVisible, setOtpModalVisible] = useState(false);
   const [pinId, setPinId] = useState("");
@@ -71,8 +71,8 @@ export default function VerifyScreen() {
   };
 
   const handleVerification = async () => {
-    setReferenceCode(phone);
-    if (!phone.trim()) {
+    setReferenceCode(reference);
+    if (!reference.trim()) {
       Toast.show({
         type: "error",
         text1: "Reference Code Required",
@@ -83,13 +83,13 @@ export default function VerifyScreen() {
     }
 
     verifyMutation.mutate(
-      { phone },
+      { reference },
       {
         onSuccess: (data) => {
           if (!data.status) {
             Toast.show({
               type: "error",
-              text1: "Sponsor not found",
+              text1: "Invalid Reference Code",
               text2: "You need to be invited by a sponsor to continue.",
               position: "top",
             });
@@ -134,8 +134,8 @@ export default function VerifyScreen() {
       </Text>
 
       <TextInput
-        value={phone}
-        onChangeText={setPhone}
+        value={reference}
+        onChangeText={setReference}
         // placeholder="ENTER PHONE NUMBER"
         placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
         className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
