@@ -6,6 +6,7 @@ import {
   useColorScheme,
   ActivityIndicator,
   Alert,
+  View,
 } from "react-native";
 import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "expo-router";
@@ -14,6 +15,7 @@ import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import Toast from "react-native-toast-message";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -78,50 +80,69 @@ export default function LoginScreen() {
     <SafeAreaView
       className={`flex-1 ${
         isDarkMode ? "bg-black" : "bg-white"
-      } justify-center items-center w-full px-6`}
+      }  w-full px-6 py-6`}
     >
-      <TextInput
-        placeholder="Email"
-        placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-        keyboardType="email-address"
-        onChangeText={setEmail}
-        value={email}
-        autoCapitalize="none"
-        className={`border rounded-xl p-3 text-base text-center w-full ${
-          isDarkMode
-            ? "border-white text-white"
-            : "border-secondary-100 text-secondary-100"
-        }`}
-      />
-      <TextInput
-        placeholder="Password"
-        placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-        keyboardType="email-address"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        className={`border rounded-xl p-3 text-base text-center w-full mt-4 ${
-          isDarkMode
-            ? "border-white text-white"
-            : "border-secondary-100 text-secondary-100"
-        }`}
-      />
+      {/* Header */}
 
-      <Pressable
-        className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
-          isDarkMode ? "bg-white" : "bg-secondary-100"
-        }`}
-        // disabled={!termsAccepted}
-        onPress={handleLogin}
-      >
-        <Text
-          className={`text-lg font-semibold ${
-            isDarkMode ? "text-secondary-100" : "text-white"
+      <View className="justify-center items-center flex-1 bg-red-300">
+        <View className="items-center mb-12">
+          <MaterialCommunityIcons
+            name="account-outline"
+            size={38}
+            color="black"
+            className="mb-4"
+          />
+          <Text
+            className={`text-2xl font-semibold mb-6 ${
+              isDarkMode ? "text-white" : "text-secondary-100"
+            }`}
+          >
+            Welcome Back
+          </Text>
+        </View>
+        <TextInput
+          placeholder="Email"
+          placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          value={email}
+          autoCapitalize="none"
+          className={`border rounded-xl p-3 text-base text-center w-full ${
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100"
           }`}
+        />
+        <TextInput
+          placeholder="Password"
+          placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+          keyboardType="email-address"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          className={`border rounded-xl p-3 text-base text-center w-full mt-4 ${
+            isDarkMode
+              ? "border-white text-white"
+              : "border-secondary-100 text-secondary-100"
+          }`}
+        />
+
+        <Pressable
+          className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
+            isDarkMode ? "bg-white" : "bg-secondary-100"
+          }`}
+          // disabled={!termsAccepted}
+          onPress={handleLogin}
         >
-          Login
-        </Text>
-      </Pressable>
+          <Text
+            className={`text-lg font-semibold ${
+              isDarkMode ? "text-secondary-100" : "text-white"
+            }`}
+          >
+            Login
+          </Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
