@@ -185,7 +185,7 @@ export default function GenealogyScreen() {
   if (loadingInvitedUsers)
     return (
       <SafeAreaView className="flex-1 items-center justify-center">
-        <Text>Laoding...</Text>
+        <Text>Loading...</Text>
       </SafeAreaView>
     );
 
