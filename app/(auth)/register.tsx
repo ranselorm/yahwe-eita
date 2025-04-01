@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -142,6 +143,13 @@ export default function RegisterScreen() {
       showErrorToast((error as any).message);
     }
   };
+
+  if (registerMutation.isPending)
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center bg-white">
+        <ActivityIndicator size={"large"} />
+      </SafeAreaView>
+    );
 
   return (
     <KeyboardAvoidingView
