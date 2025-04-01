@@ -130,7 +130,7 @@ export default function VerifyScreen() {
           isDarkMode ? "text-white" : "text-black"
         }`}
       >
-        Enter the phone number of your sponsor
+        Enter the reference code
       </Text>
 
       <TextInput

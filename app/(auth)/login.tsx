@@ -14,8 +14,6 @@ import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import Toast from "react-native-toast-message";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCountdown } from "@/context/CountdownContext";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
