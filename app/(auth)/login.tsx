@@ -82,15 +82,13 @@ export default function LoginScreen() {
         isDarkMode ? "bg-black" : "bg-white"
       }  w-full px-6 py-6`}
     >
-      {/* Header */}
-
-      <View className="justify-center items-center flex-1 bg-red-300">
+      <View className="justify-center items-center flex-1">
         <View className="items-center mb-12">
           <MaterialCommunityIcons
             name="account-outline"
             size={38}
             color="black"
-            className="mb-4"
+            className="mb-2"
           />
           <Text
             className={`text-2xl font-semibold mb-6 ${

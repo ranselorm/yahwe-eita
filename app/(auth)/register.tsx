@@ -144,12 +144,12 @@ export default function RegisterScreen() {
     }
   };
 
-  if (registerMutation.isPending)
-    return (
-      <SafeAreaView className="flex-1 justify-center items-center bg-white">
-        <ActivityIndicator size={"large"} />
-      </SafeAreaView>
-    );
+  // if (registerMutation.isPending)
+  //   return (
+  //     <SafeAreaView className="flex-1 justify-center items-center bg-white">
+  //       <ActivityIndicator size={"large"} />
+  //     </SafeAreaView>
+  //   );
 
   return (
     <KeyboardAvoidingView
@@ -169,7 +169,7 @@ export default function RegisterScreen() {
               name="account-outline"
               size={38}
               color="black"
-              className="mb-4"
+              className="mb-2"
             />
             <Text
               className={`text-2xl font-semibold mb-6 ${
