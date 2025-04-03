@@ -101,7 +101,6 @@ function ReferralCard({
         </Text>
       </View>
 
-      {/* Referral Info */}
       <View className="mt-2">
         <View className="flex-row justify-between items-center my-4">
           {/* <Text
@@ -136,7 +135,6 @@ function ReferralCard({
           Invited: {invited}
         </Text>
 
-        {/* Progress Bar */}
         <ProgressBar progress={progress} level={level} />
       </View>
     </View>
