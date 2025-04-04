@@ -1,5 +1,4 @@
 // src/hooks/useInvitedUsers.ts
-import { useUser } from "@/context/userContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -15,7 +14,7 @@ const getSponsor = async (phone: string) => {
 };
 
 // Accepts optional phoneNumber param
-export const useInvitedUsers = (phone: string) => {
+export const useSponsor = (phone: string) => {
   return useQuery({
     queryKey: ["getSponsor", phone],
     queryFn: () => getSponsor(phone),

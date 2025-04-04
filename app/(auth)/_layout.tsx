@@ -12,6 +12,7 @@ export default function AuthLayout() {
       {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
       <Stack.Screen name="index" />
       <Stack.Screen name="landing" />
+      <Stack.Screen name="sponsor" />
       <Stack.Screen name="verify" />
       <Stack.Screen name="register" />
       <Stack.Screen name="login" />
