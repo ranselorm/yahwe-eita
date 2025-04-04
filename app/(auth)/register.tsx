@@ -47,14 +47,14 @@ const validationSchema = yup.object().shape({
     .min(6, "Ghana card number is required")
     .required("Ghana card number is required"),
   network: yup.string().required("Network is required"),
-  termsAccepted: yup.boolean().oneOf([true], "You must accept the terms"),
+  // termsAccepted: yup.boolean().oneOf([true], "You must accept the terms"),
 });
 
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
-  const { referenceCode, setUser } = useUser();
+  const { sponsorId, setUser } = useUser();
 
-  console.log("The reference code is this:...", referenceCode);
+  console.log("The sponsorId is this:...", sponsorId);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -63,7 +63,7 @@ export default function RegisterScreen() {
     phone: "",
     ghanaCardNumber: "",
     network: "",
-    termsAccepted: false,
+    // termsAccepted: false,
   });
 
   const registerMutation = useRegister();
@@ -86,7 +86,7 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: formData.phone,
-    referenceCode: referenceCode,
+    sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
   };
 
@@ -159,12 +159,12 @@ export default function RegisterScreen() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView
-          className={`flex-1 justify-center items-center px-3 ${
+          className={`flex-1  px-6 py-6 ${
             isDarkMode ? "bg-secondary-100" : "bg-white"
           }`}
         >
           {/* Header */}
-          <View className="items-center mb-4">
+          <View className="items-center">
             <MaterialCommunityIcons
               name="account-outline"
               size={38}
@@ -172,7 +172,7 @@ export default function RegisterScreen() {
               className="mb-2"
             />
             <Text
-              className={`text-2xl font-semibold mb-6 ${
+              className={`text-2xl font-semibold ${
                 isDarkMode ? "text-white" : "text-secondary-100"
               }`}
             >
@@ -181,112 +181,118 @@ export default function RegisterScreen() {
           </View>
 
           {/* Form Fields */}
-          <View className="w-full max-w-sm gap-y-6">
-            <TextInput
-              placeholder="FULL NAME"
-              value={formData.fullName}
-              onChangeText={(value) => handleChange("fullName", value)}
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
-
-            <TextInput
-              placeholder="EMAIL"
-              value={formData.email}
-              onChangeText={(value) => handleChange("email", value)}
-              keyboardType="email-address"
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
-
-            <TextInput
-              placeholder="PASSWORD"
-              value={formData.password}
-              onChangeText={(value) => handleChange("password", value)}
-              secureTextEntry
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
-
-            <TextInput
-              placeholder="PHONE NUMBER (MOMO ENABLED)"
-              value={formData.phone}
-              onChangeText={(value) => handleChange("phone", value)}
-              keyboardType="phone-pad"
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
-
-            <TextInput
-              placeholder="GHANA CARD NUMBER"
-              value={formData.ghanaCardNumber}
-              onChangeText={(value) => handleChange("ghanaCardNumber", value)}
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
-
-            <View
-              className={`border rounded-xl h-[50px] justify-center relative ${
-                isDarkMode ? "border-white" : "border-black"
-              }`}
-            >
-              <Text
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
-                style={{ color: isDarkMode ? "white" : "black" }}
-              >
-                {formData.network
-                  ? formData.network.toUpperCase()
-                  : "SELECT YOUR NETWORK"}
-              </Text>
-              <Picker
-                selectedValue={formData.network}
-                onValueChange={(value) => handleChange("network", value)}
-                style={{ opacity: 0, width: "100%", height: 50, fontSize: 10 }}
-              >
-                <Picker.Item label="SELECT YOUR NETWORK" value="" />
-                <Picker.Item label="MTN" value="mtn" />
-                <Picker.Item label="Vodafone" value="vodafone" />
-                <Picker.Item label="AirtelTigo" value="airteltigo" />
-              </Picker>
-            </View>
-
-            <View className="flex-row items-center mt-4">
-              <Switch
-                value={formData.termsAccepted}
-                onValueChange={() =>
-                  handleChange("termsAccepted", !formData.termsAccepted)
-                }
-                thumbColor={isDarkMode ? "black" : "white"}
-                trackColor={{ false: "#767577", true: "#34D399" }}
+          <View className="flex-1 justify-center items-center">
+            <View className="w-full max-w-sm gap-y-6">
+              <TextInput
+                placeholder="FULL NAME"
+                value={formData.fullName}
+                onChangeText={(value) => handleChange("fullName", value)}
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
               />
-              <Text
-                className={`ml-2 ${
-                  isDarkMode ? "text-white" : "text-secondary-100"
+
+              <TextInput
+                placeholder="EMAIL"
+                value={formData.email}
+                onChangeText={(value) => handleChange("email", value)}
+                keyboardType="email-address"
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
+
+              <TextInput
+                placeholder="PASSWORD"
+                value={formData.password}
+                onChangeText={(value) => handleChange("password", value)}
+                secureTextEntry
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
+
+              <TextInput
+                placeholder="PHONE NUMBER (MOMO ENABLED)"
+                value={formData.phone}
+                onChangeText={(value) => handleChange("phone", value)}
+                keyboardType="phone-pad"
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
+
+              <TextInput
+                placeholder="GHANA CARD NUMBER"
+                value={formData.ghanaCardNumber}
+                onChangeText={(value) => handleChange("ghanaCardNumber", value)}
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
+
+              <View
+                className={`border rounded-xl h-[50px] justify-center relative ${
+                  isDarkMode ? "border-white" : "border-black"
                 }`}
               >
-                I AGREE TO THE{" "}
-                <Text className="text-accent underline">
-                  TERMS AND CONDITIONS
+                <Text
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
+                  style={{ color: isDarkMode ? "white" : "black" }}
+                >
+                  {formData.network
+                    ? formData.network.toUpperCase()
+                    : "SELECT YOUR NETWORK"}
                 </Text>
-              </Text>
+                <Picker
+                  selectedValue={formData.network}
+                  onValueChange={(value) => handleChange("network", value)}
+                  style={{
+                    opacity: 0,
+                    width: "100%",
+                    height: 50,
+                    fontSize: 10,
+                  }}
+                >
+                  <Picker.Item label="SELECT YOUR NETWORK" value="" />
+                  <Picker.Item label="MTN" value="mtn" />
+                  <Picker.Item label="Vodafone" value="vodafone" />
+                  <Picker.Item label="AirtelTigo" value="airteltigo" />
+                </Picker>
+              </View>
+
+              {/* <View className="flex-row items-center mt-4">
+                <Switch
+                  value={formData.termsAccepted}
+                  onValueChange={() =>
+                    handleChange("termsAccepted", !formData.termsAccepted)
+                  }
+                  thumbColor={isDarkMode ? "black" : "white"}
+                  trackColor={{ false: "#767577", true: "#34D399" }}
+                />
+                <Text
+                  className={`ml-2 ${
+                    isDarkMode ? "text-white" : "text-secondary-100"
+                  }`}
+                >
+                  I AGREE TO THE{" "}
+                  <Text className="text-accent underline">
+                    TERMS AND CONDITIONS
+                  </Text>
+                </Text>
+              </View> */}
             </View>
           </View>
-
           <Pressable
             className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-secondary-100"

@@ -78,9 +78,7 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 ${
-        isDarkMode ? "bg-black" : "bg-white"
-      }  w-full px-6 py-6`}
+      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}  w-full px-6`}
     >
       <View className="justify-center items-center flex-1">
         <View className="items-center mb-12">
