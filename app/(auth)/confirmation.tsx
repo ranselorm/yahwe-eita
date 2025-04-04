@@ -40,7 +40,7 @@ export default function ConfirmationScreen() {
         </View>
       </View>
       <Pressable
-        className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
+        className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center mx-auto ${
           isDarkMode ? "bg-white" : "bg-black"
         } `}
         onPress={() => Alert.alert("BUTTON PRESSED! Hi BABE")}
