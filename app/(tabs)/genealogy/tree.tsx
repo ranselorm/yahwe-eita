@@ -82,8 +82,6 @@ export default function Tree() {
   const { data: genealogy, isError, isPending } = useGenealogy();
   if (isPending) return <Text>Loading</Text>;
 
-  console.log(genealogy && genealogy);
-
   return (
     <SafeAreaView
       className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
