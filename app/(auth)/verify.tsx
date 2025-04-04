@@ -18,7 +18,7 @@ import { useVerifyOtp } from "@/hooks/useVerifyOtp";
 export default function VerifyScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { setReferenceCode } = useUser();
+  // const { setReferenceCode } = useUser();
 
   const [reference, setReference] = useState("");
   const [pin, setPin] = useState("");
@@ -71,7 +71,7 @@ export default function VerifyScreen() {
   };
 
   const handleVerification = async () => {
-    setReferenceCode(reference);
+    // setReferenceCode(reference);
     if (!reference.trim()) {
       Toast.show({
         type: "error",
@@ -133,7 +133,7 @@ export default function VerifyScreen() {
         Enter the reference code
       </Text>
 
-      <TextInput
+      {/* <TextInput
         value={reference}
         onChangeText={setReference}
         // placeholder="ENTER PHONE NUMBER"
@@ -141,7 +141,7 @@ export default function VerifyScreen() {
         className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
           isDarkMode ? "border-white text-white" : "border-black text-black"
         }`}
-      />
+      /> */}
 
       <Pressable
         className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${

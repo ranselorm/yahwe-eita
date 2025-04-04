@@ -22,6 +22,7 @@ import { useRegister } from "@/hooks/useRegister";
 import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
+import { useSendOtp } from "@/hooks/useSendOtp";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -54,8 +55,6 @@ export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const { sponsorId, setUser } = useUser();
 
-  console.log("The sponsorId is this:...", sponsorId);
-
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -67,6 +66,7 @@ export default function RegisterScreen() {
   });
 
   const registerMutation = useRegister();
+  const sendOtpMutation = useSendOtp();
 
   const handleChange = (name: string, value: string | boolean) => {
     setFormData({ ...formData, [name]: value });
@@ -109,23 +109,95 @@ export default function RegisterScreen() {
       // Alert.alert("Error", "Failed to update user session.");
     }
   };
+  // const handleSubmit = async () => {
+  //   try {
+  //     // await validationSchema.validate(formData);
+
+  //     registerMutation.mutate(payload, {
+  //       onSuccess: (data) => {
+  //         Toast.show({
+  //           type: "success",
+  //           text1: "Registration Successful",
+  //           text2: "Redirecting to home...",
+  //           position: "top",
+  //         });
+  //         updateUserSession(data);
+  //         setTimeout(() => {
+  //           // router.replace("/(tabs)");
+  //           router.push({
+  //             pathname: "/otp",
+  //             params: { phone: JSON.stringify(formData.phone) },
+  //           });
+  //         }, 2000);
+  //       },
+
+  //       onError: (error) => {
+  //         Toast.show({
+  //           type: "error",
+  //           text1: "Registration Failed",
+  //           text2:
+  //             (error as any)?.response?.data?.issue?.message ||
+  //             "Something went wrong!",
+  //           position: "top",
+  //         });
+  //       },
+  //     });
+  //   } catch (error) {
+  //     showErrorToast((error as any).message);
+  //   }
+  // };
+
+  // if (registerMutation.isPending)
+  //   return (
+  //     <SafeAreaView className="flex-1 justify-center items-center bg-white">
+  //       <ActivityIndicator size={"large"} />
+  //     </SafeAreaView>
+  //   );
+
   const handleSubmit = async () => {
     try {
-      // await validationSchema.validate(formData);
+      await validationSchema.validate(formData);
+      const phone = formData.phone;
 
       registerMutation.mutate(payload, {
         onSuccess: (data) => {
-          Toast.show({
-            type: "success",
-            text1: "Registration Successful",
-            text2: "Redirecting to home...",
-            position: "top",
-          });
           updateUserSession(data);
-          setTimeout(() => {
-            // router.replace("/(tabs)");
-            router.push("/otp");
-          }, 2000);
+
+          // 🔁 Immediately send OTP after registration
+          sendOtpMutation.mutate(
+            { phone },
+            {
+              onSuccess: (otpRes) => {
+                const pin_id = otpRes?.data?.data?.pinId;
+
+                Toast.show({
+                  type: "success",
+                  text1: "Registration Successful",
+                  text2: otpRes?.data?.message || "OTP sent successfully",
+                  position: "top",
+                });
+
+                setTimeout(() => {
+                  router.replace({
+                    pathname: "/otp",
+                    params: {
+                      // phone: JSON.stringify(phone),
+                      pin_id,
+                    },
+                  });
+                }, 2000);
+              },
+
+              onError: () => {
+                Toast.show({
+                  type: "error",
+                  text1: "OTP Failed",
+                  text2: "Couldn't send OTP after registration.",
+                  position: "top",
+                });
+              },
+            }
+          );
         },
 
         onError: (error) => {
@@ -144,13 +216,6 @@ export default function RegisterScreen() {
     }
   };
 
-  // if (registerMutation.isPending)
-  //   return (
-  //     <SafeAreaView className="flex-1 justify-center items-center bg-white">
-  //       <ActivityIndicator size={"large"} />
-  //     </SafeAreaView>
-  //   );
-
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -159,11 +224,10 @@ export default function RegisterScreen() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView
-          className={`flex-1  px-6 py-6 ${
+          className={`flex-1 px-6 py-6 ${
             isDarkMode ? "bg-secondary-100" : "bg-white"
           }`}
         >
-          {/* Header */}
           <View className="items-center">
             <MaterialCommunityIcons
               name="account-outline"
@@ -180,7 +244,6 @@ export default function RegisterScreen() {
             </Text>
           </View>
 
-          {/* Form Fields */}
           <View className="flex-1 justify-center items-center">
             <View className="w-full max-w-sm gap-y-6">
               <TextInput
@@ -294,19 +357,24 @@ export default function RegisterScreen() {
             </View>
           </View>
           <Pressable
-            className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
+            className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
-            // onPress={handleSubmit}
-            onPress={() => router.push("/(auth)/otp")}
+            onPress={handleSubmit}
+            // onPress={() => router.push("/(auth)/otp")}
             // disabled={registerMutation.isPending}
           >
             <Text
               className={`text-lg font-semibold ${
                 isDarkMode ? "text-secondary-100" : "text-white"
               }`}
+              disabled={registerMutation.isPending}
             >
-              {registerMutation.isPending ? "PLEASE WAIT..." : "CREATE ACCOUNT"}
+              {registerMutation.isPending ? (
+                <ActivityIndicator size={"small"} />
+              ) : (
+                "CREATE ACCOUNT"
+              )}
             </Text>
           </Pressable>
 
