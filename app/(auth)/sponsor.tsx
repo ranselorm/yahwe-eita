@@ -97,9 +97,6 @@ export default function SponsorScreen() {
             </Text>
           )}
         </Pressable>
-
-        {isLoading && <Text>Loading...</Text>}
-        {isError && <Text>Error fetching sponsor</Text>}
       </View>
       <Toast />
     </SafeAreaView>
