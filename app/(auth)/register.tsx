@@ -106,13 +106,12 @@ export default function RegisterScreen() {
       await saveUserData(updatedUser);
     } catch (error) {
       console.error("Error updating session:", error);
-      Alert.alert("Error", "Failed to update user session.");
+      // Alert.alert("Error", "Failed to update user session.");
     }
   };
   const handleSubmit = async () => {
-    console.log(payload);
     try {
-      await validationSchema.validate(formData);
+      // await validationSchema.validate(formData);
 
       registerMutation.mutate(payload, {
         onSuccess: (data) => {
@@ -124,7 +123,8 @@ export default function RegisterScreen() {
           });
           updateUserSession(data);
           setTimeout(() => {
-            router.replace("/(tabs)");
+            // router.replace("/(tabs)");
+            router.push("/otp");
           }, 2000);
         },
 
@@ -297,8 +297,9 @@ export default function RegisterScreen() {
             className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
-            onPress={handleSubmit}
-            disabled={registerMutation.isPending}
+            // onPress={handleSubmit}
+            onPress={() => router.push("/(auth)/otp")}
+            // disabled={registerMutation.isPending}
           >
             <Text
               className={`text-lg font-semibold ${
