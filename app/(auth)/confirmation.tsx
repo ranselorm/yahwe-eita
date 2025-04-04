@@ -5,7 +5,8 @@ import React from "react";
 
 export default function ConfirmationScreen() {
   const { sponsor } = useLocalSearchParams();
-  console.log(sponsor);
+  const sponsorData = sponsor ? JSON.parse(sponsor as string) : null;
+  console.log(sponsorData);
   return (
     <View>
       <Text>confirmation</Text>
