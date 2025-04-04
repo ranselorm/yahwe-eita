@@ -10,6 +10,7 @@ const getSponsor = async (phone: string) => {
     // headers: { Authorization: `Bearer ${token}` },
     params: phone ? { phone: phone } : {},
   });
+  console.log(response.data?.data);
   return response.data?.data ?? [];
 };
 
