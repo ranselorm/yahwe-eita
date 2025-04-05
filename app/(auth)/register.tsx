@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
+  Platform,
   ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,6 +23,7 @@ import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -54,6 +55,13 @@ const validationSchema = yup.object().shape({
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const { sponsorId, setUser } = useUser();
+  const [date, setDate] = useState<Date>(new Date("2000-01-01"));
+  const [show, setShow] = useState<boolean>(false);
+
+  const onChange = (_: any, selectedDate?: Date) => {
+    setShow(Platform.OS === "ios");
+    if (selectedDate) setDate(selectedDate);
+  };
 
   const [formData, setFormData] = useState({
     fullName: "",
