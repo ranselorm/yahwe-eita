@@ -24,7 +24,6 @@ import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -55,13 +54,6 @@ const validationSchema = yup.object().shape({
 
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
-  const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
-  const [visible, setVisible] = useState<boolean>(false);
-
-  const handleConfirm = (date: Date) => {
-    setDob(date);
-    setVisible(false);
-  };
 
   const { sponsorId, setUser } = useUser();
 
