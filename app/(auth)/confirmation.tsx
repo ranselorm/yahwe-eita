@@ -16,7 +16,7 @@ export default function ConfirmationScreen() {
 
   console.log(sponsorData);
 
-  const sponsorId = sponsorData?.data?.sponsorId;
+  const sponsorId = sponsorData?.data?.id;
   console.log(sponsorId && sponsorId);
 
   const handlePress = () => {

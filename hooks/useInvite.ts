@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 interface InvitePayload {
+  name: string;
   phone: string;
 }
 

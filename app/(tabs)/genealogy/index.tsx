@@ -143,6 +143,7 @@ function ReferralCard({
 
 export default function GenealogyScreen() {
   const isDarkMode = useColorScheme() === "dark";
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -152,19 +153,18 @@ export default function GenealogyScreen() {
   const inviteMutation = useInvite();
 
   const handleInvite = () => {
-    if (!phone) return;
+    if (!name || !phone) return;
 
     inviteMutation.mutate(
-      { phone },
+      { name, phone },
       {
         onSuccess: () => {
           Toast.show({
             type: "success",
-            text1: "Invitation sent",
+            text1: `Invitation sent to ${name}`,
             text2: "Success",
             position: "top",
           });
-          console.log("Sending sucessful");
           setTimeout(() => setModalVisible(false), 500);
         },
         onError: (error) => {
@@ -180,12 +180,12 @@ export default function GenealogyScreen() {
     );
   };
 
-  if (loadingInvitedUsers)
-    return (
-      <SafeAreaView className="flex-1 items-center justify-center">
-        <Text>Loading...</Text>
-      </SafeAreaView>
-    );
+  // if (loadingInvitedUsers)
+  //   return (
+  //     <SafeAreaView className="flex-1 items-center justify-center">
+  //       <Text>Loading...</Text>
+  //     </SafeAreaView>
+  //   );
 
   return (
     <SafeAreaView
@@ -239,9 +239,15 @@ export default function GenealogyScreen() {
         <View className="flex-1 justify-center items-center bg-black/60">
           <View className="bg-white p-6 rounded-lg w-80">
             <Text className="text-lg font-semibold mb-4 text-black">
-              Enter Phone Number
+              Enter name and number
             </Text>
 
+            <TextInput
+              value={name}
+              onChangeText={setName}
+              // keyboardType="number-pad"
+              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+            />
             <TextInput
               value={phone}
               onChangeText={setPhone}
