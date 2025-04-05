@@ -11,6 +11,7 @@ import {
   Keyboard,
   Platform,
   ActivityIndicator,
+  Button,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -23,7 +24,7 @@ import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
-import DateTimePicker from "@react-native-community/datetimepicker";
+// import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -54,14 +55,15 @@ const validationSchema = yup.object().shape({
 
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
-  const { sponsorId, setUser } = useUser();
-  const [date, setDate] = useState<Date>(new Date("2000-01-01"));
-  const [show, setShow] = useState<boolean>(false);
+  const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
+  const [visible, setVisible] = useState<boolean>(false);
 
-  const onChange = (_: any, selectedDate?: Date) => {
-    setShow(Platform.OS === "ios");
-    if (selectedDate) setDate(selectedDate);
+  const handleConfirm = (date: Date) => {
+    setDob(date);
+    setVisible(false);
   };
+
+  const { sponsorId, setUser } = useUser();
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -94,6 +96,7 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: formData.phone,
+    dateOfBirth: "1998-10-03",
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
   };
@@ -311,6 +314,20 @@ export default function RegisterScreen() {
                     : "border-secondary-100 text-secondary-100"
                 }`}
               />
+
+              {/* date */}
+
+              {/* <Button title="Select DOB" onPress={() => setVisible(true)} />
+              <Text>DOB: {dob.toDateString()}</Text>
+
+              <DateTimePickerModal
+                isVisible={visible}
+                mode="date"
+                date={dob}
+                maximumDate={new Date()}
+                onConfirm={handleConfirm}
+                onCancel={() => setVisible(false)}
+              /> */}
 
               <View
                 className={`border rounded-xl h-[50px] justify-center relative ${

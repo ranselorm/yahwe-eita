@@ -11,7 +11,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useVerifyOtp } from "@/hooks/useVerifyOtp";
 import { SafeAreaView } from "react-native-safe-area-context";
-import OTPTextInput from "react-native-otp-textinput";
+// import OTPTextInput from "react-native-otp-textinput";
 
 export default function OTPScreen() {
   const { pin_id } = useLocalSearchParams<{ pin_id: string }>();
@@ -61,7 +61,7 @@ export default function OTPScreen() {
           Enter OTP
         </Text>
 
-        {/* <TextInput
+        <TextInput
           value={pin}
           onChangeText={setPin}
           // placeholder="ENTER PHONE NUMBER"
@@ -69,9 +69,9 @@ export default function OTPScreen() {
           className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
             isDarkMode ? "border-white text-white" : "border-black text-black"
           }`}
-        /> */}
+        />
 
-        <OTPTextInput
+        {/* <OTPTextInput
           inputCount={6}
           handleTextChange={setPin}
           defaultValue={pin}
@@ -89,7 +89,7 @@ export default function OTPScreen() {
             justifyContent: "space-between",
             paddingHorizontal: 20,
           }}
-        />
+        /> */}
       </View>
       <Pressable
         onPress={handleVerify}

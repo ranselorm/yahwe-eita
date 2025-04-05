@@ -10,7 +10,7 @@ export const useSendOtp = () => {
       const response = await axios.post(API_URL, data, {
         headers: { "Content-Type": "application/json" },
       });
-
+      console.log("Succesful");
       return response;
     },
   });
