@@ -5,11 +5,9 @@ import {
   TextInput,
   Pressable,
   useColorScheme,
-  Switch,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
   ActivityIndicator,
   Button,
 } from "react-native";
