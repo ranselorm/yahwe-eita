@@ -6,21 +6,26 @@ import {
   Pressable,
   useColorScheme,
   ActivityIndicator,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useVerifyOtp } from "@/hooks/useVerifyOtp";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import OTPTextInput from "react-native-otp-textinput";
+import OTPTextInput from "react-native-otp-textinput";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function OTPScreen() {
-  const { pin_id } = useLocalSearchParams<{ pin_id: string }>();
+  const { pin_id, payload } = useLocalSearchParams<{
+    pin_id: string;
+    payload: any;
+  }>();
+
   const [pin, setPin] = useState("");
-  // const [pinId, setPinId] = useState("");
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-
-  console.log(pin_id);
+  console.log(pin_id, payload);
 
   const verifyOtpMutation = useVerifyOtp();
 
@@ -39,7 +44,7 @@ export default function OTPScreen() {
       {
         onSuccess: () => {
           Toast.show({ type: "success", text1: "OTP verified" });
-          router.replace("/(tabs)");
+          // router.replace("/(tabs)");
         },
         onError: () => {
           Toast.show({ type: "error", text1: "Invalid OTP" });
@@ -50,8 +55,15 @@ export default function OTPScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 p-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      className={`flex-1 p-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
+      <TouchableOpacity onPress={() => router.back()}>
+        <MaterialCommunityIcons
+          name="arrow-left"
+          size={25}
+          color={`${isDarkMode ? "white" : "black"}`}
+        />
+      </TouchableOpacity>
       <View className="flex-1 justify-center items-center">
         <Text
           className={`text-2xl font-semibold mb-8 text-center ${
@@ -61,7 +73,7 @@ export default function OTPScreen() {
           Enter OTP
         </Text>
 
-        <TextInput
+        {/* <TextInput
           value={pin}
           onChangeText={setPin}
           // placeholder="ENTER PHONE NUMBER"
@@ -69,9 +81,9 @@ export default function OTPScreen() {
           className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
             isDarkMode ? "border-white text-white" : "border-black text-black"
           }`}
-        />
+        /> */}
 
-        {/* <OTPTextInput
+        <OTPTextInput
           inputCount={6}
           handleTextChange={setPin}
           defaultValue={pin}
@@ -89,10 +101,11 @@ export default function OTPScreen() {
             justifyContent: "space-between",
             paddingHorizontal: 20,
           }}
-        /> */}
+        />
       </View>
       <Pressable
         onPress={handleVerify}
+        // onPress={() => Alert.alert("OTP", "OTP verified")}
         className={`p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-black"
         }`}

@@ -132,62 +132,73 @@ export default function RegisterScreen() {
       await validationSchema.validate(formData);
       const phone = formData.phone;
 
-      registerMutation.mutate(payload, {
-        onSuccess: (data) => {
-          updateUserSession(data);
+      sendOtpMutation.mutate(
+        { phone },
+        {
+          onSuccess: (otpRes) => {
+            const pin_id = otpRes?.data?.data?.pinId;
+            console.log(otpRes?.data?.message, "message");
 
-          //Immediately send OTP after registration
-          sendOtpMutation.mutate(
-            { phone },
-            {
-              onSuccess: (otpRes) => {
-                const pin_id = otpRes?.data?.data?.pinId;
+            Toast.show({
+              type: "success",
+              text1: "OTP Sent",
+              text2: otpRes?.data?.message || "OTP sent successfully",
+              position: "top",
+            });
 
-                Toast.show({
-                  type: "success",
-                  text1: "Registration Successful",
-                  text2: otpRes?.data?.message || "OTP sent successfully",
-                  position: "top",
-                });
+            setTimeout(() => {
+              router.push({
+                pathname: "/otp",
+                params: {
+                  // phone: JSON.stringify(phone),
+                  pin_id,
+                  payload: JSON.stringify(payload),
+                },
+              });
+            }, 2000);
+          },
 
-                setTimeout(() => {
-                  router.replace({
-                    pathname: "/otp",
-                    params: {
-                      // phone: JSON.stringify(phone),
-                      pin_id,
-                    },
-                  });
-                }, 2000);
-              },
+          onError: () => {
+            Toast.show({
+              type: "error",
+              text1: "OTP Failed",
+              text2: "Couldn't send OTP after registration.",
+              position: "top",
+            });
+          },
+        }
+      );
 
-              onError: () => {
-                Toast.show({
-                  type: "error",
-                  text1: "OTP Failed",
-                  text2: "Couldn't send OTP after registration.",
-                  position: "top",
-                });
-              },
-            }
-          );
-        },
+      // registerMutation.mutate(payload, {
+      //   onSuccess: (data) => {
+      //     updateUserSession(data);
+      //     //Immediately send OTP after registration
+      //   },
 
-        onError: (error) => {
-          Toast.show({
-            type: "error",
-            text1: "Registration Failed",
-            text2:
-              (error as any)?.response?.data?.issue?.message ||
-              "Something went wrong!",
-            position: "top",
-          });
-        },
-      });
+      //   onError: (error) => {
+      //     Toast.show({
+      //       type: "error",
+      //       text1: "Registration Failed",
+      //       text2:
+      //         (error as any)?.response?.data?.issue?.message ||
+      //         "Something went wrong!",
+      //       position: "top",
+      //     });
+      //   },
+      // });
     } catch (error) {
       showErrorToast((error as any).message);
     }
   };
+
+  const isButtonDisabled =
+    !formData.fullName ||
+    !formData.email ||
+    !formData.password ||
+    !formData.phone ||
+    !formData.ghanaCardNumber ||
+    !formData.network ||
+    registerMutation.isPending;
 
   return (
     <SafeAreaView
@@ -202,8 +213,8 @@ export default function RegisterScreen() {
           color={`${isDarkMode ? "white" : "black"}`}
         />
       </TouchableOpacity>
-      <KeyboardAwareScrollView bottomOffset={30} className="flex-1 mb-28">
-        <View className="flex-1 justify-center items-center bg-red-300 mt-10">
+      <KeyboardAwareScrollView bottomOffset={10} className="flex-1 mb-20">
+        <View className="flex-1 justify-center items-center mt-10">
           <View className="items-center mb-12">
             <MaterialCommunityIcons
               name="account-outline"
@@ -338,14 +349,13 @@ export default function RegisterScreen() {
           </View>
         </View>
       </KeyboardAwareScrollView>
-      {/* <KeyboardToolbar /> */}
       <Pressable
         className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
           isDarkMode ? "bg-white" : "bg-secondary-100"
-        }`}
-        // onPress={handleSubmit}
-        onPress={() => console.log(payload)}
-        // disabled={registerMutation.isPending}
+        } ${isButtonDisabled ? "opacity-50" : ""}`}
+        onPress={handleSubmit}
+        // onPress={() => console.log(payload)}
+        disabled={isButtonDisabled}
       >
         <Text
           className={`text-lg font-semibold ${
