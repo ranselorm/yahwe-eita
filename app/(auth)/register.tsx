@@ -10,6 +10,7 @@ import {
   Keyboard,
   ActivityIndicator,
   Button,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -22,6 +23,7 @@ import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -52,8 +54,15 @@ const validationSchema = yup.object().shape({
 
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
+  const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
+  const [showPicker, setShowPicker] = useState<boolean>(false);
 
   const { sponsorId, setUser } = useUser();
+
+  const onChange = (_event: any, selectedDate?: Date) => {
+    setShowPicker(Platform.OS === "ios");
+    if (selectedDate) setDob(selectedDate);
+  };
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -307,17 +316,21 @@ export default function RegisterScreen() {
 
               {/* date */}
 
-              {/* <Button title="Select DOB" onPress={() => setVisible(true)} />
+              <Button
+                title="Select Date of Birth"
+                onPress={() => setShowPicker(true)}
+              />
               <Text>DOB: {dob.toDateString()}</Text>
-
-              <DateTimePickerModal
-                isVisible={visible}
-                mode="date"
-                date={dob}
-                maximumDate={new Date()}
-                onConfirm={handleConfirm}
-                onCancel={() => setVisible(false)}
-              /> */}
+              {showPicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={dob}
+                  mode="date"
+                  display={Platform.OS === "ios" ? "spinner" : "default"}
+                  onChange={onChange}
+                  maximumDate={new Date()}
+                />
+              )}
 
               <View
                 className={`border rounded-xl h-[50px] justify-center relative ${
