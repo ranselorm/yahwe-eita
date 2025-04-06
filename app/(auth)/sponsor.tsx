@@ -73,6 +73,8 @@ export default function SponsorScreen() {
           value={phone}
           onChangeText={setPhone}
           // placeholder="ENTER PHONE NUMBER"
+          keyboardType="phone-pad"
+          autoCapitalize="none"
           placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
           className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
             isDarkMode ? "border-white text-white" : "border-black text-black"

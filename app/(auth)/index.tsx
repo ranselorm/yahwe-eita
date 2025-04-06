@@ -88,14 +88,13 @@ export default function WelcomeScreen() {
           >
             Dear Prospect,
             {"\n"}
-            Congratulations on your decision to join Synergesta Culture Ltd, a
-            registered company.
+            Congratulations on your decision to join YAHWE-EITA, a registered
+            company.
             {"\n\n"}
-            Synergesta Culture, is a Sales and Marketers concept designed to
-            drive sales of goods and services online. The concept is a
-            membership affiliate program that is designed essentially to bring
-            customers of a chosen brand, via a simple referral and compensation
-            formula.
+            YAHWE-EITA, is a Sales and Marketers concept designed to drive sales
+            of goods and services online. The concept is a membership affiliate
+            program that is designed essentially to bring customers of a chosen
+            brand, via a simple referral and compensation formula.
           </Text>
 
           <View className="mt-6 flex-row items-center">
