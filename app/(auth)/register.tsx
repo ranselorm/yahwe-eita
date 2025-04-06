@@ -22,7 +22,6 @@ import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
