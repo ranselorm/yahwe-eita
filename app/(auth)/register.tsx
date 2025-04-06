@@ -66,7 +66,6 @@ export default function RegisterScreen() {
     if (selectedDate) setDob(selectedDate);
   };
 
-  // console.log(dob.toString());
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -75,7 +74,6 @@ export default function RegisterScreen() {
     phone: "",
     ghanaCardNumber: "",
     network: "",
-    // termsAccepted: false,
   });
 
   const registerMutation = useRegister();
