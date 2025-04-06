@@ -9,7 +9,7 @@ export default function Landing() {
 
   return (
     <SafeAreaView
-      className={`flex-1 justify-center items-center px-4 py-6 ${
+      className={`flex-1 justify-center items-center p-3 ${
         isDarkMode ? "bg-black" : "bg-white"
       }`}
     >

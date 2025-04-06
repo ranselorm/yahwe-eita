@@ -12,7 +12,6 @@ import { useSponsor } from "@/hooks/useSponsor";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Octicons from "@expo/vector-icons/Octicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function SponsorScreen() {
@@ -57,10 +56,14 @@ export default function SponsorScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      className={`flex-1 px-3 py-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
       <TouchableOpacity onPress={() => router.back()}>
-        <MaterialCommunityIcons name="arrow-left" size={24} color="black" />{" "}
+        <MaterialCommunityIcons
+          name="arrow-left"
+          size={25}
+          color={`${isDarkMode ? "white" : "black"}`}
+        />
       </TouchableOpacity>
       <View className="flex-1 justify-center items-center h-full">
         <View className={`flex-1 justify-center items-center w-full`}>
@@ -85,9 +88,11 @@ export default function SponsorScreen() {
           <Pressable
             className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-black"
-            } ${isLoading ? "opacity-50" : ""}`}
+            } ${isLoading ? "opacity-50" : ""} ${
+              phone.length < 10 ? "opacity-50" : ""
+            }`}
             onPress={handlePress}
-            disabled={isLoading}
+            disabled={isLoading || phone.length < 10}
           >
             {isLoading ? (
               <ActivityIndicator color={isDarkMode ? "black" : "white"} />

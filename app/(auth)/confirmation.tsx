@@ -1,10 +1,17 @@
-import { Text, View, useColorScheme, Pressable, Alert } from "react-native";
+import {
+  Text,
+  View,
+  useColorScheme,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "@/context/userContext";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function ConfirmationScreen() {
   const { sponsor } = useLocalSearchParams();
@@ -25,8 +32,15 @@ export default function ConfirmationScreen() {
   };
   return (
     <SafeAreaView
-      className={`flex-1  px-6 py-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      className={`flex-1 p-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
+      <TouchableOpacity onPress={() => router.back()}>
+        <MaterialCommunityIcons
+          name="arrow-left"
+          size={25}
+          color={`${isDarkMode ? "white" : "black"}`}
+        />
+      </TouchableOpacity>
       <View className="flex-1 justify-center items-center">
         <View className="mb-8 items-center">
           <AntDesign
