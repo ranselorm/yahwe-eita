@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Button,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -315,12 +316,23 @@ export default function RegisterScreen() {
               />
 
               {/* date */}
-
-              <Button
-                title="Select Date of Birth"
+              <TouchableOpacity
                 onPress={() => setShowPicker(true)}
-              />
-              <Text>DOB: {dob.toDateString()}</Text>
+                activeOpacity={1.5}
+              >
+                <TextInput
+                  placeholder="DATE OF BIRTH"
+                  value={dob.toDateString()}
+                  className={`border rounded-xl p-3 text-base text-center uppercase ${
+                    isDarkMode
+                      ? "border-white text-white"
+                      : "border-secondary-100 text-secondary-100"
+                  }`}
+                  editable={false}
+                  selectTextOnFocus={false}
+                />
+              </TouchableOpacity>
+              {/* <Text>DOB: {dob.toDateString()}</Text> */}
               {showPicker && (
                 <DateTimePicker
                   testID="dateTimePicker"
