@@ -209,7 +209,7 @@ export default function RegisterScreen() {
                 isDarkMode ? "text-white" : "text-secondary-100"
               }`}
             >
-              Create an account
+              Create account
             </Text>
           </View>
 
