@@ -65,6 +65,8 @@ export default function RegisterScreen() {
     if (selectedDate) setDob(selectedDate);
   };
 
+  // console.log(dob.toString());
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -96,7 +98,7 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: formData.phone,
-    dateOfBirth: "1998-10-03",
+    dateOfBirth: dob.toISOString(),
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
   };
@@ -120,50 +122,6 @@ export default function RegisterScreen() {
       // Alert.alert("Error", "Failed to update user session.");
     }
   };
-  // const handleSubmit = async () => {
-  //   try {
-  //     // await validationSchema.validate(formData);
-
-  //     registerMutation.mutate(payload, {
-  //       onSuccess: (data) => {
-  //         Toast.show({
-  //           type: "success",
-  //           text1: "Registration Successful",
-  //           text2: "Redirecting to home...",
-  //           position: "top",
-  //         });
-  //         updateUserSession(data);
-  //         setTimeout(() => {
-  //           // router.replace("/(tabs)");
-  //           router.push({
-  //             pathname: "/otp",
-  //             params: { phone: JSON.stringify(formData.phone) },
-  //           });
-  //         }, 2000);
-  //       },
-
-  //       onError: (error) => {
-  //         Toast.show({
-  //           type: "error",
-  //           text1: "Registration Failed",
-  //           text2:
-  //             (error as any)?.response?.data?.issue?.message ||
-  //             "Something went wrong!",
-  //           position: "top",
-  //         });
-  //       },
-  //     });
-  //   } catch (error) {
-  //     showErrorToast((error as any).message);
-  //   }
-  // };
-
-  // if (registerMutation.isPending)
-  //   return (
-  //     <SafeAreaView className="flex-1 justify-center items-center bg-white">
-  //       <ActivityIndicator size={"large"} />
-  //     </SafeAreaView>
-  //   );
 
   const handleSubmit = async () => {
     try {
@@ -174,7 +132,7 @@ export default function RegisterScreen() {
         onSuccess: (data) => {
           updateUserSession(data);
 
-          // 🔁 Immediately send OTP after registration
+          //Immediately send OTP after registration
           sendOtpMutation.mutate(
             { phone },
             {
@@ -373,35 +331,14 @@ export default function RegisterScreen() {
                   <Picker.Item label="AirtelTigo" value="airteltigo" />
                 </Picker>
               </View>
-
-              {/* <View className="flex-row items-center mt-4">
-                <Switch
-                  value={formData.termsAccepted}
-                  onValueChange={() =>
-                    handleChange("termsAccepted", !formData.termsAccepted)
-                  }
-                  thumbColor={isDarkMode ? "black" : "white"}
-                  trackColor={{ false: "#767577", true: "#34D399" }}
-                />
-                <Text
-                  className={`ml-2 ${
-                    isDarkMode ? "text-white" : "text-secondary-100"
-                  }`}
-                >
-                  I AGREE TO THE{" "}
-                  <Text className="text-accent underline">
-                    TERMS AND CONDITIONS
-                  </Text>
-                </Text>
-              </View> */}
             </View>
           </View>
           <Pressable
             className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto ${
               isDarkMode ? "bg-white" : "bg-secondary-100"
             }`}
-            onPress={handleSubmit}
-            // onPress={() => router.push("/(auth)/otp")}
+            // onPress={handleSubmit}
+            onPress={() => console.log(payload)}
             // disabled={registerMutation.isPending}
           >
             <Text
