@@ -26,6 +26,10 @@ import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import {
+  KeyboardAwareScrollView,
+  KeyboardToolbar,
+} from "react-native-keyboard-controller";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -58,7 +62,6 @@ export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
   const [showPicker, setShowPicker] = useState<boolean>(false);
-
   const { sponsorId, setUser } = useUser();
 
   const onChange = (_event: any, selectedDate?: Date) => {
@@ -188,153 +191,155 @@ export default function RegisterScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 px-6 py-6 ${
+      className={`flex-1 p-3 h-full ${
         isDarkMode ? "bg-secondary-100" : "bg-white"
       }`}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={100}
-      >
-        <ScrollView contentContainerStyle="">
-          <View className="flex-1 justify-center items-center">
-            <View className="items-center mb-12">
-              <MaterialCommunityIcons
-                name="account-outline"
-                size={38}
-                color="black"
-                className="mb-2"
+      <TouchableOpacity onPress={() => router.back()}>
+        <MaterialCommunityIcons
+          name="arrow-left"
+          size={25}
+          color={`${isDarkMode ? "white" : "black"}`}
+        />
+      </TouchableOpacity>
+      <KeyboardAwareScrollView bottomOffset={30} className="flex-1 mb-28">
+        <View className="flex-1 justify-center items-center bg-red-300 mt-10">
+          <View className="items-center mb-12">
+            <MaterialCommunityIcons
+              name="account-outline"
+              size={38}
+              color="black"
+              className="mb-2"
+            />
+            <Text
+              className={`text-2xl font-semibold ${
+                isDarkMode ? "text-white" : "text-secondary-100"
+              }`}
+            >
+              Create account
+            </Text>
+          </View>
+          <View className="w-full max-w-sm gap-y-6">
+            <TextInput
+              placeholder="FULL NAME"
+              value={formData.fullName}
+              onChangeText={(value) => handleChange("fullName", value)}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
+
+            <TextInput
+              placeholder="EMAIL"
+              value={formData.email}
+              onChangeText={(value) => handleChange("email", value)}
+              keyboardType="email-address"
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
+
+            <TextInput
+              placeholder="PASSWORD"
+              value={formData.password}
+              onChangeText={(value) => handleChange("password", value)}
+              secureTextEntry
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
+
+            <TextInput
+              placeholder="PHONE NUMBER (MOMO ENABLED)"
+              value={formData.phone}
+              onChangeText={(value) => handleChange("phone", value)}
+              keyboardType="phone-pad"
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
+
+            <TextInput
+              placeholder="GHANA CARD NUMBER"
+              value={formData.ghanaCardNumber}
+              onChangeText={(value) => handleChange("ghanaCardNumber", value)}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
+
+            {/* date */}
+            <TouchableOpacity
+              onPress={() => setShowPicker(true)}
+              activeOpacity={1.5}
+            >
+              <TextInput
+                placeholder="DATE OF BIRTH"
+                value={dob.toDateString()}
+                className={`border rounded-xl p-3 text-base text-center uppercase ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+                editable={false}
+                selectTextOnFocus={false}
               />
+            </TouchableOpacity>
+            {showPicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={dob}
+                mode="date"
+                display={Platform.OS === "ios" ? "spinner" : "default"}
+                onChange={onChange}
+                maximumDate={new Date()}
+              />
+            )}
+
+            <View
+              className={`border rounded-xl h-[50px] justify-center relative ${
+                isDarkMode ? "border-white" : "border-black"
+              }`}
+            >
               <Text
-                className={`text-2xl font-semibold ${
-                  isDarkMode ? "text-white" : "text-secondary-100"
-                }`}
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
+                style={{ color: isDarkMode ? "white" : "black" }}
               >
-                Create account
+                {formData.network
+                  ? formData.network.toUpperCase()
+                  : "SELECT YOUR NETWORK"}
               </Text>
-            </View>
-            <View className="w-full max-w-sm gap-y-6">
-              <TextInput
-                placeholder="FULL NAME"
-                value={formData.fullName}
-                onChangeText={(value) => handleChange("fullName", value)}
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
-
-              <TextInput
-                placeholder="EMAIL"
-                value={formData.email}
-                onChangeText={(value) => handleChange("email", value)}
-                keyboardType="email-address"
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
-
-              <TextInput
-                placeholder="PASSWORD"
-                value={formData.password}
-                onChangeText={(value) => handleChange("password", value)}
-                secureTextEntry
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
-
-              <TextInput
-                placeholder="PHONE NUMBER (MOMO ENABLED)"
-                value={formData.phone}
-                onChangeText={(value) => handleChange("phone", value)}
-                keyboardType="phone-pad"
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
-
-              <TextInput
-                placeholder="GHANA CARD NUMBER"
-                value={formData.ghanaCardNumber}
-                onChangeText={(value) => handleChange("ghanaCardNumber", value)}
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
-
-              {/* date */}
-              <TouchableOpacity
-                onPress={() => setShowPicker(true)}
-                activeOpacity={1.5}
+              <Picker
+                selectedValue={formData.network}
+                onValueChange={(value) => handleChange("network", value)}
+                style={{
+                  opacity: 0,
+                  width: "100%",
+                  height: 50,
+                  fontSize: 10,
+                }}
               >
-                <TextInput
-                  placeholder="DATE OF BIRTH"
-                  value={dob.toDateString()}
-                  className={`border rounded-xl p-3 text-base text-center uppercase ${
-                    isDarkMode
-                      ? "border-white text-white"
-                      : "border-secondary-100 text-secondary-100"
-                  }`}
-                  editable={false}
-                  selectTextOnFocus={false}
-                />
-              </TouchableOpacity>
-              {/* <Text>DOB: {dob.toDateString()}</Text> */}
-              {showPicker && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={dob}
-                  mode="date"
-                  display={Platform.OS === "ios" ? "spinner" : "default"}
-                  onChange={onChange}
-                  maximumDate={new Date()}
-                />
-              )}
-
-              <View
-                className={`border rounded-xl h-[50px] justify-center relative ${
-                  isDarkMode ? "border-white" : "border-black"
-                }`}
-              >
-                <Text
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
-                  style={{ color: isDarkMode ? "white" : "black" }}
-                >
-                  {formData.network
-                    ? formData.network.toUpperCase()
-                    : "SELECT YOUR NETWORK"}
-                </Text>
-                <Picker
-                  selectedValue={formData.network}
-                  onValueChange={(value) => handleChange("network", value)}
-                  style={{
-                    opacity: 0,
-                    width: "100%",
-                    height: 50,
-                    fontSize: 10,
-                  }}
-                >
-                  <Picker.Item label="SELECT YOUR NETWORK" value="" />
-                  <Picker.Item label="MTN" value="mtn" />
-                  <Picker.Item label="Vodafone" value="vodafone" />
-                  <Picker.Item label="AirtelTigo" value="airteltigo" />
-                </Picker>
-              </View>
+                <Picker.Item label="SELECT YOUR NETWORK" value="" />
+                <Picker.Item label="MTN" value="mtn" />
+                <Picker.Item label="Vodafone" value="vodafone" />
+                <Picker.Item label="AirtelTigo" value="airteltigo" />
+              </Picker>
             </View>
           </View>
-        </ScrollView>
-        {/* <Pressable
+        </View>
+      </KeyboardAwareScrollView>
+      {/* <KeyboardToolbar /> */}
+      <Pressable
         className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
           isDarkMode ? "bg-white" : "bg-secondary-100"
         }`}
@@ -354,8 +359,7 @@ export default function RegisterScreen() {
             "CREATE ACCOUNT"
           )}
         </Text>
-      </Pressable> */}
-      </KeyboardAvoidingView>
+      </Pressable>
       <Toast />
     </SafeAreaView>
   );
