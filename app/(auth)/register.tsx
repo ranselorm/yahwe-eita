@@ -26,10 +26,7 @@ import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import {
-  KeyboardAwareScrollView,
-  KeyboardToolbar,
-} from "react-native-keyboard-controller";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -102,30 +99,30 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: formData.phone,
-    dateOfBirth: dob.toISOString(),
+    dateOfBirth: new Date(dob).toISOString().split("T")[0],
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
   };
 
-  const updateUserSession = async (responseData: any) => {
-    try {
-      const decodedToken: any = jwtDecode(responseData?.data?.id_token);
-      const updatedUser = {
-        isLoggedIn: true,
-        name: `${decodedToken.name}`,
-        id: decodedToken.sub,
-        email: decodedToken.email,
-        picture: decodedToken.picture,
-        exp: decodedToken.exp,
-        token: responseData?.data?.access_token,
-      };
-      setUser(updatedUser);
-      await saveUserData(updatedUser);
-    } catch (error) {
-      console.error("Error updating session:", error);
-      // Alert.alert("Error", "Failed to update user session.");
-    }
-  };
+  // const updateUserSession = async (responseData: any) => {
+  //   try {
+  //     const decodedToken: any = jwtDecode(responseData?.data?.id_token);
+  //     const updatedUser = {
+  //       isLoggedIn: true,
+  //       name: `${decodedToken.name}`,
+  //       id: decodedToken.sub,
+  //       email: decodedToken.email,
+  //       picture: decodedToken.picture,
+  //       exp: decodedToken.exp,
+  //       token: responseData?.data?.access_token,
+  //     };
+  //     setUser(updatedUser);
+  //     await saveUserData(updatedUser);
+  //   } catch (error) {
+  //     console.error("Error updating session:", error);
+  //     // Alert.alert("Error", "Failed to update user session.");
+  //   }
+  // };
 
   const handleSubmit = async () => {
     try {
@@ -150,7 +147,6 @@ export default function RegisterScreen() {
               router.push({
                 pathname: "/otp",
                 params: {
-                  // phone: JSON.stringify(phone),
                   pin_id,
                   payload: JSON.stringify(payload),
                 },
