@@ -54,7 +54,7 @@ export default function ConfirmationScreen() {
               isDarkMode ? "text-black" : "text-black"
             }`}
           >
-            Successfully Verified Your Sponsor
+            Successfully Verified Your Sponsor As
           </Text>
         </View>
         <View className="items-center justify-center">
@@ -79,7 +79,6 @@ export default function ConfirmationScreen() {
           isDarkMode ? "bg-white" : "bg-black"
         } `}
         onPress={handlePress}
-        //   disabled={verifyMutation.isPending}
       >
         <Text
           className={`text-lg font-semibold ${

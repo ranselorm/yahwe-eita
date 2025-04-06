@@ -12,6 +12,7 @@ import {
   Button,
   Platform,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -186,34 +187,33 @@ export default function RegisterScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={100}
+    <SafeAreaView
+      className={`flex-1 px-6 py-6 ${
+        isDarkMode ? "bg-secondary-100" : "bg-white"
+      }`}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView
-          className={`flex-1 px-6 py-6 ${
-            isDarkMode ? "bg-secondary-100" : "bg-white"
-          }`}
-        >
-          <View className="items-center">
-            <MaterialCommunityIcons
-              name="account-outline"
-              size={38}
-              color="black"
-              className="mb-2"
-            />
-            <Text
-              className={`text-2xl font-semibold ${
-                isDarkMode ? "text-white" : "text-secondary-100"
-              }`}
-            >
-              Create account
-            </Text>
-          </View>
-
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={100}
+      >
+        <ScrollView contentContainerStyle="">
           <View className="flex-1 justify-center items-center">
+            <View className="items-center mb-12">
+              <MaterialCommunityIcons
+                name="account-outline"
+                size={38}
+                color="black"
+                className="mb-2"
+              />
+              <Text
+                className={`text-2xl font-semibold ${
+                  isDarkMode ? "text-white" : "text-secondary-100"
+                }`}
+              >
+                Create account
+              </Text>
+            </View>
             <View className="w-full max-w-sm gap-y-6">
               <TextInput
                 placeholder="FULL NAME"
@@ -333,31 +333,30 @@ export default function RegisterScreen() {
               </View>
             </View>
           </View>
-          <Pressable
-            className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto ${
-              isDarkMode ? "bg-white" : "bg-secondary-100"
-            }`}
-            // onPress={handleSubmit}
-            onPress={() => console.log(payload)}
-            // disabled={registerMutation.isPending}
-          >
-            <Text
-              className={`text-lg font-semibold ${
-                isDarkMode ? "text-secondary-100" : "text-white"
-              }`}
-              disabled={registerMutation.isPending}
-            >
-              {registerMutation.isPending ? (
-                <ActivityIndicator size={"small"} />
-              ) : (
-                "CREATE ACCOUNT"
-              )}
-            </Text>
-          </Pressable>
-
-          <Toast />
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </ScrollView>
+        {/* <Pressable
+        className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
+          isDarkMode ? "bg-white" : "bg-secondary-100"
+        }`}
+        // onPress={handleSubmit}
+        onPress={() => console.log(payload)}
+        // disabled={registerMutation.isPending}
+      >
+        <Text
+          className={`text-lg font-semibold ${
+            isDarkMode ? "text-secondary-100" : "text-white"
+          }`}
+          disabled={registerMutation.isPending}
+        >
+          {registerMutation.isPending ? (
+            <ActivityIndicator size={"small"} />
+          ) : (
+            "CREATE ACCOUNT"
+          )}
+        </Text>
+      </Pressable> */}
+      </KeyboardAvoidingView>
+      <Toast />
+    </SafeAreaView>
   );
 }
