@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { UserProvider } from "@/context/userContext";
 import Toast from "react-native-toast-message";
 import { CountdownProvider } from "@/context/CountdownContext";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 const client = new QueryClient();
 
@@ -14,12 +15,14 @@ export default function RootLayout() {
       <UserProvider>
         <CountdownProvider>
           <ThemeProvider>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="(auth)" />
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="settings" />
-              <Stack.Screen name="notifications" />
-            </Stack>
+            <KeyboardProvider>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(auth)" />
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="settings" />
+                <Stack.Screen name="notifications" />
+              </Stack>
+            </KeyboardProvider>
           </ThemeProvider>
         </CountdownProvider>
       </UserProvider>
