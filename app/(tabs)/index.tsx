@@ -13,32 +13,33 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import BalanceCard from "../../components/BalanceCard";
 import ReferralList from "../../components/ReferralList";
-// import ReferralList from "../components/ReferralList";
-// import StatsCard from "../../components/StatsCard";
+
 import Header from "@/components/Header";
-// import { useUser } from "@/context/userContext";
 import ProgressBar from "@/components/ProgressBar";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
+import { useHome } from "@/hooks/useHome";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  // const { user } = useUser();
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
 
   //hooks
   const inviteMutation = useInvite();
+  const { data: homeData } = useHome();
+  console.log("This is home data", homeData);
 
   const handleInvite = () => {
     if (!phone) return;
 
     inviteMutation.mutate(
-      { phone },
+      { name, phone },
       {
         onSuccess: () => {
           Toast.show({
@@ -129,18 +130,22 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-        
-        <ReferralList
-         />
 
+        <ReferralList />
       </ScrollView>
       <Modal visible={isModalVisible} transparent animationType="slide">
         <View className="flex-1 justify-center items-center bg-black/60">
           <View className="bg-white p-6 rounded-lg w-80">
             <Text className="text-lg font-semibold mb-4 text-black">
-              Enter Phone Number
+              Enter name and phone number
             </Text>
 
+            <TextInput
+              value={name}
+              onChangeText={setName}
+              // keyboardType="number-pad"
+              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+            />
             <TextInput
               value={phone}
               onChangeText={setPhone}
@@ -153,8 +158,6 @@ export default function HomeScreen() {
             <Pressable
               className="bg-black p-3 rounded-md items-center"
               onPress={handleInvite}
-              // onPress={() => router.replace("/(auth)/register")}
-              // disabled={verifyOtpMutation.isPending}
             >
               <Text className="text-white text-lg font-semibold">
                 {inviteMutation.isPending ? (
