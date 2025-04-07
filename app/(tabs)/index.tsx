@@ -17,12 +17,17 @@ import ReferralList from "../../components/ReferralList";
 
 import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
 import { useHome } from "@/hooks/useHome";
+const referrals = [
+  { name: "Janelle Addae", verified: true },
+  { name: "Seth Agyemang", verified: true },
+  { name: "Andrews Peter", verified: false },
+];
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -96,7 +101,56 @@ export default function HomeScreen() {
             <Text className="text-white">Level 4</Text>
           </View>
         </View>
-        <BalanceCard />
+        {/* Balance Card */}
+        <View
+          className={`p-4 rounded-xl mt-8 ${
+            isDarkMode ? "bg-dark-100" : "bg-gray-100"
+          }`}
+        >
+          <Text
+            className={`text-base mb-3 ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            Available Airtime:
+          </Text>
+          <Text
+            className={`text-3xl font-bold ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            GHS {homeData?.balance}
+          </Text>
+
+          {/* Action Buttons */}
+          <View className="flex-row justify-between mt-6">
+            {[
+              { label: "Topup", icon: "add" },
+              { label: "Withdraw", icon: "arrow-downward" },
+              { label: "History", icon: "history" },
+              { label: "Details", icon: "info" },
+            ].map((item, index) => (
+              <View key={index} className="items-center">
+                <Pressable
+                  className={`w-12 h-12 rounded-full items-center justify-center ${
+                    item.label === "Topup" ? "bg-primary" : "bg-white"
+                  }`}
+                >
+                  {item.label !== "Details" ? (
+                    <MaterialIcons
+                      name={item.icon}
+                      size={24}
+                      color={`${item.label === "Topup" ? "white" : "black"}`}
+                    />
+                  ) : (
+                    <Ionicons name="menu-outline" size={24} color="black" />
+                  )}
+                </Pressable>
+                <Text className="text-sm mt-1 text-gray-500">{item.label}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
         <Pressable onPress={() => setModalVisible(true)}>
           <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
             <Text className="text-white text-lg font-semibold">
@@ -117,11 +171,13 @@ export default function HomeScreen() {
             <Text className="text-white">Earnings this week</Text>
             <View className="flex-row items-center justify-between mt-5">
               <FontAwesome name="money" size={24} color="white" />
-              <Text className="text-white text-xl font-semibold">+GHS10</Text>
+              <Text className="text-white text-xl font-semibold">
+                GHS{homeData?.earnedThisWeek}
+              </Text>
             </View>
           </View>
           <View className="bg-gray-100 p-6 w-[47%] rounded-xl">
-            <Text className="text-black">Referrals this week</Text>
+            <Text className="text-black">Recruits this week</Text>
             <View className="flex-row items-center justify-between mt-5">
               <MaterialCommunityIcons
                 name="account-check-outline"
@@ -129,12 +185,79 @@ export default function HomeScreen() {
                 color="black"
               />
               <Text className="text-black text-xl font-semibold">
-                +2 People
+                {homeData?.newRecruitsThisWeek} recruits
               </Text>
             </View>
           </View>
         </View>
-        <ReferralList />
+
+        {/* Recruits */}
+        <View className="mt-6">
+          <View className="flex-row justify-between mb-4">
+            <Text
+              className={`font-semibold text-lg ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              My Referrals
+            </Text>
+          </View>
+
+          {/* Referral List */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="mt-2 w-full flex-1"
+          >
+            <View className="flex-row gap-x-3 justify-center items-center ">
+              {homeData?.recruits?.length > 0 ? (
+                homeData?.recruits?.map((item: any) => (
+                  <View
+                    key={item?.id}
+                    className={`w-[116px] h-24 rounded-lg items-center justify-center  ${
+                      isDarkMode ? "bg-dark-100" : "bg-gray-200"
+                    }`}
+                  >
+                    <View className="absolute top-1 right-2">
+                      {item?.verified === true ? (
+                        <MaterialCommunityIcons
+                          name="account-check-outline"
+                          size={20}
+                          color={`${isDarkMode ? "white" : "black"}`}
+                        />
+                      ) : (
+                        <MaterialCommunityIcons
+                          name="account-alert-outline"
+                          size={20}
+                          color={`${isDarkMode ? "white" : "black"}`}
+                        />
+                      )}
+                    </View>
+                    <View
+                      className={`${
+                        item.verified === true
+                          ? "border-green-500"
+                          : "border-gray-300"
+                      } bg-white  h-8 w-8 rounded-full items-center justify-center border-2`}
+                    >
+                      <Text>{item.name[0]}</Text>
+                    </View>
+                    <Text
+                      className={`${
+                        isDarkMode ? "text-white" : "text-black"
+                      } mt-2`}
+                    >
+                      {item.name}
+                    </Text>
+                  </View>
+                ))
+              ) : (
+                <Text>No recruits</Text>
+              )}
+            </View>
+          </ScrollView>
+        </View>
+        {/* <ReferralList /> */}
       </ScrollView>
       <Modal visible={isModalVisible} transparent animationType="slide">
         <View className="flex-1 justify-center items-center bg-black/60">
