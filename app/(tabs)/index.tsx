@@ -39,7 +39,7 @@ export default function HomeScreen() {
   //hooks
   const inviteMutation = useInvite();
   const { data: homeData } = useHome();
-  console.log("This is home data", homeData);
+  console.log("This is home data", homeData?.userInfo?.createdAt);
 
   const handleInvite = () => {
     if (!name || !phone) {
@@ -94,7 +94,7 @@ export default function HomeScreen() {
               } text-lg font-semibold`}
             >
               Time left until next level:{" "}
-              <Countdown createdAt={homeData?.createdAt} />
+              <Countdown createdAt={homeData?.userInfo?.createdAt} />
             </Text>
           </View>
           <View className="flex-row items-center justify-between mt-4 px-4">

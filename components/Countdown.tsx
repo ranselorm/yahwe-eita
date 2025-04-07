@@ -3,21 +3,19 @@ import moment from "moment";
 import { Text } from "react-native";
 
 interface CountdownProps {
-  createdAt: string;
+  createdAt: string; // e.g. "2025-04-07T14:23:37.365Z"
 }
 
 const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
   const [timeLeft, setTimeLeft] = useState("");
 
+  console.log(createdAt); // Debugging line to check the value of createdAt
+
   useEffect(() => {
-    // Convert createdAt to local time, then get the start of that day.
-    // Day 1 is the creation day. Adding 7 days lands us at the beginning of day 8,
-    // so we then use endOf('day') to expire at midnight on the 8th day.
-    const target = moment(createdAt)
-      .local()
-      .startOf("day")
-      .add(7, "days")
-      .endOf("day");
+    // Parse createdAt as UTC and then convert to local time
+    const creationTime = moment.utc(createdAt).local();
+    // Set the target to exactly 8 days from the precise creation moment
+    const target = creationTime.clone().add(8, "days");
 
     const updateCountdown = () => {
       const now = moment();
@@ -28,6 +26,7 @@ const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
         return;
       }
 
+      // Calculate time components
       const days = Math.floor(duration.asDays());
       const hours = duration.hours();
       const minutes = duration.minutes();
@@ -38,7 +37,6 @@ const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
 
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
-
     return () => clearInterval(interval);
   }, [createdAt]);
 
