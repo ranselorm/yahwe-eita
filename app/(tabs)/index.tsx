@@ -93,7 +93,8 @@ export default function HomeScreen() {
                 isDarkMode ? "text-black" : "text-white"
               } text-lg font-semibold`}
             >
-              Time left until next level: <Countdown />
+              Time left until next level:{" "}
+              <Countdown createdAt={homeData?.createdAt} />
             </Text>
           </View>
           <View className="flex-row items-center justify-between mt-4 px-4">
