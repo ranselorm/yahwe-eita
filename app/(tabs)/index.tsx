@@ -18,7 +18,7 @@ import ReferralList from "../../components/ReferralList";
 import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
 import { FontAwesome } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
