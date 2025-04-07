@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -36,7 +37,10 @@ export default function HomeScreen() {
   console.log("This is home data", homeData);
 
   const handleInvite = () => {
-    if (!phone) return;
+    if (!name || !phone) {
+      Alert.alert("Required", "Please fill in all fields.");
+      return;
+    }
 
     inviteMutation.mutate(
       { name, phone },
@@ -143,7 +147,6 @@ export default function HomeScreen() {
             <TextInput
               value={name}
               onChangeText={setName}
-              // keyboardType="number-pad"
               className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
             />
             <TextInput
