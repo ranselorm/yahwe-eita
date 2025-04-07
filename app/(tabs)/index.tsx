@@ -80,7 +80,7 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Header />
 
-        {/* Balance Card */}
+        {/* Countdown */}
         <View
           className={`${
             isDarkMode ? "bg-white" : "bg-dark-100"
@@ -199,7 +199,7 @@ export default function HomeScreen() {
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              My Referrals
+              My Recruits
             </Text>
           </View>
 
@@ -209,7 +209,7 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             className="mt-2 w-full flex-1"
           >
-            <View className="flex-row gap-x-3 justify-center items-center ">
+            <View className="flex-row gap-x-3 justify-center items-center w-full ">
               {homeData?.recruits?.length > 0 ? (
                 homeData?.recruits?.map((item: any) => (
                   <View
@@ -252,7 +252,9 @@ export default function HomeScreen() {
                   </View>
                 ))
               ) : (
-                <Text>No recruits</Text>
+                <View className="flex-1 items-center justify-center h-full w-full max-w-xl">
+                  <Text>No recruits</Text>
+                </View>
               )}
             </View>
           </ScrollView>

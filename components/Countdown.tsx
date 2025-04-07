@@ -1,36 +1,37 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { Text } from "react-native";
-import { useCountdown } from "@/context/CountdownContext";
 
-const Countdown: React.FC = () => {
-  const { endTime } = useCountdown();
-  const [timeLeft, setTimeLeft] = useState<string>("");
+interface CountdownProps {
+  createdAt: string; // ISO string
+}
+
+const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
+  const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const remaining = endTime - now;
+    const endTime = moment(createdAt).add(8, "days");
+    const updateCountdown = () => {
+      const now = moment();
+      const duration = moment.duration(endTime.diff(now));
 
-      if (remaining <= 0) {
-        setTimeLeft("Time is up!");
-        clearInterval(interval);
+      if (duration.asMilliseconds() <= 0) {
+        setTimeLeft("00d 00h 00m 00s");
         return;
       }
 
-      const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      setTimeLeft(
+        `${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`
       );
-      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+    };
 
-      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-    }, 1000);
+    updateCountdown(); // initial render
+    const interval = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(interval);
-  }, [endTime]);
+  }, [createdAt]);
 
-  return <Text>{timeLeft}</Text>;
+  return <Text className="text-white font-semibold">{timeLeft}</Text>;
 };
 
 export default Countdown;
