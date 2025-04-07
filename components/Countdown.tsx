@@ -9,12 +9,8 @@ interface CountdownProps {
 const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
   const [timeLeft, setTimeLeft] = useState("");
 
-  console.log(createdAt); // Debugging line to check the value of createdAt
-
   useEffect(() => {
-    // Parse createdAt as UTC and then convert to local time
     const creationTime = moment.utc(createdAt).local();
-    // Set the target to exactly 8 days from the precise creation moment
     const target = creationTime.clone().add(8, "days");
 
     const updateCountdown = () => {
@@ -26,7 +22,6 @@ const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
         return;
       }
 
-      // Calculate time components
       const days = Math.floor(duration.asDays());
       const hours = duration.hours();
       const minutes = duration.minutes();
