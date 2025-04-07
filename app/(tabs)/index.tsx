@@ -8,26 +8,20 @@ import {
   Pressable,
   ActivityIndicator,
   Alert,
+  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import BalanceCard from "../../components/BalanceCard";
-import ReferralList from "../../components/ReferralList";
 
 import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
 import { useHome } from "@/hooks/useHome";
-const referrals = [
-  { name: "Janelle Addae", verified: true },
-  { name: "Seth Agyemang", verified: true },
-  { name: "Andrews Peter", verified: false },
-];
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -35,10 +29,13 @@ export default function HomeScreen() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  console.log(refreshing, "refreshing");
 
   //hooks
   const inviteMutation = useInvite();
-  const { data: homeData } = useHome();
+  const { data: homeData, refetch, isRefetching } = useHome();
 
   const handleInvite = () => {
     if (!name || !phone) {
@@ -72,11 +69,26 @@ export default function HomeScreen() {
     );
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  }, [refetch]);
+
   return (
     <SafeAreaView
       className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}
     >
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={"#f97316"}
+          />
+        }
+      >
         <Header />
 
         {/* Countdown */}
@@ -119,7 +131,12 @@ export default function HomeScreen() {
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            GHS {homeData?.balance}
+            {/* GHS {homeData?.balance} */}
+            {isRefetching ? (
+              <Text>Loading...</Text>
+            ) : (
+              <Text>GHS {homeData?.balance}</Text>
+            )}
           </Text>
 
           {/* Action Buttons */}
@@ -210,8 +227,8 @@ export default function HomeScreen() {
             className="mt-2 w-full flex-1"
           >
             <View className="flex-row gap-x-3 justify-center items-center w-full ">
-              {homeData?.recruits?.length > 0 ? (
-                homeData?.recruits?.map((item: any) => (
+              {homeData?.userInfo?.recruits?.length > 0 ? (
+                homeData?.userInfo.recruits?.map((item: any) => (
                   <View
                     key={item?.id}
                     className={`w-[116px] h-24 rounded-lg items-center justify-center  ${
