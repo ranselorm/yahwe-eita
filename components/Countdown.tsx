@@ -3,35 +3,46 @@ import moment from "moment";
 import { Text } from "react-native";
 
 interface CountdownProps {
-  createdAt: string; // ISO string
+  createdAt: string;
 }
 
 const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
-    const endTime = moment(createdAt).add(8, "days");
+    // Convert createdAt to local time, then get the start of that day.
+    // Day 1 is the creation day. Adding 7 days lands us at the beginning of day 8,
+    // so we then use endOf('day') to expire at midnight on the 8th day.
+    const target = moment(createdAt)
+      .local()
+      .startOf("day")
+      .add(7, "days")
+      .endOf("day");
+
     const updateCountdown = () => {
       const now = moment();
-      const duration = moment.duration(endTime.diff(now));
+      const duration = moment.duration(target.diff(now));
 
       if (duration.asMilliseconds() <= 0) {
         setTimeLeft("00d 00h 00m 00s");
         return;
       }
 
-      setTimeLeft(
-        `${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`
-      );
+      const days = Math.floor(duration.asDays());
+      const hours = duration.hours();
+      const minutes = duration.minutes();
+      const seconds = duration.seconds();
+
+      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
     };
 
-    updateCountdown(); // initial render
+    updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(interval);
   }, [createdAt]);
 
-  return <Text className="text-white font-semibold">{timeLeft}</Text>;
+  return <Text style={{ color: "white", fontWeight: "600" }}>{timeLeft}</Text>;
 };
 
 export default Countdown;
