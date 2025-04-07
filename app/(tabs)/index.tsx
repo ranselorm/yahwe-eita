@@ -39,7 +39,6 @@ export default function HomeScreen() {
   //hooks
   const inviteMutation = useInvite();
   const { data: homeData } = useHome();
-  console.log("This is home data", homeData?.userInfo?.createdAt);
 
   const handleInvite = () => {
     if (!name || !phone) {
@@ -98,8 +97,8 @@ export default function HomeScreen() {
             </Text>
           </View>
           <View className="flex-row items-center justify-between mt-4 px-4">
-            <ProgressBar level={4} progress={50} />
-            <Text className="text-white">Level 4</Text>
+            <ProgressBar level={homeData?.level} progress={0} />
+            <Text className="text-white">Level: {homeData?.level}</Text>
           </View>
         </View>
         {/* Balance Card */}
