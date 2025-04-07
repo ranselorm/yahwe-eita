@@ -69,7 +69,8 @@ export default function Landing() {
             className={`border rounded-xl p-3 items-center ${
               isDarkMode ? "border-white" : "border-black"
             }`}
-            onPress={() => router.push("/sponsor")}
+            // onPress={() => router.push("/sponsor")}
+            onPress={() => router.push("/otp")}
           >
             <Text
               className={`text-lg font-semibold ${

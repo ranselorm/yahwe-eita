@@ -19,6 +19,7 @@ import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { useRegister } from "@/hooks/useRegister";
+import { useCountdown } from "@/hooks/useCountDown";
 
 export default function OTPScreen() {
   const { setUser } = useUser();
@@ -29,7 +30,7 @@ export default function OTPScreen() {
   const [pin, setPin] = useState("");
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  console.log(pin_id, payload);
+  const { isExpired, resetCountdown, secondsLeft } = useCountdown();
 
   const registerMutation = useRegister();
   const verifyOtpMutation = useVerifyOtp();
@@ -132,6 +133,16 @@ export default function OTPScreen() {
             paddingHorizontal: 20,
           }}
         />
+        <TouchableOpacity
+          className="mx-auto w-full max-w-sm mt-6"
+          disabled={!isExpired}
+          onPress={resetCountdown}
+          activeOpacity={1.2}
+        >
+          <Text className={`${isExpired ? "font-bold" : ""}`}>
+            SEND ANOTHER CODE ({secondsLeft})
+          </Text>
+        </TouchableOpacity>
         <Pressable
           onPress={handleVerify}
           // onPress={() => Alert.alert("OTP", "OTP verified")}
