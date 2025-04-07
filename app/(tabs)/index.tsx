@@ -134,7 +134,6 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-
         <ReferralList />
       </ScrollView>
       <Modal visible={isModalVisible} transparent animationType="slide">
