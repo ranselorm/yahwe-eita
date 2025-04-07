@@ -20,6 +20,7 @@ import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { useRegister } from "@/hooks/useRegister";
 import { useCountdown } from "@/hooks/useCountDown";
+import { useResendOtp } from "@/hooks/useResendOtp";
 
 export default function OTPScreen() {
   const { setUser } = useUser();
@@ -34,6 +35,7 @@ export default function OTPScreen() {
 
   const registerMutation = useRegister();
   const verifyOtpMutation = useVerifyOtp();
+  const resendOtpMutation = useResendOtp();
 
   const updateUserSession = async (responseData: any) => {
     try {
@@ -94,6 +96,45 @@ export default function OTPScreen() {
     );
   };
 
+  //resend otp
+  const resendOtp = () => {
+    if (!pin_id) {
+      Toast.show({ type: "error", text1: "Missing Pin ID" });
+      return;
+    }
+
+    resetCountdown(); // Reset the countdown timer when OTP is resent
+    // Toast.show({ type: "info", text1: "Resending OTP..." });
+
+    resendOtpMutation.mutate(
+      { pinId: pin_id },
+      {
+        onSuccess: () => {
+          Toast.show({ type: "success", text1: "OTP Resent" });
+          // registerMutation.mutate(payload, {
+          //   onSuccess: (data) => {
+          //     updateUserSession(data);
+          //     router.replace("/(tabs)");
+          //   },
+          //   onError: (error) => {
+          //     Toast.show({
+          //       type: "error",
+          //       text1: "Registration Failed",
+          //       text2:
+          //         (error as any)?.response?.data?.issue?.message ||
+          //         "Something went wrong!",
+          //       position: "top",
+          //     });
+          //   },
+          // });
+        },
+        onError: () => {
+          Toast.show({ type: "error", text1: "Something went wrong" });
+        },
+      }
+    );
+  };
+
   return (
     <SafeAreaView
       className={`flex-1 p-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
@@ -136,7 +177,7 @@ export default function OTPScreen() {
         <TouchableOpacity
           className="mx-auto w-full max-w-sm mt-6"
           disabled={!isExpired}
-          onPress={resetCountdown}
+          onPress={resendOtp}
           activeOpacity={1.2}
         >
           <Text className={`${isExpired ? "font-bold" : ""}`}>
