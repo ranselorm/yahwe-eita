@@ -100,7 +100,7 @@ export default function OTPScreen() {
   //resend otp
   const resendOtp = () => {
     if (!pin_id) {
-      Toast.show({ type: "error", text1: "Missing Pin ID" });
+      Toast.show({ type: "error", text1: "Something went wrong!" }); //missing pin_id
       return;
     }
 
