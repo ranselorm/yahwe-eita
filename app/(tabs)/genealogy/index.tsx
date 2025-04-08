@@ -94,7 +94,7 @@ function ReferralCard({
             isDarkMode ? "text-white" : "text-black"
           }`}
         >
-          Direct Referral
+          Recruit
         </Text>
         <Text
           className={`${
