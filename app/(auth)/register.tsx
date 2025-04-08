@@ -66,7 +66,6 @@ export default function RegisterScreen() {
     if (selectedDate) setDob(selectedDate);
   };
 
-
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",

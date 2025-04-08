@@ -9,7 +9,11 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import ProgressBar from "@/components/ProgressBar";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -147,8 +151,7 @@ export default function GenealogyScreen() {
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const { data: invitedUsers, isLoading: loadingInvitedUsers } =
-    useInvitedUsers();
+  const { data: invitedUsers, isLoading } = useInvitedUsers();
 
   const inviteMutation = useInvite();
 
@@ -200,21 +203,35 @@ export default function GenealogyScreen() {
         </Pressable>
       </View>
 
-      <FlatList
-        data={invitedUsers}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ReferralCard
-            name={item.name}
-            phone={item.phone}
-            status={item.status}
-            invited={item.invited}
-            level={item.level}
-            progress={item.progress}
-          />
-        )}
-        className="mt-6"
-      />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : invitedUsers?.length === 0 ? (
+        <View className="flex-1 items-center justify-center px-4">
+          <Ionicons name="git-branch-outline" size={60} color="#9CA3AF" />
+          <Text className="text-center mt-3 text-lg text-gray-500">
+            No genealogy data yet.
+          </Text>
+          <Text className="text-center text-gray-400 text-sm">
+            You haven’t invited anyone yet.
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={invitedUsers}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <ReferralCard
+              name={item.name}
+              phone={item.phone}
+              status={item.status}
+              invited={item.invited}
+              level={item.level}
+              progress={item.progress}
+            />
+          )}
+          className="mt-6"
+        />
+      )}
 
       <View className="absolute bottom-6 left-1/2 -translate-x-1/2 items-center">
         <Pressable
@@ -238,13 +255,14 @@ export default function GenealogyScreen() {
             <TextInput
               value={name}
               onChangeText={setName}
+              placeholder="Randy Selorm"
               // keyboardType="number-pad"
               className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
             />
             <TextInput
               value={phone}
               onChangeText={setPhone}
-              // placeholder="0234567891"
+              placeholder="0244567891"
               keyboardType="number-pad"
               maxLength={10}
               className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
