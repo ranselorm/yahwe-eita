@@ -180,13 +180,6 @@ export default function GenealogyScreen() {
     );
   };
 
-  // if (loadingInvitedUsers)
-  //   return (
-  //     <SafeAreaView className="flex-1 items-center justify-center">
-  //       <Text>Loading...</Text>
-  //     </SafeAreaView>
-  //   );
-
   return (
     <SafeAreaView
       className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}

@@ -19,7 +19,7 @@ import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { useRegister } from "@/hooks/useRegister";
-import { useCountdown } from "@/hooks/useCountDown";
+import { useCountdown } from "@/hooks/useCountdown";
 import { useResendOtp } from "@/hooks/useResendOtp";
 
 export default function OTPScreen() {
