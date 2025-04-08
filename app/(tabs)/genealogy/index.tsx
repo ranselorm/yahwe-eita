@@ -6,7 +6,6 @@ import {
   useColorScheme,
   Modal,
   TextInput,
-  Alert,
   ActivityIndicator,
 } from "react-native";
 import {
@@ -21,49 +20,6 @@ import { useState } from "react";
 import { useInvite } from "@/hooks/useInvite";
 import Toast from "react-native-toast-message";
 import { useInvitedUsers } from "@/hooks/useInvitedUsers";
-
-const referrals = [
-  {
-    id: "1",
-    name: "Janelle Addae",
-    status: "Active",
-    invited: 1,
-    level: 4,
-    progress: 40,
-  },
-  {
-    id: "2",
-    name: "Seth Agyemang",
-    status: "Active",
-    invited: 3,
-    level: 6,
-    progress: 70,
-  },
-  {
-    id: "3",
-    name: "Andrew Peters",
-    status: "Pending",
-    invited: 0,
-    level: 6,
-    progress: 0,
-  },
-  {
-    id: "4",
-    name: "Andrew Peters",
-    status: "Pending",
-    invited: 0,
-    level: 6,
-    progress: 0,
-  },
-  {
-    id: "5",
-    name: "Andrew Peters",
-    status: "Pending",
-    invited: 0,
-    level: 6,
-    progress: 0,
-  },
-];
 
 function ReferralCard({
   name,
