@@ -104,8 +104,8 @@ export default function OTPScreen() {
       return;
     }
 
-    resetCountdown(); // Reset the countdown timer when OTP is resent
-    // Toast.show({ type: "info", text1: "Resending OTP..." });
+    resetCountdown();
+    // Toast.show({ type: "info", text1: "OTP r..." });
 
     resendOtpMutation.mutate(
       { pinId: pin_id },
