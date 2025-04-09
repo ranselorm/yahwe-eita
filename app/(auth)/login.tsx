@@ -79,9 +79,7 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 p-3 ${
-        isDarkMode ? "bg-black" : "bg-white"
-      }  w-full px-6`}
+      className={`flex-1 p-3 ${isDarkMode ? "bg-black" : "bg-white"}  w-full`}
     >
       <TouchableOpacity onPress={() => router.back()}>
         <MaterialCommunityIcons
@@ -90,7 +88,7 @@ export default function LoginScreen() {
           color={`${isDarkMode ? "white" : "black"}`}
         />
       </TouchableOpacity>
-      <View className="justify-center items-center flex-1">
+      <View className="justify-center items-center flex-1 px-3">
         <View className="items-center mb-12">
           <MaterialCommunityIcons
             name="account-outline"
