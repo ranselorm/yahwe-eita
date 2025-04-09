@@ -207,14 +207,13 @@ export default function GenealogyScreen() {
         <View className="flex-1 justify-center items-center bg-black/60">
           <View className="bg-white p-6 rounded-lg w-80">
             <Text className="text-lg font-semibold mb-4 text-black">
-              Enter name and number
+              Enter name and phone number
             </Text>
 
             <TextInput
               value={name}
               onChangeText={setName}
               placeholder="Randy Selorm"
-              // keyboardType="number-pad"
               className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
             />
             <TextInput
@@ -229,8 +228,6 @@ export default function GenealogyScreen() {
             <Pressable
               className="bg-black p-3 rounded-md items-center"
               onPress={handleInvite}
-              // onPress={() => router.replace("/(auth)/register")}
-              // disabled={verifyOtpMutation.isPending}
             >
               <Text className="text-white text-lg font-semibold">
                 {inviteMutation.isPending ? (
