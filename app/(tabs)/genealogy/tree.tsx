@@ -1,5 +1,3 @@
-// Tree.tsx
-
 import {
   View,
   Text,
