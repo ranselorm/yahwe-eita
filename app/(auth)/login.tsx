@@ -126,8 +126,14 @@ export default function LoginScreen() {
           }`}
         />
         <View className="flex-row justify-end items-center w-full mt-6">
-          <TouchableOpacity>
-            <Text className="">Forgot password?</Text>
+          <TouchableOpacity
+            onPress={() => Alert.alert("Feature not available yet")}
+          >
+            <Text
+              className={`${isDarkMode ? "text-white" : "text-secondary-100"}`}
+            >
+              Forgot password?
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
