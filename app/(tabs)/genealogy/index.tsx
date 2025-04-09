@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useInvite } from "@/hooks/useInvite";
 import Toast from "react-native-toast-message";
 import { useInvitedUsers } from "@/hooks/useInvitedUsers";
+import { useGenealogy } from "@/hooks/useGenealogy";
 
 function ReferralCard({
   name,
@@ -107,9 +108,7 @@ export default function GenealogyScreen() {
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const { data: invitedUsers, isLoading } = useInvitedUsers();
-
-  console.log(invitedUsers, "invitedUsers from useInvitedUsers");
+  const { data, isLoading } = useGenealogy();
 
   const inviteMutation = useInvite();
 
@@ -163,7 +162,7 @@ export default function GenealogyScreen() {
 
       {isLoading ? (
         <ActivityIndicator />
-      ) : invitedUsers?.length === 0 ? (
+      ) : data?.recruits?.length === 0 ? (
         <View className="flex-1 items-center justify-center px-4">
           <Ionicons name="git-branch-outline" size={60} color="#9CA3AF" />
           <Text className="text-center mt-3 text-lg text-gray-500">
@@ -175,7 +174,7 @@ export default function GenealogyScreen() {
         </View>
       ) : (
         <FlatList
-          data={invitedUsers}
+          data={data?.recruits}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <ReferralCard
