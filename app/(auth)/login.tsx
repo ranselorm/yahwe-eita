@@ -78,7 +78,9 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}  w-full px-6`}
+      className={`flex-1 p-3 ${
+        isDarkMode ? "bg-black" : "bg-white"
+      }  w-full px-6`}
     >
       <View className="justify-center items-center flex-1">
         <View className="items-center mb-12">
@@ -122,23 +124,22 @@ export default function LoginScreen() {
               : "border-secondary-100 text-secondary-100"
           }`}
         />
-
-        <Pressable
-          className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center ${
-            isDarkMode ? "bg-white" : "bg-secondary-100"
-          }`}
-          // disabled={!termsAccepted}
-          onPress={handleLogin}
-        >
-          <Text
-            className={`text-lg font-semibold ${
-              isDarkMode ? "text-secondary-100" : "text-white"
-            }`}
-          >
-            Login
-          </Text>
-        </Pressable>
       </View>
+
+      <Pressable
+        className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center mx-auto ${
+          isDarkMode ? "bg-white" : "bg-secondary-100"
+        }`}
+        onPress={handleLogin}
+      >
+        <Text
+          className={`text-lg font-semibold ${
+            isDarkMode ? "text-secondary-100" : "text-white"
+          }`}
+        >
+          Login
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
