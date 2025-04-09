@@ -109,6 +109,8 @@ export default function GenealogyScreen() {
 
   const { data: invitedUsers, isLoading } = useInvitedUsers();
 
+  console.log(invitedUsers, "invitedUsers from useInvitedUsers");
+
   const inviteMutation = useInvite();
 
   const handleInvite = () => {
