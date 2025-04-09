@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Alert,
   View,
+  TouchableOpacity,
 } from "react-native";
 import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "expo-router";
@@ -124,6 +125,11 @@ export default function LoginScreen() {
               : "border-secondary-100 text-secondary-100"
           }`}
         />
+        <View className="flex-row justify-end items-center w-full mt-6">
+          <TouchableOpacity>
+            <Text className="">Forgot password?</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <Pressable
