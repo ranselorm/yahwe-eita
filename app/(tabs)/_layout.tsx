@@ -33,7 +33,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
             <View className="items-center">
               <Octicons name="home" size={24} color="black" />
               {focused ? (
@@ -66,7 +66,7 @@ export default function TabsLayout() {
         name="genealogy"
         options={{
           title: "Genealogy",
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
             <View className="items-center">
               <MaterialCommunityIcons
                 name="account-group-outline"
@@ -103,7 +103,7 @@ export default function TabsLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
             <View className="items-center">
               <MaterialCommunityIcons
                 name="account-outline"
