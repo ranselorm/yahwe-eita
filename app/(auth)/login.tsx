@@ -83,6 +83,13 @@ export default function LoginScreen() {
         isDarkMode ? "bg-black" : "bg-white"
       }  w-full px-6`}
     >
+      <TouchableOpacity onPress={() => router.back()}>
+        <MaterialCommunityIcons
+          name="arrow-left"
+          size={25}
+          color={`${isDarkMode ? "white" : "black"}`}
+        />
+      </TouchableOpacity>
       <View className="justify-center items-center flex-1">
         <View className="items-center mb-12">
           <MaterialCommunityIcons
