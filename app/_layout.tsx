@@ -2,7 +2,7 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import "../global.css";
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { UserProvider, useUser } from "@/context/userContext";
+import { UserProvider } from "@/context/userContext";
 import Toast from "react-native-toast-message";
 import { CountdownProvider } from "@/context/CountdownContext";
 import { KeyboardProvider } from "react-native-keyboard-controller";
