@@ -53,11 +53,14 @@ export default function WelcomeScreen() {
             color="black"
             className="mb-4"
           /> */}
-          <View>
-            <Image source={require("@/assets/images/logo.png")} />
+          <View className="w-20 h-28 items-center justify-center mb-4">
+            <Image
+              source={require("@/assets/images/logo.png")}
+              className="w-full h-full"
+            />
           </View>
           <Text
-            className={`text-2xl font-bold ${
+            className={`text-2xl font-bold text-center ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >

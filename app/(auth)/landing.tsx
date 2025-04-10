@@ -1,4 +1,4 @@
-import { View, Text, Pressable, useColorScheme } from "react-native";
+import { View, Text, Pressable, useColorScheme, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -16,14 +16,20 @@ export default function Landing() {
       <View className="items-center px-4 flex-1 justify-between w-full">
         <View>
           <View className="mb-20 items-center">
-            <MaterialCommunityIcons
+            {/* <MaterialCommunityIcons
               name="account-outline"
               size={38}
               color="black"
               className="mb-4"
-            />
+            /> */}
+            <View className="w-20 h-28 items-center justify-center mb-4">
+              <Image
+                source={require("@/assets/images/logo.png")}
+                className="w-full h-full"
+              />
+            </View>
             <Text
-              className={`text-2xl font-bold ${
+              className={`text-2xl font-bold text-center ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
