@@ -2,12 +2,24 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import "../global.css";
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { UserProvider } from "@/context/userContext";
+import { UserProvider, useUser } from "@/context/userContext";
 import Toast from "react-native-toast-message";
 import { CountdownProvider } from "@/context/CountdownContext";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 
 const client = new QueryClient();
+
+const AppContent = () => {
+  // const { user } = useUser();
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(auth)" />
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="settings" />
+      <Stack.Screen name="notifications" />
+    </Stack>
+  );
+};
 
 export default function RootLayout() {
   return (
@@ -16,12 +28,7 @@ export default function RootLayout() {
         <CountdownProvider>
           <ThemeProvider>
             <KeyboardProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(auth)" />
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="settings" />
-                <Stack.Screen name="notifications" />
-              </Stack>
+              <AppContent />
             </KeyboardProvider>
           </ThemeProvider>
         </CountdownProvider>
