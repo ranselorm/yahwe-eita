@@ -1,7 +1,6 @@
 import { View, Text, Pressable, useColorScheme, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function Landing() {
   const colorScheme = useColorScheme();

@@ -7,11 +7,7 @@ import {
   Image,
 } from "react-native";
 import { useState } from "react";
-import {
-  FontAwesome,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
@@ -47,12 +43,6 @@ export default function WelcomeScreen() {
     >
       <View>
         <View className="mb-5 items-center">
-          {/* <MaterialCommunityIcons
-            name="account-outline"
-            size={38}
-            color="black"
-            className="mb-4"
-          /> */}
           <View className="w-20 h-28 items-center justify-center mb-4">
             <Image
               source={require("@/assets/images/logo.png")}
