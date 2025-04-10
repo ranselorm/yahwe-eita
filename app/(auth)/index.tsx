@@ -4,6 +4,7 @@ import {
   Pressable,
   ScrollView,
   useColorScheme,
+  Image,
 } from "react-native";
 import { useState } from "react";
 import {
@@ -46,12 +47,15 @@ export default function WelcomeScreen() {
     >
       <View>
         <View className="mb-5 items-center">
-          <MaterialCommunityIcons
+          {/* <MaterialCommunityIcons
             name="account-outline"
             size={38}
             color="black"
             className="mb-4"
-          />
+          /> */}
+          <View>
+            <Image source={require("@/assets/images/logo.png")} />
+          </View>
           <Text
             className={`text-2xl font-bold ${
               isDarkMode ? "text-white" : "text-black"
