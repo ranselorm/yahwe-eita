@@ -19,7 +19,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useInvite } from "@/hooks/useInvite";
 import Toast from "react-native-toast-message";
-import { useInvitedUsers } from "@/hooks/useInvitedUsers";
 import { useGenealogy } from "@/hooks/useGenealogy";
 
 function ReferralCard({
@@ -154,7 +153,7 @@ export default function GenealogyScreen() {
         </Text>
         <Pressable
           className="mt-2 px-6 py-2 rounded-full bg-transparent border border-black"
-          onPress={() => router.push("/(tabs)/genealogy/tree")}
+          onPress={() => router.push("/(tabs)/genealogy/tree")} //pass the data as a parameter to the tree screen
         >
           <Text className="text-black font-semibold text-sm">VIEW TREE</Text>
         </Pressable>
