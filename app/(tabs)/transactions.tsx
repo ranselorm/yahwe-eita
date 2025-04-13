@@ -36,42 +36,6 @@ const data = [
     amount: 5,
     date: "3d",
   },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
 ];
 
 function Card({
