@@ -83,7 +83,7 @@ function Card({
   amount: number;
   date: string;
 }) {
-  const isDarkMode = useColorScheme() === "light";
+  const isDarkMode = useColorScheme() === "dark";
 
   return (
     <View
@@ -124,9 +124,7 @@ function Card({
 }
 
 export default function Transactions() {
-  const isDarkMode = useColorScheme() === "light";
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const isDarkMode = useColorScheme() === "dark";
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -138,15 +136,15 @@ export default function Transactions() {
 
   return (
     <SafeAreaView
-      className={`flex-1 px-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
-      <View className="items-center mt-4">
+      <View className="items-center mt-4 justify-center flex-row px-4">
+        <MaterialIcons name="history" size={24} color="black" />
         <Text
-          className={`text-2xl font-semibold ${
+          className={`text-2xl font-semibold flex-row items-center justify-center ${
             isDarkMode ? "text-white" : "text-black"
           }`}
         >
-          <MaterialIcons name="history" size={24} color="black" />
           Transaction History
         </Text>
       </View>
