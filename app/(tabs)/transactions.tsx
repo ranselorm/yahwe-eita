@@ -1,100 +1,137 @@
-import { View, ScrollView, useColorScheme, Text, Image } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  FlatList,
+  useColorScheme,
+  Modal,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
+import {
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import ProgressBar from "@/components/ProgressBar";
+import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ReferralCard from "../../components/ReferralCard";
-import ReferralList from "@/components/ReferralList";
-import Header from "@/components/Header";
-import { useUser } from "@/context/userContext";
-// import BalanceCard from "../components/BalanceCard";
+import { useState } from "react";
+import { useInvite } from "@/hooks/useInvite";
+import Toast from "react-native-toast-message";
 
-export default function Transactions() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
-  const { user } = useUser();
+const data = [
+  {
+    id: "1",
+    name: "Janelle Addae",
+    amount: 5,
+    date: "1d",
+  },
+
+  {
+    id: "2",
+    name: "Randy Selorm",
+    amount: 5,
+    date: "2d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
+  },
+];
+
+function Card({
+  name,
+  amount,
+  date,
+}: {
+  name: string;
+  amount: number;
+  date: string;
+}) {
+  const isDarkMode = useColorScheme() === "dark";
 
   return (
-    <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="px-6">
-          {/* <Header isTransactions /> */}
-          <View className="items-center -mt-6">
-            {/* <View className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center"> */}
-            <Image
-              source={{
-                uri: user?.picture || "",
-              }}
-              style={{ width: 40, height: 40, borderRadius: 50 }}
-            />
-            {/* <Text className="text-xl font-semibold">N</Text> */}
-            {/* </View> */}
-
-            {/* User Info */}
-            <Text
-              className={`text-xl font-semibold mt-2 ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
-            >
-              {user?.name}
-            </Text>
-            <Text
-              className={`text-sm font-semibold ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
-            >
-              {user?.email} • +233 123 456 7890
-            </Text>
-            <View className="flex-row justify-between items-center my-2 gap-x-6">
-              <View className="h-2 w-[50%] bg-gray-300 mt-2 rounded-full overflow-hidden">
-                <View className="h-full w-2/4 bg-orange-500" />
-              </View>
-
-              <Text className="text-sm font-semibold mt-2">Level 4</Text>
-            </View>
-          </View>
-          <View className="w-full h-[1px] bg-grey my-4" />
+    <View
+      className={`px-4 py-6 mt-4 rounded-xl ${
+        isDarkMode ? "bg-gray-900" : "bg-gray-100"
+      }`}
+    >
+      <View className="flex-row justify-between items-center">
+        <Text
+          className={`text-base font-bold ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
+          {name}
+        </Text>
+        <View>
+          <Text
+            className={`${
+              amount === 0 ? "bg-accent" : "bg-accent"
+            } text-white px-3 py-1 rounded-full text-xs`}
+          >
+            + GHS {amount}
+          </Text>
+          <Text
+            className={`text-base font-bold ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            {date}
+          </Text>
         </View>
+      </View>
+    </View>
+  );
+}
 
-        <View className="px-6">
-          <View className="flex-row justify-between items-center mt-4">
-            <Text
-              className={`text-lg font-semibold ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
-            >
-              Active Invites: 6
-            </Text>
-            <View className="border border-gray-400 px-3 py-1 rounded-full">
-              <Text className="text-gray-500 ">Sort By ▼</Text>
-            </View>
-          </View>
-          <View className="my-8">
-            <Text className="text-center font-semibold text-xl">
-              Top Referral
-            </Text>
-            <ReferralCard />
-            <ReferralList />
-            <View
-              className={`p-4 mt-6 rounded-full flex-row justify-between ${
-                isDarkMode ? "bg-gray-900" : "bg-gray-100"
-              }`}
-            >
-              <Text
-                className={`text-base ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                Available Balance:
-              </Text>
-              <Text
-                className={`text-2xl font-bold ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                GHS 80.00
-              </Text>
-            </View>
-          </View>
+export default function Transactions() {
+  const isDarkMode = useColorScheme() === "dark";
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  return (
+    <SafeAreaView
+      className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
+    >
+      <View className="items-center mt-4">
+        <Text
+          className={`text-2xl font-semibold ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
+          Transactions
+        </Text>
+      </View>
+
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : data?.length === 0 ? (
+        <View className="flex-1 items-center justify-center px-4">
+          <FontAwesome name="exchange" size={24} color="black" />{" "}
+          <Text className="text-center mt-3 text-lg text-gray-500">
+            No transaction yet.
+          </Text>
+          <Text className="text-center text-gray-400 text-sm">
+            You haven’t invited anyone yet.
+          </Text>
         </View>
-      </ScrollView>
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Card name={item.name} amount={item.amount} date={item.date} />
+          )}
+          className="mt-6"
+        />
+      )}
     </SafeAreaView>
   );
 }

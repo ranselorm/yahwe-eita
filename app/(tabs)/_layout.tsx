@@ -2,6 +2,7 @@ import { Tabs, Redirect } from "expo-router";
 import Octicons from "@expo/vector-icons/Octicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabsLayout() {
   // const isAuthenticated = false;
@@ -105,11 +106,7 @@ export default function TabsLayout() {
           title: "Transactions",
           tabBarIcon: ({ focused }: { focused: boolean }) => (
             <View className="items-center">
-              <MaterialCommunityIcons
-                name="account-group-outline"
-                size={30}
-                color="black"
-              />
+              <FontAwesome name="exchange" size={24} color="black" />
               {focused ? (
                 <View
                   style={{
