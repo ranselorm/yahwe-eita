@@ -181,6 +181,7 @@ export default function Transactions() {
               tintColor={"#f97316"}
             />
           }
+          showsVerticalScrollIndicator={false}
         />
       )}
     </SafeAreaView>

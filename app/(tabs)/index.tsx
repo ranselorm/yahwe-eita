@@ -139,7 +139,6 @@ export default function HomeScreen() {
             )}
           </Text>
 
-          {/* Action Buttons */}
           <View className="flex-row justify-between mt-6">
             {[
               { label: "Topup", icon: "add" },
