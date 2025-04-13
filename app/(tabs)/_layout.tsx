@@ -100,6 +100,43 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="transactions"
+        options={{
+          title: "Transactions",
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
+            <View className="items-center">
+              <MaterialCommunityIcons
+                name="account-group-outline"
+                size={30}
+                color="black"
+              />
+              {focused ? (
+                <View
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: "orange",
+                    marginTop: 4,
+                  }}
+                />
+              ) : (
+                <View
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: "orange",
+                    marginTop: 4,
+                    opacity: 0,
+                  }}
+                />
+              )}
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
