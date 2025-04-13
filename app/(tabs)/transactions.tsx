@@ -52,12 +52,12 @@ function Card({
   amount: number;
   date: string;
 }) {
-  const isDarkMode = useColorScheme() === "dark";
+  const isDarkMode = useColorScheme() === "light";
 
   return (
     <View
-      className={`px-4 py-6 mt-4 rounded-xl border ${
-        isDarkMode ? "bg-black" : "bg-gray-100 border-gray-300"
+      className={`px-4 py-4 mt-3 rounded-xl border ${
+        isDarkMode ? "bg-[#2d2d2d]" : "bg-gray-100 border-gray-300"
       }`}
     >
       <View className="flex-row justify-between items-center">
@@ -69,10 +69,16 @@ function Card({
           {name}
         </Text>
         <View className="flex-row items-center justify-between gap-x-4">
-          <Text className={`py-1 rounded-full text-2xl font-bold text-accent`}>
+          <Text
+            className={`py-1 rounded-full text-2xl font-bold text-green-500`}
+          >
             + GHS {amount}
           </Text>
-          <View className="w-2 h-2 bg-black rounded-full" />
+          <View
+            className={`${
+              isDarkMode ? "bg-white" : "bg-black"
+            } w-2 h-2 bg-black rounded-full`}
+          />
           <Text
             className={`text-base font-bold ${
               isDarkMode ? "text-white" : "text-black"
@@ -87,7 +93,7 @@ function Card({
 }
 
 export default function Transactions() {
-  const isDarkMode = useColorScheme() === "dark";
+  const isDarkMode = useColorScheme() === "light";
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
