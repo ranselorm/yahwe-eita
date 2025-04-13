@@ -1,25 +1,14 @@
 import {
   View,
   Text,
-  Pressable,
+  RefreshControl,
   FlatList,
   useColorScheme,
-  Modal,
-  TextInput,
   ActivityIndicator,
 } from "react-native";
-import {
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
-import ProgressBar from "@/components/ProgressBar";
-import { router } from "expo-router";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
-import { useInvite } from "@/hooks/useInvite";
-import Toast from "react-native-toast-message";
+import { useCallback, useState } from "react";
 
 const data = [
   {
@@ -34,6 +23,48 @@ const data = [
     name: "Randy Selorm",
     amount: 5,
     date: "2d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+    amount: 5,
+    date: "3d",
   },
   {
     id: "3",
@@ -96,12 +127,18 @@ export default function Transactions() {
   const isDarkMode = useColorScheme() === "light";
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    //   await refetch();
+    setRefreshing(false);
+  }, []); //add refetch to the dependency array
 
   return (
     <SafeAreaView
-      className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      className={`flex-1 px-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
       <View className="items-center mt-4">
         <Text
@@ -109,7 +146,8 @@ export default function Transactions() {
             isDarkMode ? "text-white" : "text-black"
           }`}
         >
-          Transactions
+          <MaterialIcons name="history" size={24} color="black" />
+          Transaction History
         </Text>
       </View>
 
@@ -132,7 +170,14 @@ export default function Transactions() {
           renderItem={({ item }) => (
             <Card name={item.name} amount={item.amount} date={item.date} />
           )}
-          className="mt-6"
+          className="mt-6 pb-20"
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={"#f97316"}
+            />
+          }
         />
       )}
     </SafeAreaView>
