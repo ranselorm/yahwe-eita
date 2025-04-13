@@ -139,7 +139,12 @@ export default function Transactions() {
       className={`flex-1 px-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
       <View className="items-center mt-4 justify-center flex-row px-4">
-        <MaterialIcons name="history" size={24} color="black" />
+        <MaterialIcons
+          name="history"
+          size={24}
+          color="black"
+          className="pr-2"
+        />
         <Text
           className={`text-2xl font-semibold flex-row items-center justify-center ${
             isDarkMode ? "text-white" : "text-black"
