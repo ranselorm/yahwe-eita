@@ -10,7 +10,6 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 const client = new QueryClient();
 
 const AppContent = () => {
-  // const { user } = useUser();
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(auth)" />
