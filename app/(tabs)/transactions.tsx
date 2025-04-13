@@ -56,26 +56,23 @@ function Card({
 
   return (
     <View
-      className={`px-4 py-6 mt-4 rounded-xl ${
-        isDarkMode ? "bg-gray-900" : "bg-gray-100"
+      className={`px-4 py-6 mt-4 rounded-xl border ${
+        isDarkMode ? "bg-black" : "bg-gray-100 border-gray-300"
       }`}
     >
       <View className="flex-row justify-between items-center">
         <Text
-          className={`text-base font-bold ${
+          className={`text-lg font-bold ${
             isDarkMode ? "text-white" : "text-black"
           }`}
         >
           {name}
         </Text>
-        <View>
-          <Text
-            className={`${
-              amount === 0 ? "bg-accent" : "bg-accent"
-            } text-white px-3 py-1 rounded-full text-xs`}
-          >
+        <View className="flex-row items-center justify-between gap-x-4">
+          <Text className={`py-1 rounded-full text-2xl font-bold text-accent`}>
             + GHS {amount}
           </Text>
+          <View className="w-2 h-2 bg-black rounded-full" />
           <Text
             className={`text-base font-bold ${
               isDarkMode ? "text-white" : "text-black"
