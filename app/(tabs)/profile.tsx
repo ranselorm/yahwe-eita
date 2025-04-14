@@ -17,17 +17,13 @@ export default function ProfileScreen() {
         <View className="px-6">
           <Header isProfileScreen />
           <View className="items-center -mt-6">
-            {/* <View className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center"> */}
             <Image
               source={{
                 uri: user?.picture || "",
               }}
               style={{ width: 40, height: 40, borderRadius: 50 }}
             />
-            {/* <Text className="text-xl font-semibold">N</Text> */}
-            {/* </View> */}
 
-            {/* User Info */}
             <Text
               className={`text-xl font-semibold mt-2 ${
                 isDarkMode ? "text-white" : "text-black"
