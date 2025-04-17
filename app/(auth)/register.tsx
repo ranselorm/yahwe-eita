@@ -5,14 +5,9 @@ import {
   TextInput,
   Pressable,
   useColorScheme,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
   ActivityIndicator,
-  Button,
   Platform,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
