@@ -269,30 +269,40 @@ export default function RegisterScreen() {
         isDarkMode ? "bg-secondary-100" : "bg-white"
       }`}
     >
-      <TouchableOpacity onPress={() => router.back()}>
-        <MaterialCommunityIcons
-          name="arrow-left"
-          size={25}
-          color={`${isDarkMode ? "white" : "black"}`}
-        />
-      </TouchableOpacity>
-      <KeyboardAwareScrollView bottomOffset={10} className="flex-1 mb-20">
-        <View className="flex-1 justify-center items-center mt-10">
-          <View className="items-center mb-12">
-            <MaterialCommunityIcons
-              name="account-outline"
-              size={38}
-              color="black"
-              className="mb-2"
-            />
-            <Text
-              className={`text-2xl font-semibold ${
-                isDarkMode ? "text-white" : "text-secondary-100"
-              }`}
-            >
-              Create account
-            </Text>
-          </View>
+      {/* Header */}
+      <View className="flex-row justify-between mb-5 items-center">
+        <TouchableOpacity onPress={() => router.back()}>
+          <MaterialCommunityIcons
+            name="arrow-left"
+            size={25}
+            color={`${isDarkMode ? "white" : "black"}`}
+          />
+        </TouchableOpacity>
+
+        <Text
+          className={`text-2xl font-semibold ml-2 ${
+            isDarkMode ? "text-white" : "text-secondary-100"
+          }`}
+        >
+          Register
+        </Text>
+        <Text
+          className={`text-lg font-semibold ml-2 opacity-0 ${
+            isDarkMode ? "text-white" : "text-secondary-100"
+          }`}
+        >
+          Reg
+        </Text>
+      </View>
+      <KeyboardAwareScrollView
+        bottomOffset={10}
+        className="flex-1"
+        contentContainerStyle={{
+          justifyContent: "center",
+          flex: 1,
+        }}
+      >
+        <View className="flex-1 justify-center items-center h-full bg-red-300">
           <View className="w-full max-w-sm gap-y-6">
             <TextInput
               placeholder="FULL NAME"
