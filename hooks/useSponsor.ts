@@ -16,7 +16,7 @@ export const useSponsor = (
       );
       return response.data;
     },
-    enabled: !!phone, // fallback
-    ...options, // override with passed options
+    enabled: !!phone,
+    ...options,
   });
 };

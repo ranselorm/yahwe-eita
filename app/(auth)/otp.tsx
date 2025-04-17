@@ -58,7 +58,7 @@ export default function OTPScreen() {
   };
 
   const handleVerify = () => {
-    console.log(payload, "PAYLOAD");
+    // console.log(payload, "PAYLOAD");
     if (!pin.trim()) {
       Toast.show({ type: "error", text1: "OTP is required" });
       return;

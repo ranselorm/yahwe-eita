@@ -227,9 +227,9 @@ export default function HomeScreen() {
           >
             <View className="flex-row gap-x-3 justify-center items-center w-full ">
               {homeData?.userInfo?.recruits?.length > 0 ? (
-                homeData?.userInfo.recruits?.map((item: any) => (
+                homeData?.userInfo.recruits?.map((item: any, index: number) => (
                   <View
-                    key={item?.id}
+                    key={index}
                     className={`w-[116px] h-24 rounded-lg items-center justify-center  ${
                       isDarkMode ? "bg-dark-100" : "bg-gray-200"
                     }`}

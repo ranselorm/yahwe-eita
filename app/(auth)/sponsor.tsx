@@ -13,6 +13,7 @@ import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import axios from "axios";
 
 export default function SponsorScreen() {
   const [phone, setPhone] = useState("");
@@ -30,27 +31,32 @@ export default function SponsorScreen() {
       return;
     }
 
-    const result = await refetch();
+    try {
+      const { data } = await refetch({ throwOnError: true });
 
-    if (result.isError) {
-      Toast.show({ type: "error", text1: "Sponsor is not found!" });
-      return;
-    }
-
-    if (result.data) {
       Toast.show({ type: "success", text1: "Sponsor found" });
       setTimeout(() => {
         router.push({
           pathname: "/confirmation",
-          params: { sponsor: JSON.stringify(result.data) },
+          params: { sponsor: JSON.stringify(data) },
         });
-      }, 1000);
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "No sponsor found",
-        text2: "Please check the phone number",
-      });
+      }, 500);
+    } catch (err: any) {
+      if (axios.isAxiosError(err) && err.response?.status === 500) {
+        Toast.show({
+          type: "error",
+          text1: "No sponsor found",
+          text2: "Please check the phone number",
+        });
+      } else {
+        setTimeout(() => {
+          Toast.show({
+            type: "error",
+            text1: "Network error",
+            text2: "Please check connection and try again",
+          });
+        }, 500);
+      }
     }
   };
 

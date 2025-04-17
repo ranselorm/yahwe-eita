@@ -96,26 +96,6 @@ export default function RegisterScreen() {
     ghanaCardNumber: formData.ghanaCardNumber,
   };
 
-  // const updateUserSession = async (responseData: any) => {
-  //   try {
-  //     const decodedToken: any = jwtDecode(responseData?.data?.id_token);
-  //     const updatedUser = {
-  //       isLoggedIn: true,
-  //       name: `${decodedToken.name}`,
-  //       id: decodedToken.sub,
-  //       email: decodedToken.email,
-  //       picture: decodedToken.picture,
-  //       exp: decodedToken.exp,
-  //       token: responseData?.data?.access_token,
-  //     };
-  //     setUser(updatedUser);
-  //     await saveUserData(updatedUser);
-  //   } catch (error) {
-  //     console.error("Error updating session:", error);
-  //     // Alert.alert("Error", "Failed to update user session.");
-  //   }
-  // };
-
   const handleSubmit = async () => {
     try {
       await validationSchema.validate(formData);

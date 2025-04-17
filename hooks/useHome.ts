@@ -2,7 +2,7 @@ import { useUser } from "@/context/userContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const API_URL = "https://yahwe-eita-api-dev.azurewebsites.net/api/home";
+const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/home";
 
 const fetchHome = async (token: string) => {
   try {
