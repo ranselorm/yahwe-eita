@@ -73,13 +73,6 @@ export default function RegisterScreen() {
     network: "",
   });
 
-  const {
-    refetch: refetchGhanaCard,
-    data: ghanaCardData,
-    error: ghanaCardError,
-    isFetching: isFetchingGhanaCard,
-  } = useVerifyGhanaCard(formData.ghanaCardNumber);
-
   const registerMutation = useRegister();
   const sendOtpMutation = useSendOtp();
 
@@ -159,8 +152,8 @@ export default function RegisterScreen() {
     queryKey: ["verifyGhanaCard", formData.ghanaCardNumber],
     enabled: formData.ghanaCardNumber.length === 15,
   });
-  console.log(ghanaCardVerifyData?.data?.data, "ghana card ata");
-
+  const ghanaCardData = ghanaCardVerifyData?.data?.data;
+  console.log(ghanaCardData, "data in data");
   // kick off the query as soon as the ID is the right length
   useEffect(() => {
     if (formData.ghanaCardNumber.length === 15) {
@@ -372,10 +365,10 @@ export default function RegisterScreen() {
 
             {ghanaCardVerifyFetching ? (
               <ActivityIndicator />
-            ) : ghanaCardData?.data?.data ? (
+            ) : ghanaCardData ? (
               <Text className="text-center">
-                {/* Ghana card verified as: {ghanaCardData?.data?.data?.name} */}
-                {ghanaCardData ? <Text>hello</Text> : <Text>No data</Text>}
+                Ghana card verified as: {ghanaCardData?.name}
+                {/* {ghanaCardData ? <Text>hello</Text> : <Text>No data</Text>} */}
               </Text>
             ) : (
               ""
