@@ -9,7 +9,7 @@ export const useSponsor = (
     queryKey: ["sponsor", phone],
     queryFn: async () => {
       const response = await axios.get(
-        `https://yahwe-eita-api-dev.azurewebsites.net/api/sponsor`,
+        `https://yahwe-eita-api.azurewebsites.net/api/sponsor`,
         {
           params: { phone },
         }

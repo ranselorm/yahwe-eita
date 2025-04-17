@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 const VERIFY_OTP_API_URL =
-  "https://yahwe-eita-api-dev.azurewebsites.net/api/otp/verify";
+  "https://yahwe-eita-api.azurewebsites.net/api/otp/verify";
 
 export const useVerifyOtp = () => {
   return useMutation({
