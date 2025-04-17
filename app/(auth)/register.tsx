@@ -99,7 +99,7 @@ export default function RegisterScreen() {
     ghanaCardNumber: formData.ghanaCardNumber,
   };
 
-  // set up the query—but only fire it manually
+  //verify phone (momo) number
   const { data, error, isFetching, refetch } = useVerify(
     { type: "phone" as VerifyType, id: formData.phone, provider: "mtn-gh" },
     {
@@ -142,7 +142,6 @@ export default function RegisterScreen() {
     if (formData.phone.length === 10) tryVerify();
   }, [formData.phone]);
 
-  // only run when id is exactly 15 chars (e.g. "GHA-123456789-0")
   const {
     data: ghanaCardVerifyData,
     error: ghanaCardVerifyError,
@@ -154,7 +153,6 @@ export default function RegisterScreen() {
   });
   const ghanaCardData = ghanaCardVerifyData?.data?.data;
   console.log(ghanaCardData, "data in data");
-  // kick off the query as soon as the ID is the right length
   useEffect(() => {
     if (formData.ghanaCardNumber.length === 15) {
       ghanaCardVerifyRefetch();
