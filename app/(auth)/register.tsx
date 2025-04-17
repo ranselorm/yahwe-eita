@@ -302,7 +302,7 @@ export default function RegisterScreen() {
           flex: 1,
         }}
       >
-        <View className="flex-1 justify-center items-center h-full bg-red-300">
+        <View className="flex-1 justify-center items-center h-full">
           <View className="w-full max-w-sm gap-y-6">
             <TextInput
               placeholder="FULL NAME"
