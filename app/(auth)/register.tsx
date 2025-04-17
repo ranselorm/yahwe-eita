@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,9 @@ import { saveUserData } from "@/utils";
 import { useSendOtp } from "@/hooks/useSendOtp";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { useVerify, VerifyType } from "@/hooks/useVerify";
+import { useVerifyGhanaCard } from "@/hooks/useVerifyGhanaCard";
+import axios from "axios";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -70,6 +73,13 @@ export default function RegisterScreen() {
     network: "",
   });
 
+  const {
+    refetch: refetchGhanaCard,
+    data: ghanaCardData,
+    error: ghanaCardError,
+    isFetching: isFetchingGhanaCard,
+  } = useVerifyGhanaCard(formData.ghanaCardNumber);
+
   const registerMutation = useRegister();
   const sendOtpMutation = useSendOtp();
 
@@ -95,6 +105,98 @@ export default function RegisterScreen() {
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
   };
+
+  // set up the query—but only fire it manually
+  const { data, error, isFetching, refetch } = useVerify(
+    { type: "phone" as VerifyType, id: formData.phone, provider: "mtn-gh" },
+    {
+      queryKey: [
+        "verify",
+        { type: "phone", id: formData.phone, provider: "mtn-gh" },
+      ],
+      enabled: false,
+      retry: false,
+    }
+  );
+
+  const responseData = data?.data?.data;
+
+  const tryVerify = async () => {
+    if (formData.phone.length !== 10) {
+      Toast.show({ type: "error", text1: "Enter a 10‑digit phone #" });
+      return;
+    }
+
+    const result = await refetch();
+    if (result.data) {
+      Toast.show({ type: "success", text1: "Verified!" });
+    } else if (error?.response?.status === 404) {
+      Toast.show({
+        type: "error",
+        text1: "Not found",
+        text2: "Please check the number",
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Network error",
+        text2: "Try again later",
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    if (formData.phone.length === 10) tryVerify();
+  }, [formData.phone]);
+
+  // only run when id is exactly 15 chars (e.g. "GHA-123456789-0")
+  const {
+    data: ghanaCardVerifyData,
+    error: ghanaCardVerifyError,
+    isFetching: ghanaCardVerifyFetching,
+    refetch: ghanaCardVerifyRefetch,
+  } = useVerifyGhanaCard(formData.ghanaCardNumber, {
+    queryKey: ["verifyGhanaCard", formData.ghanaCardNumber],
+    enabled: formData.ghanaCardNumber.length === 15,
+  });
+  console.log(ghanaCardVerifyData?.data?.data, "ghana card ata");
+
+  // kick off the query as soon as the ID is the right length
+  useEffect(() => {
+    if (formData.ghanaCardNumber.length === 15) {
+      ghanaCardVerifyRefetch();
+    }
+  }, [formData.ghanaCardNumber, ghanaCardVerifyRefetch]);
+
+  // handle results
+  useEffect(() => {
+    if (ghanaCardVerifyFetching) return;
+
+    if (ghanaCardVerifyData) {
+      Toast.show({ type: "success", text1: "Ghana Card verified" });
+    } else if (
+      ghanaCardVerifyError &&
+      axios.isAxiosError(error) &&
+      error.response?.status === 404
+    ) {
+      Toast.show({
+        type: "error",
+        text1: "Card not found",
+        text2: "Please check the ID format",
+      });
+    } else if (error) {
+      Toast.show({
+        type: "error",
+        text1: "Network error",
+        text2: "Try again later",
+      });
+    }
+  }, [
+    ghanaCardVerifyFetching,
+    ghanaCardVerifyData,
+    ghanaCardVerifyError,
+    router,
+  ]);
 
   const handleSubmit = async () => {
     try {
@@ -239,12 +341,23 @@ export default function RegisterScreen() {
               value={formData.phone}
               onChangeText={(value) => handleChange("phone", value)}
               keyboardType="phone-pad"
+              maxLength={10}
               className={`border rounded-xl p-3 text-base text-center ${
                 isDarkMode
                   ? "border-white text-white"
                   : "border-secondary-100 text-secondary-100"
               }`}
             />
+
+            {isFetching ? (
+              <ActivityIndicator />
+            ) : responseData ? (
+              <Text className="text-center">
+                Phone verified as: {responseData?.name}
+              </Text>
+            ) : (
+              ""
+            )}
 
             <TextInput
               placeholder="GHANA CARD NUMBER"
@@ -256,6 +369,16 @@ export default function RegisterScreen() {
                   : "border-secondary-100 text-secondary-100"
               }`}
             />
+
+            {ghanaCardVerifyFetching ? (
+              <ActivityIndicator />
+            ) : ghanaCardData?.data?.data ? (
+              <Text className="text-center">
+                Ghana card verified as: {ghanaCardData?.data?.data?.name}
+              </Text>
+            ) : (
+              ""
+            )}
 
             {/* date */}
             <TouchableOpacity
