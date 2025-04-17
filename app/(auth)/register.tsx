@@ -177,7 +177,7 @@ export default function RegisterScreen() {
     } else if (
       ghanaCardVerifyError &&
       axios.isAxiosError(error) &&
-      error.response?.status === 404
+      error.response?.status === 500
     ) {
       Toast.show({
         type: "error",
@@ -374,7 +374,8 @@ export default function RegisterScreen() {
               <ActivityIndicator />
             ) : ghanaCardData?.data?.data ? (
               <Text className="text-center">
-                Ghana card verified as: {ghanaCardData?.data?.data?.name}
+                {/* Ghana card verified as: {ghanaCardData?.data?.data?.name} */}
+                {ghanaCardData ? <Text>hello</Text> : <Text>No data</Text>}
               </Text>
             ) : (
               ""
