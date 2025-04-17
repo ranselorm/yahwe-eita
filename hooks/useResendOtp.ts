@@ -2,7 +2,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-const API_URL = "https://yahwe-eita-api-dev.azurewebsites.net/api/otp/resend";
+const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/otp/resend";
 
 export const useResendOtp = () => {
   return useMutation({

@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-const loginUrl =
-  "https://yahwe-eita-api-dev.azurewebsites.net/api/login/mobile";
+const loginUrl = "https://yahwe-eita-api.azurewebsites.net/api/login/mobile";
 
 export const useLogin = () => {
   return useMutation({

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-const API_URL = "https://yahwe-eita-api-dev.azurewebsites.net/api/register";
+const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/register";
 
 // Simple mutation hook for user registration
 export const useRegister = () => {
