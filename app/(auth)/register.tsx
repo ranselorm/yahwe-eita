@@ -345,7 +345,7 @@ export default function RegisterScreen() {
             {isFetching ? (
               <ActivityIndicator />
             ) : responseData ? (
-              <Text className="text-center">
+              <Text className="text-center font-bold text-sm">
                 Phone verified as: {responseData?.name}
               </Text>
             ) : (
@@ -366,9 +366,8 @@ export default function RegisterScreen() {
             {ghanaCardVerifyFetching ? (
               <ActivityIndicator />
             ) : ghanaCardData ? (
-              <Text className="text-center">
+              <Text className="text-center font-bold text-sm">
                 Ghana card verified as: {ghanaCardData?.name}
-                {/* {ghanaCardData ? <Text>hello</Text> : <Text>No data</Text>} */}
               </Text>
             ) : (
               ""
