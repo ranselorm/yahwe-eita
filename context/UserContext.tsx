@@ -16,13 +16,10 @@ interface UserContextType {
   logout: () => void;
   sponsorId: number;
   setSponsorId: (id: number) => void;
-  // setReferenceCode: (code: string) => void;
 }
 
-// Create context
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-// Provider component
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [sponsorId, setSponsorId] = useState<number>(0);
