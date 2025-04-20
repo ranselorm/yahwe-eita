@@ -26,7 +26,6 @@ export const useVerify = (
       });
       return data;
     },
-    // don’t fire until the component wants to
     enabled: false,
     ...options,
   });
