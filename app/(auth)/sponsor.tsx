@@ -33,6 +33,7 @@ export default function SponsorScreen() {
 
     try {
       const { data } = await refetch({ throwOnError: true });
+      console.log(data);
 
       Toast.show({ type: "success", text1: "Sponsor found" });
       setTimeout(() => {

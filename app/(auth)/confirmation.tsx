@@ -19,6 +19,8 @@ export default function ConfirmationScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
+  console.log(sponsor);
+
   const { setSponsorId } = useUser();
 
   console.log(sponsorData);
