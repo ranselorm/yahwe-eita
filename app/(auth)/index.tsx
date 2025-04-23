@@ -41,22 +41,20 @@ export default function WelcomeScreen() {
         isDarkMode ? "bg-black" : "bg-white"
       } px-6 py-6 items-center justify-center h-full`}
     >
-      <View>
-        <View className="mb-5 items-center">
-          <View className="w-20 h-28 items-center justify-center mb-4">
-            <Image
-              source={require("@/assets/images/logo.png")}
-              className="w-full h-full"
-            />
-          </View>
-          <Text
-            className={`text-2xl font-bold text-center ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            YAHWE-EITA
-          </Text>
+      <View className="mb-5 items-center flex-row">
+        <View className="w-20 h-20">
+          <Image
+            source={require("@/assets/images/logo.png")}
+            className="w-full h-full"
+          />
         </View>
+        <Text
+          className={`text-2xl font-bold text-center -ml-6 ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
+          YAHWE-EITA
+        </Text>
       </View>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
