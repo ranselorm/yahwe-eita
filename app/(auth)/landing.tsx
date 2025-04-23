@@ -8,27 +8,21 @@ export default function Landing() {
 
   return (
     <SafeAreaView
-      className={`flex-1 justify-center items-center p-3 ${
+      className={`flex-1 justify-center items-center p-6 ${
         isDarkMode ? "bg-black" : "bg-white"
       }`}
     >
       <View className="items-center px-4 flex-1 justify-between w-full">
         <View>
-          <View className="mb-20 items-center">
-            {/* <MaterialCommunityIcons
-              name="account-outline"
-              size={38}
-              color="black"
-              className="mb-4"
-            /> */}
-            <View className="w-20 h-28 items-center justify-center mb-4">
+          <View className="mb-20 items-center justify-center flex-row">
+            <View className="w-20 h-20">
               <Image
                 source={require("@/assets/images/logo.png")}
                 className="w-full h-full"
               />
             </View>
             <Text
-              className={`text-2xl font-bold text-center ${
+              className={`text-2xl font-bold text-center -ml-6 ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >

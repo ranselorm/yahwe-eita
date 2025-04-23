@@ -39,7 +39,7 @@ export default function WelcomeScreen() {
     <SafeAreaView
       className={`flex-1 ${
         isDarkMode ? "bg-black" : "bg-white"
-      } px-6 py-6 items-center justify-center h-full`}
+      } p-6 items-center justify-center h-full`}
     >
       <View className="mb-5 items-center flex-row">
         <View className="w-20 h-20">
@@ -111,8 +111,8 @@ export default function WelcomeScreen() {
         className={`mt-6 px-6 py-3 rounded-lg w-[80%] ${
           isChecked ? "bg-primary" : "bg-gray-400"
         }`}
-        onPress={() => router.replace("/(auth)/landing")}
-        // onPress={() => router.push("/(auth)/register")}
+        // onPress={() => router.replace("/(auth)/landing")}
+        onPress={() => router.push("/(auth)/register")}
       >
         <Text className="text-white text-lg font-semibold text-center">
           GET STARTED
