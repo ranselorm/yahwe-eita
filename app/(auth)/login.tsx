@@ -132,7 +132,7 @@ export default function LoginScreen() {
         />
         <View className="flex-row justify-end items-center w-full mt-6">
           <TouchableOpacity
-            onPress={() => Alert.alert("Feature not available yet")}
+            onPress={() => router.push("/(auth)/reset-password")}
           >
             <Text
               className={`${isDarkMode ? "text-white" : "text-secondary-100"}`}
