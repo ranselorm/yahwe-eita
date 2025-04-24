@@ -1,18 +1,15 @@
-// app/(auth)/status.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   Pressable,
   ActivityIndicator,
   useColorScheme,
-  Alert,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-import axios from "axios";
 import { useResetPassword } from "@/hooks/useResetPassword";
 import { router } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -53,7 +50,7 @@ export default function ResetPasswordScreen() {
 
   if (resetMutation.isPending) {
     return (
-      <SafeAreaView>
+      <SafeAreaView className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
       </SafeAreaView>
     );
