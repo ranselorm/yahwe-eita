@@ -6,6 +6,7 @@ import {
   Pressable,
   ActivityIndicator,
   useColorScheme,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -13,6 +14,8 @@ import axios from "axios";
 import { useRegister } from "@/hooks/useRegister";
 import { useUser } from "@/context/userContext";
 import { router, useLocalSearchParams } from "expo-router";
+import { jwtDecode } from "jwt-decode";
+import { saveUserData } from "@/utils";
 
 export default function StatusScreen() {
   const isDark = useColorScheme() === "dark";
@@ -27,6 +30,7 @@ export default function StatusScreen() {
   const [timeLeft, setTimeLeft] = useState(30);
   const [isChecking, setIsChecking] = useState(false);
   const [done, setDone] = useState(false);
+  const { setUser } = useUser();
 
   // countdown
   useEffect(() => {
@@ -44,24 +48,48 @@ export default function StatusScreen() {
 
   // register mutation (validateOnly = false)
   const registerMutation = useRegister(accessToken, false);
+  const updateUserSession = async (responseData: any) => {
+    try {
+      const decodedToken: any = jwtDecode(responseData?.data?.id_token);
+      console.log(decodedToken, "DECODED TOKEN");
+      const updatedUser = {
+        isLoggedIn: true,
+        name: `${decodedToken.name}`,
+        id: decodedToken.sub,
+        email: decodedToken.email,
+        picture: decodedToken.picture,
+        exp: decodedToken.exp,
+        token: responseData?.data?.access_token,
+      };
+      setUser(updatedUser);
+      await saveUserData(updatedUser);
+    } catch (error) {
+      console.error("Error updating session:", error);
+      Alert.alert("Error", "Failed to update user session.");
+    }
+  };
 
   const checkStatus = async () => {
     if (!reference) return;
     setIsChecking(true);
     try {
       const { data } = await axios.get(
-        "https://yahwe-eita-api.azurewebsites.net/api/payment/fee/status",
+        "https://yahwe-eita-api.azurewebsites.net/api/fee/status",
         {
           params: { reference },
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
+      console.log(data, "STATUS DATA");
 
-      if (data.status === "COMPLETED") {
+      if (data?.data?.status === "COMPLETED") {
         setDone(true);
         Toast.show({ type: "success", text1: "Payment complete" });
         registerMutation.mutate(parsedPayload, {
-          onSuccess: () => router.replace("/(tabs)"),
+          onSuccess: async (data) => {
+            updateUserSession(data);
+            router.replace("/(tabs)");
+          },
           onError: (err) =>
             Toast.show({
               type: "error",
@@ -82,6 +110,14 @@ export default function StatusScreen() {
       setIsChecking(false);
     }
   };
+
+  if (isChecking) {
+    return (
+      <SafeAreaView>
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView

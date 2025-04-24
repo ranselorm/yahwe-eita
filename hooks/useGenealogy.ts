@@ -2,7 +2,7 @@ import { useUser } from "@/context/userContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const API_URL = "https://yahwe-eita-api-dev.azurewebsites.net/api/geneology";
+const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/geneology";
 
 const fetchGenealogy = async (token: string) => {
   try {
@@ -11,6 +11,7 @@ const fetchGenealogy = async (token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
+
     return response.data?.data;
   } catch (error) {
     console.error("Error fetching genealogy:", error);
