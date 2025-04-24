@@ -16,6 +16,8 @@ interface UserContextType {
   logout: () => void;
   sponsorId: number;
   setSponsorId: (id: number) => void;
+  accessToken: string;
+  setAccessToken: (token: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -23,6 +25,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [sponsorId, setSponsorId] = useState<number>(0);
+  const [accessToken, setAccessToken] = useState<string>("");
 
   const loginUser = (userData: User | null) => {
     if (userData) {
@@ -44,6 +47,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         logout,
         sponsorId,
         setSponsorId,
+        accessToken,
+        setAccessToken,
       }}
     >
       {children}

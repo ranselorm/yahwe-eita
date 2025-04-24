@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
   Modal,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -58,7 +59,8 @@ export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
   const [showPicker, setShowPicker] = useState<boolean>(false);
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [feedId, setFeeId] = useState("1234567");
 
   const { sponsorId, setUser } = useUser();
 
@@ -77,7 +79,7 @@ export default function RegisterScreen() {
   });
 
   const registerMutation = useRegister();
-  const sendOtpMutation = useSendOtp();
+  // const sendOtpMutation = useSendOtp();
 
   const handleChange = (name: string, value: string | boolean) => {
     setFormData({ ...formData, [name]: value });
@@ -90,16 +92,6 @@ export default function RegisterScreen() {
       text2: message,
       position: "top",
     });
-  };
-
-  const payload = {
-    fullName: formData.fullName,
-    email: formData.email,
-    password: formData.password,
-    phone: formData.phone,
-    dateOfBirth: new Date(dob).toISOString().split("T")[0],
-    sponsorId: sponsorId,
-    ghanaCardNumber: formData.ghanaCardNumber,
   };
 
   //verify phone (momo) number
@@ -193,46 +185,76 @@ export default function RegisterScreen() {
     router,
   ]);
 
+  const payload = {
+    fullName: formData.fullName,
+    email: formData.email,
+    password: formData.password,
+    phone: formData.phone,
+    dateOfBirth: new Date(dob).toISOString().split("T")[0],
+    sponsorId: sponsorId,
+    ghanaCardNumber: formData.ghanaCardNumber,
+    channel: "mtn-gh",
+    feedId: feedId,
+  };
+
   const handleSubmit = async () => {
     try {
       await validationSchema.validate(formData);
-      const phone = formData.phone;
+      // const phone = formData.phone;
+      registerMutation.mutate(payload, {
+        onSuccess: (data) => {
+          // updateUserSession(data);
+          // router.replace("/(tabs)");
+          console.log(data);
+          setIsModalVisible(true);
+        },
+        onError: (error) => {
+          Toast.show({
+            type: "error",
+            text1: "Registration Failed",
+            text2:
+              (error as any)?.response?.data?.issue?.message ||
+              "Something went wrong!",
+            position: "top",
+          });
+        },
+      });
 
-      sendOtpMutation.mutate(
-        { phone },
-        {
-          onSuccess: (otpRes) => {
-            const pin_id = otpRes?.data?.data?.pinId;
-            console.log(otpRes?.data?.message, "message");
+      // sendOtpMutation.mutate(
+      //   { phone },
+      //   {
+      //     onSuccess: (otpRes) => {
+      //       const pin_id = otpRes?.data?.data?.pinId;
+      //       console.log(otpRes?.data?.message, "message");
 
-            Toast.show({
-              type: "success",
-              text1: "OTP Sent",
-              text2: otpRes?.data?.message || "OTP sent successfully",
-              position: "top",
-            });
+      //       Toast.show({
+      //         type: "success",
+      //         text1: "OTP Sent",
+      //         text2: otpRes?.data?.message || "OTP sent successfully",
+      //         position: "top",
+      //       });
 
-            setTimeout(() => {
-              router.push({
-                pathname: "/otp",
-                params: {
-                  pin_id,
-                  payload: JSON.stringify(payload),
-                },
-              });
-            }, 2000);
-          },
+      //       setTimeout(() => {
+      //         router.push({
+      //           pathname: "/otp",
+      //           params: {
+      //             pin_id,
+      //             payload: JSON.stringify(payload),
+      //           },
+      //         });
+      //       }, 2000);
+      //     },
 
-          onError: () => {
-            Toast.show({
-              type: "error",
-              text1: "OTP Failed",
-              text2: "Couldn't send OTP after registration.",
-              position: "top",
-            });
-          },
-        }
-      );
+      //     onError: () => {
+      //       Toast.show({
+      //         type: "error",
+      //         text1: "OTP Failed",
+      //         text2: "Couldn't send OTP after registration.",
+      //         position: "top",
+      //       });
+      //     },
+      //   }
+      // );
 
       // registerMutation.mutate(payload, {
       //   onSuccess: (data) => {
@@ -478,21 +500,29 @@ export default function RegisterScreen() {
       >
         <View className="flex-1 justify-center items-center bg-black/60 p-6">
           <View className="bg-white p-6 rounded-lg w-full">
-            <Text className="text-lg font-semibold mb-4 text-black">
-              Enter OTP Code
-            </Text>
+            <View className="items-center">
+              <Image
+                source={require("@/assets/images/momo.png")}
+                className="w-12 h-12 rounded-xl"
+              />
+              <Text className="text-lg font-semibold my-4 text-center text-black">
+                Set up Mobile Money
+              </Text>
+            </View>
 
             <TextInput
-              // value={pin}
+              value={formData.phone}
               // onChangeText={setPin}
-              placeholder="6-digit OTP"
+              // placeholder="6-digit OTP"
               keyboardType="number-pad"
-              maxLength={6}
+              editable={false} // ← makes it read-only
+              selectTextOnFocus={false} // ← prevents even selection
+              // maxLength={10}
               className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
             />
 
             <Pressable
-              className="bg-black p-3 rounded-md items-center"
+              className="bg-primary p-3 rounded-md items-center"
               onPress={handlePayment}
               // disabled={verifyOtpMutation.isPending}
             >
@@ -503,7 +533,7 @@ export default function RegisterScreen() {
                   "Submit"
                 )}
               </Text> */}
-              <Text className="text-white text-lg font-semibold uppercase">
+              <Text className="text-white text-base font-semibold uppercase">
                 Proceed to purchase GHS 80 airtime
               </Text>
             </Pressable>
