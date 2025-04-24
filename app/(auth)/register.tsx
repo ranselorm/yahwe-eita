@@ -295,8 +295,24 @@ export default function RegisterScreen() {
     try {
       feeMutation.mutate(feePayload, {
         onSuccess: (data) => {
-          // router.replace("/(tabs)");
-          console.log(data);
+          console.log(data?.data?.reference, "FEE DATA");
+          router.push({
+            pathname: "/(auth)/status",
+            params: {
+              payload: JSON.stringify({
+                fullName: formData.fullName,
+                email: formData.email,
+                password: formData.password,
+                phone: formData.phone,
+                dateOfBirth: new Date(dob).toISOString().split("T")[0],
+                sponsorId: sponsorId,
+                ghanaCardNumber: formData.ghanaCardNumber,
+                channel: "mtn-gh",
+                feeId: data?.data?.reference,
+              }),
+              reference: data?.data?.reference,
+            },
+          });
         },
         onError: (error) => {
           console.log(error);

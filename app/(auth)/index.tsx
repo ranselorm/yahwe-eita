@@ -112,7 +112,7 @@ export default function WelcomeScreen() {
           isChecked ? "bg-primary" : "bg-gray-400"
         }`}
         onPress={() => router.replace("/(auth)/landing")}
-        // onPress={() => router.push("/(auth)/sponsor")}
+        // onPress={() => router.push("/(auth)/status")}
       >
         <Text className="text-white text-lg font-semibold text-center">
           GET STARTED

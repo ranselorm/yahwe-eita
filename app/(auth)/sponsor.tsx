@@ -36,7 +36,7 @@ export default function SponsorScreen() {
     try {
       const { data } = await refetch({ throwOnError: true });
       setAccessToken(data?.data?.accessToken);
-      console.log(data?.data, "data");
+      // console.log(data?.data, "data");
 
       Toast.show({ type: "success", text1: "Sponsor found" });
       setTimeout(() => {
