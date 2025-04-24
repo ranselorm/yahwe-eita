@@ -210,7 +210,10 @@ export default function RegisterScreen() {
           // updateUserSession(data);
           // router.replace("/(tabs)");
           console.log(data);
-          setIsModalVisible(true);
+          setTimeout(() => {
+            setIsModalVisible(true);
+            console.log("MODAL IS OPENED");
+          }, 2000);
         },
         onError: (error) => {
           console.log(error);
@@ -293,44 +296,102 @@ export default function RegisterScreen() {
     registerMutation.isPending;
 
   return (
-    <SafeAreaView
-      className={`flex-1 p-3 h-full ${
-        isDarkMode ? "bg-secondary-100" : "bg-white"
-      }`}
-    >
-      {/* Header */}
-      <View className="flex-row justify-between mb-5 items-center">
-        <TouchableOpacity onPress={() => router.back()}>
-          <MaterialCommunityIcons
-            name="arrow-left"
-            size={25}
-            color={`${isDarkMode ? "white" : "black"}`}
-          />
-        </TouchableOpacity>
-
-        <Text
-          className={`text-2xl font-semibold ml-2 ${
-            isDarkMode ? "text-white" : "text-secondary-100"
-          }`}
-        >
-          Register
-        </Text>
-        <Text
-          className={`text-lg font-semibold ml-2 opacity-0 ${
-            isDarkMode ? "text-white" : "text-secondary-100"
-          }`}
-        >
-          Reg
-        </Text>
-      </View>
-      <KeyboardAwareScrollView
-        bottomOffset={10}
-        className="flex-1"
-        contentContainerStyle={{
-          justifyContent: "center",
-          flex: 1,
-        }}
+    <>
+      <StatusBar translucent backgroundColor="transparent" />
+      <Modal
+        visible={isModalVisible}
+        transparent
+        presentationStyle="overFullScreen" // iOS & Android: force true full-screen
+        statusBarTranslucent // Android: let your overlay go under the status bar
+        hardwareAccelerated
+        animationType="slide"
       >
+        <View className="flex-1 justify-center items-center bg-black/60 p-6">
+          <View className="bg-white p-6 rounded-lg w-full">
+            <View className="items-center">
+              <Image
+                source={require("@/assets/images/momo.png")}
+                className="w-12 h-12 rounded-xl"
+              />
+              <Text className="text-lg font-semibold my-4 text-center text-black">
+                Set up Mobile Money
+              </Text>
+            </View>
+
+            <TextInput
+              value={formData.phone}
+              // onChangeText={setPin}
+              // placeholder="6-digit OTP"
+              keyboardType="number-pad"
+              editable={false} // ← makes it read-only
+              selectTextOnFocus={false} // ← prevents even selection
+              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+            />
+
+            <Pressable
+              className="bg-primary p-3 rounded-md items-center"
+              onPress={handlePayment}
+              // disabled={verifyOtpMutation.isPending}
+            >
+              {/* <Text className="text-white text-lg font-semibold">
+                {verifyOtpMutation.isPending ? (
+                  <ActivityIndicator size={"small"} />
+                ) : (
+                  "Submit"
+                )}
+              </Text> */}
+              <Text className="text-white text-base font-semibold uppercase">
+                Proceed to purchase GHS 80 airtime
+              </Text>
+            </Pressable>
+
+            <Pressable
+              className="mt-4 items-center"
+              onPress={() => setIsModalVisible(false)}
+            >
+              <Text className="text-gray-600 text-sm">Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <SafeAreaView
+        className={`flex-1 px-4 justify-center items-center ${
+          isDarkMode ? "bg-secondary-100" : "bg-white"
+        }`}
+      >
+        {/* Header */}
+        <View className="flex-row justify-between mb-5 items-center">
+          <TouchableOpacity onPress={() => router.back()}>
+            <MaterialCommunityIcons
+              name="arrow-left"
+              size={25}
+              color={`${isDarkMode ? "white" : "black"}`}
+            />
+          </TouchableOpacity>
+
+          <Text
+            className={`text-2xl font-semibold ml-2 ${
+              isDarkMode ? "text-white" : "text-secondary-100"
+            }`}
+          >
+            Register
+          </Text>
+          <Text
+            className={`text-lg font-semibold ml-2 opacity-0 ${
+              isDarkMode ? "text-white" : "text-secondary-100"
+            }`}
+          >
+            Reg
+          </Text>
+        </View>
+        {/* <KeyboardAwareScrollView
+          bottomOffset={10}
+          className="flex-1"
+          contentContainerStyle={{
+            justifyContent: "center",
+            flex: 1,
+          }}
+        > */}
         <View className="flex-1 justify-center items-center h-full">
           <View className="w-full max-w-sm gap-y-6">
             <TextInput
@@ -471,88 +532,34 @@ export default function RegisterScreen() {
             </View>
           </View>
         </View>
-      </KeyboardAwareScrollView>
-      <Pressable
-        className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
-          isDarkMode ? "bg-white" : "bg-secondary-100"
-        } ${isButtonDisabled ? "opacity-50" : ""}`}
-        onPress={handleSubmit}
-        // onPress={() => console.log(payload)}
-        // disabled={isButtonDisabled}
-      >
-        {/* <Text
-          className={`text-lg font-semibold ${
-            isDarkMode ? "text-secondary-100" : "text-white"
-          }`}
-          disabled={registerMutation.isPending}
+        {/* </KeyboardAwareScrollView> */}
+        <Pressable
+          className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
+            isDarkMode ? "bg-white" : "bg-secondary-100"
+          } ${isButtonDisabled ? "opacity-50" : ""}`}
+          onPress={handleSubmit}
+          // onPress={() => setIsModalVisible(true)}
+          // disabled={isButtonDisabled}
         >
-          {registerMutation.isPending ? (
-            <ActivityIndicator size={"small"} />
-          ) : (
-            "CREATE ACCOUNT"
-          )}
-        </Text> */}
-        <Text>CREATE</Text>
-      </Pressable>
-      <Toast />
-      <StatusBar translucent backgroundColor="transparent" />
+          <Text
+            className={`text-lg font-semibold ${
+              isDarkMode ? "text-secondary-100" : "text-white"
+            }`}
+            // disabled={registerMutation.isPending}
+          >
+            {registerMutation.isPending ? (
+              <ActivityIndicator size={"small"} />
+            ) : (
+              "CREATE ACCOUNT"
+            )}
+          </Text>
+          {/* <Text>CREATE</Text> */}
+        </Pressable>
+        <Toast />
+        {/* <StatusBar translucent backgroundColor="transparent" /> */}
 
-      {/* MODAL */}
-      <Modal
-        visible={isModalVisible}
-        transparent
-        // animationType="slide"
-        statusBarTranslucent
-      >
-        <View className="flex-1 justify-center items-center bg-black/60 p-6">
-          <View className="bg-white p-6 rounded-lg w-full">
-            <View className="items-center">
-              <Image
-                source={require("@/assets/images/momo.png")}
-                className="w-12 h-12 rounded-xl"
-              />
-              <Text className="text-lg font-semibold my-4 text-center text-black">
-                Set up Mobile Money
-              </Text>
-            </View>
-
-            <TextInput
-              value={formData.phone}
-              // onChangeText={setPin}
-              // placeholder="6-digit OTP"
-              keyboardType="number-pad"
-              editable={false} // ← makes it read-only
-              selectTextOnFocus={false} // ← prevents even selection
-              // maxLength={10}
-              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
-            />
-
-            <Pressable
-              className="bg-primary p-3 rounded-md items-center"
-              onPress={handlePayment}
-              // disabled={verifyOtpMutation.isPending}
-            >
-              {/* <Text className="text-white text-lg font-semibold">
-                {verifyOtpMutation.isPending ? (
-                  <ActivityIndicator size={"small"} />
-                ) : (
-                  "Submit"
-                )}
-              </Text> */}
-              <Text className="text-white text-base font-semibold uppercase">
-                Proceed to purchase GHS 80 airtime
-              </Text>
-            </Pressable>
-
-            <Pressable
-              className="mt-4 items-center"
-              onPress={() => setIsModalVisible(false)}
-            >
-              <Text className="text-gray-600 text-sm">Cancel</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
+        {/* MODAL */}
+      </SafeAreaView>
+    </>
   );
 }
