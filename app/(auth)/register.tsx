@@ -28,6 +28,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useVerify, VerifyType } from "@/hooks/useVerify";
 import { useVerifyGhanaCard } from "@/hooks/useVerifyGhanaCard";
 import axios from "axios";
+import { useFee } from "@/hooks/useFee";
 
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
@@ -81,6 +82,7 @@ export default function RegisterScreen() {
   });
 
   const registerMutation = useRegister(accessToken, true);
+  const feeMutation = useFee();
   // const sendOtpMutation = useSendOtp();
 
   const handleChange = (name: string, value: string | boolean) => {
@@ -200,9 +202,14 @@ export default function RegisterScreen() {
     feeId: feeId,
   };
 
+  const feePayload = {
+    phone: formData.phone,
+    customerName: formData.fullName,
+    customerEmail: formData.email,
+    channel: "mtn-gh", // mtn-gh | vodafone-gh | tigo-gh
+  };
+
   const handleSubmit = async () => {
-    console.log(payload, "PAYLOAD");
-    // setIsModalVisible(true);
     try {
       await validationSchema.validate(formData);
       registerMutation.mutate(payload, {
@@ -284,7 +291,27 @@ export default function RegisterScreen() {
     }
   };
 
-  const handlePayment = async () => {};
+  const handlePayment = async () => {
+    try {
+      feeMutation.mutate(feePayload, {
+        onSuccess: (data) => {
+          // router.replace("/(tabs)");
+          console.log(data);
+        },
+        onError: (error) => {
+          console.log(error);
+          Toast.show({
+            type: "error",
+            text1: "Payment failed!",
+            text2: (error as any)?.message || "Something went wrong!",
+            position: "top",
+          });
+        },
+      });
+    } catch (error) {
+      showErrorToast((error as any).message);
+    }
+  };
 
   const isButtonDisabled =
     !formData.fullName ||
