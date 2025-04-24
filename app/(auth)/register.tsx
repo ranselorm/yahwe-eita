@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Modal,
   Image,
+  StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -61,7 +62,7 @@ export default function RegisterScreen() {
   const [showPicker, setShowPicker] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { accessToken } = useUser();
-  const [feedId, setFeeId] = useState("1234567");
+  const [feeId, setFeeId] = useState("qGD7Wwq7JylaI");
 
   const { sponsorId, setUser } = useUser();
 
@@ -79,7 +80,7 @@ export default function RegisterScreen() {
     network: "",
   });
 
-  const registerMutation = useRegister(accessToken);
+  const registerMutation = useRegister(accessToken, true);
   // const sendOtpMutation = useSendOtp();
 
   const handleChange = (name: string, value: string | boolean) => {
@@ -196,13 +197,14 @@ export default function RegisterScreen() {
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
     channel: "mtn-gh",
-    feedId: feedId,
+    feeId: feeId,
   };
 
   const handleSubmit = async () => {
+    console.log(payload, "PAYLOAD");
+    // setIsModalVisible(true);
     try {
       await validationSchema.validate(formData);
-      // const phone = formData.phone;
       registerMutation.mutate(payload, {
         onSuccess: (data) => {
           // updateUserSession(data);
@@ -211,12 +213,11 @@ export default function RegisterScreen() {
           setIsModalVisible(true);
         },
         onError: (error) => {
+          console.log(error);
           Toast.show({
             type: "error",
             text1: "Registration Failed",
-            text2:
-              (error as any)?.response?.data?.issue?.message ||
-              "Something went wrong!",
+            text2: (error as any)?.message || "Something went wrong!",
             position: "top",
           });
         },
@@ -477,9 +478,9 @@ export default function RegisterScreen() {
         } ${isButtonDisabled ? "opacity-50" : ""}`}
         onPress={handleSubmit}
         // onPress={() => console.log(payload)}
-        disabled={isButtonDisabled}
+        // disabled={isButtonDisabled}
       >
-        <Text
+        {/* <Text
           className={`text-lg font-semibold ${
             isDarkMode ? "text-secondary-100" : "text-white"
           }`}
@@ -490,14 +491,17 @@ export default function RegisterScreen() {
           ) : (
             "CREATE ACCOUNT"
           )}
-        </Text>
+        </Text> */}
+        <Text>CREATE</Text>
       </Pressable>
       <Toast />
+      <StatusBar translucent backgroundColor="transparent" />
 
+      {/* MODAL */}
       <Modal
         visible={isModalVisible}
         transparent
-        animationType="slide"
+        // animationType="slide"
         statusBarTranslucent
       >
         <View className="flex-1 justify-center items-center bg-black/60 p-6">

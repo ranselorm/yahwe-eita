@@ -1,7 +1,8 @@
+// hooks/useRegister.ts
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
-interface UserData {
+export interface UserData {
   fullName: string;
   email: string;
   password: string;
@@ -10,20 +11,22 @@ interface UserData {
   dateOfBirth: string;
 }
 
+// your API root
 const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/register";
 
-export const useRegister = (token: string) => {
-  console.log(token, "IN HOOK TOKEN");
-  return useMutation({
+// now hook takes token *and* validateOnly
+export const useRegister = (token: string, validateOnly = false) => {
+  return useMutation<any, AxiosError, UserData>({
     mutationFn: async (userData: UserData) => {
-      const response = await axios.post(API_URL, userData, {
+      // append ?validate_only=true|false
+      const url = `${API_URL}?validate_only=${validateOnly}`;
+      const { data } = await axios.post(url, userData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-
-      return response.data;
+      return data;
     },
   });
 };
