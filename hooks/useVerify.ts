@@ -14,14 +14,18 @@ export interface VerifyParams {
 
 export const useVerify = (
   params: VerifyParams,
+  token: string,
   options?: UseQueryOptions<any, AxiosError>
 ) => {
   const { type, id, provider } = params;
 
   return useQuery<any, AxiosError>({
-    queryKey: ["verify", type, id, provider],
+    queryKey: ["verify", type, id, provider, token],
     queryFn: async () => {
       const { data } = await axios.get(API_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         params: { type, id, provider },
       });
       return data;

@@ -60,6 +60,7 @@ export default function RegisterScreen() {
   const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
   const [showPicker, setShowPicker] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { accessToken } = useUser();
   const [feedId, setFeeId] = useState("1234567");
 
   const { sponsorId, setUser } = useUser();
@@ -78,7 +79,7 @@ export default function RegisterScreen() {
     network: "",
   });
 
-  const registerMutation = useRegister();
+  const registerMutation = useRegister(accessToken);
   // const sendOtpMutation = useSendOtp();
 
   const handleChange = (name: string, value: string | boolean) => {
@@ -97,6 +98,7 @@ export default function RegisterScreen() {
   //verify phone (momo) number
   const { data, error, isFetching, refetch } = useVerify(
     { type: "phone" as VerifyType, id: formData.phone, provider: "mtn-gh" },
+    accessToken,
     {
       queryKey: [
         "verify",
@@ -144,7 +146,7 @@ export default function RegisterScreen() {
     error: ghanaCardVerifyError,
     isFetching: ghanaCardVerifyFetching,
     refetch: ghanaCardVerifyRefetch,
-  } = useVerifyGhanaCard(formData.ghanaCardNumber, {
+  } = useVerifyGhanaCard(formData.ghanaCardNumber, accessToken, {
     queryKey: ["verifyGhanaCard", formData.ghanaCardNumber],
     enabled: formData.ghanaCardNumber.length === 15,
   });

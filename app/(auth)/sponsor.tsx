@@ -21,7 +21,6 @@ export default function SponsorScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
   const { setAccessToken, accessToken } = useUser();
-  console.log(accessToken, "ACCESS");
 
   const { isLoading, refetch } = useSponsor(phone, {
     queryKey: ["sponsor", phone],
@@ -36,8 +35,8 @@ export default function SponsorScreen() {
 
     try {
       const { data } = await refetch({ throwOnError: true });
-      setAccessToken(data?.data?.access_token);
-      console.log(data?.data?.user, "sponsor");
+      setAccessToken(data?.data?.accessToken);
+      console.log(data?.data, "data");
 
       Toast.show({ type: "success", text1: "Sponsor found" });
       setTimeout(() => {
