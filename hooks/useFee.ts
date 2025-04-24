@@ -14,7 +14,6 @@ const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/fee";
 
 export const useFee = () => {
   const { accessToken } = useUser();
-  console.log(accessToken, "in use fee hook");
   return useMutation<any, AxiosError, FeeData>({
     mutationFn: async (feeData: FeeData) => {
       const url = `${API_URL}`;

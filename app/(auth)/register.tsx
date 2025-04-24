@@ -328,8 +328,8 @@ export default function RegisterScreen() {
       <Modal
         visible={isModalVisible}
         transparent
-        presentationStyle="overFullScreen" // iOS & Android: force true full-screen
-        statusBarTranslucent // Android: let your overlay go under the status bar
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
         hardwareAccelerated
         animationType="slide"
       >
@@ -349,26 +349,23 @@ export default function RegisterScreen() {
               value={formData.phone}
               // onChangeText={setPin}
               // placeholder="6-digit OTP"
-              keyboardType="number-pad"
-              editable={false} // ← makes it read-only
-              selectTextOnFocus={false} // ← prevents even selection
-              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+              // keyboardType="number-pad"
+              editable={false}
+              selectTextOnFocus={false}
+              className="bg-gray-200 border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
             />
 
             <Pressable
               className="bg-primary p-3 rounded-md items-center"
               onPress={handlePayment}
-              // disabled={verifyOtpMutation.isPending}
+              disabled={feeMutation.isPending}
             >
-              {/* <Text className="text-white text-lg font-semibold">
-                {verifyOtpMutation.isPending ? (
+              <Text className="text-white text-lg font-semibold">
+                {feeMutation.isPending ? (
                   <ActivityIndicator size={"small"} />
                 ) : (
-                  "Submit"
+                  "Proceed to purchase GHS 80 airtime"
                 )}
-              </Text> */}
-              <Text className="text-white text-base font-semibold uppercase">
-                Proceed to purchase GHS 80 airtime
               </Text>
             </Pressable>
 
@@ -382,9 +379,7 @@ export default function RegisterScreen() {
         </View>
       </Modal>
       <SafeAreaView
-        className={`flex-1 px-4 justify-center items-center ${
-          isDarkMode ? "bg-secondary-100" : "bg-white"
-        }`}
+        className={`flex-1 p-6 ${isDarkMode ? "bg-secondary-100" : "bg-white"}`}
       >
         {/* Header */}
         <View className="flex-row justify-between mb-5 items-center">
