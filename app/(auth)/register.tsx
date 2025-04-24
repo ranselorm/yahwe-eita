@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Platform,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
@@ -57,6 +58,8 @@ export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
   const [showPicker, setShowPicker] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState(true);
+
   const { sponsorId, setUser } = useUser();
 
   const onChange = (_event: any, selectedDate?: Date) => {
@@ -142,6 +145,8 @@ export default function RegisterScreen() {
     if (formData.phone.length === 10) tryVerify();
   }, [formData.phone]);
 
+  //verify ghana card
+
   const {
     data: ghanaCardVerifyData,
     error: ghanaCardVerifyError,
@@ -152,7 +157,6 @@ export default function RegisterScreen() {
     enabled: formData.ghanaCardNumber.length === 15,
   });
   const ghanaCardData = ghanaCardVerifyData?.data?.data;
-  console.log(ghanaCardData, "data in data");
   useEffect(() => {
     if (formData.ghanaCardNumber.length === 15) {
       ghanaCardVerifyRefetch();
@@ -251,6 +255,8 @@ export default function RegisterScreen() {
       showErrorToast((error as any).message);
     }
   };
+
+  const handlePayment = async () => {};
 
   const isButtonDisabled =
     !formData.fullName ||
@@ -463,6 +469,54 @@ export default function RegisterScreen() {
         </Text>
       </Pressable>
       <Toast />
+
+      <Modal
+        visible={isModalVisible}
+        transparent
+        animationType="slide"
+        statusBarTranslucent
+      >
+        <View className="flex-1 justify-center items-center bg-black/60 p-6">
+          <View className="bg-white p-6 rounded-lg w-full">
+            <Text className="text-lg font-semibold mb-4 text-black">
+              Enter OTP Code
+            </Text>
+
+            <TextInput
+              // value={pin}
+              // onChangeText={setPin}
+              placeholder="6-digit OTP"
+              keyboardType="number-pad"
+              maxLength={6}
+              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+            />
+
+            <Pressable
+              className="bg-black p-3 rounded-md items-center"
+              onPress={handlePayment}
+              // disabled={verifyOtpMutation.isPending}
+            >
+              {/* <Text className="text-white text-lg font-semibold">
+                {verifyOtpMutation.isPending ? (
+                  <ActivityIndicator size={"small"} />
+                ) : (
+                  "Submit"
+                )}
+              </Text> */}
+              <Text className="text-white text-lg font-semibold uppercase">
+                Proceed to purchase GHS 80 airtime
+              </Text>
+            </Pressable>
+
+            <Pressable
+              className="mt-4 items-center"
+              onPress={() => setIsModalVisible(false)}
+            >
+              <Text className="text-gray-600 text-sm">Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

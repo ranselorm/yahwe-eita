@@ -33,13 +33,13 @@ export default function SponsorScreen() {
 
     try {
       const { data } = await refetch({ throwOnError: true });
-      console.log(data);
+      console.log(data?.data?.user, "sponsor");
 
       Toast.show({ type: "success", text1: "Sponsor found" });
       setTimeout(() => {
         router.push({
           pathname: "/confirmation",
-          params: { sponsor: JSON.stringify(data) },
+          params: { sponsor: JSON.stringify(data?.data?.user) },
         });
       }, 500);
     } catch (err: any) {

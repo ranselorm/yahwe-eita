@@ -19,13 +19,13 @@ export default function ConfirmationScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
-  console.log(sponsor);
+  // console.log(sponsor, "in confirmation");
 
   const { setSponsorId } = useUser();
 
-  console.log(sponsorData);
+  console.log(sponsorData, "data in confirm");
 
-  const sponsorId = sponsorData?.data?.id;
+  const sponsorId = sponsorData?.id;
   console.log(sponsorId && sponsorId);
 
   const handlePress = () => {
@@ -65,14 +65,14 @@ export default function ConfirmationScreen() {
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            {sponsorData?.data?.name}
+            {sponsorData?.name}
           </Text>
           <Text
             className={`text-lg font-semibold ${
               isDarkMode ? "text-black" : "text-black"
             }`}
           >
-            {sponsorData?.data?.email}
+            {sponsorData?.phone}
           </Text>
         </View>
       </View>
