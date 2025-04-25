@@ -153,14 +153,16 @@ export default function GenealogyScreen() {
         </Text>
         <Pressable
           className="mt-2 px-6 py-2 rounded-full bg-transparent border border-black"
-          onPress={() => router.push("/(tabs)/genealogy/tree")} //pass the data as a parameter to the tree screen
+          onPress={() => router.push("/(tabs)/genealogy/tree")}
         >
           <Text className="text-black font-semibold text-sm">VIEW TREE</Text>
         </Pressable>
       </View>
 
       {isLoading ? (
-        <ActivityIndicator />
+        <SafeAreaView className="flex-1 items-center justify-center">
+          <ActivityIndicator />
+        </SafeAreaView>
       ) : data?.recruits?.length === 0 ? (
         <View className="flex-1 items-center justify-center px-4">
           <Ionicons name="git-branch-outline" size={60} color="#9CA3AF" />
