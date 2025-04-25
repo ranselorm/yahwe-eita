@@ -111,7 +111,7 @@ export default function WelcomeScreen() {
         className={`mt-6 px-6 py-3 rounded-lg w-[80%] ${
           isChecked ? "bg-primary" : "bg-gray-400"
         }`}
-        onPress={() => router.replace("/(auth)/landing")}
+        onPress={() => router.push("/(auth)/landing")}
         // onPress={() => router.push("/(auth)/status")}
       >
         <Text className="text-white text-lg font-semibold text-center">

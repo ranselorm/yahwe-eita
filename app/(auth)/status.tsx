@@ -80,7 +80,7 @@ export default function StatusScreen() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-      console.log(data, "STATUS DATA");
+      // console.log(data, "STATUS DATA");
 
       if (data?.data?.status === "COMPLETED") {
         setDone(true);
@@ -111,10 +111,10 @@ export default function StatusScreen() {
     }
   };
 
-  if (isChecking) {
+  if (isChecking || registerMutation.isPending) {
     return (
-      <SafeAreaView>
-        <ActivityIndicator size="large" />
+      <SafeAreaView className="flex-1 justify-center items-center bg-white">
+        <ActivityIndicator size="small" />
       </SafeAreaView>
     );
   }

@@ -21,20 +21,45 @@ import { useInvite } from "@/hooks/useInvite";
 import Toast from "react-native-toast-message";
 import { useGenealogy } from "@/hooks/useGenealogy";
 
+const dataArray = [
+  {
+    id: 1,
+    name: "Randy Selorm",
+    phone: "0550013022",
+    recruits: [
+      {
+        id: 2,
+        name: "John Doe",
+        phone: "0550013022",
+      },
+      {
+        id: 3,
+        name: "Mary Woods",
+        phone: "0591234085",
+      },
+      {
+        id: 4,
+        name: "Rita Centari",
+        phone: "05945234025",
+      },
+    ],
+  },
+];
+
 function ReferralCard({
   name,
   phone,
-  status,
-  invited,
-  level,
-  progress,
-}: {
+}: // status,
+// invited,
+// level,
+// progress,
+{
   name: string;
-  phone: number;
-  status: string;
-  invited: number;
-  level: number;
-  progress: number;
+  phone: string;
+  // status: string;
+  // invited: number;
+  // level: number;
+  // progress: number;
 }) {
   const isDarkMode = useColorScheme() === "dark";
 
@@ -52,24 +77,24 @@ function ReferralCard({
         >
           Recruit
         </Text>
-        <Text
+        {/* <Text
           className={`${
             status === "ACCEPTED" ? "bg-accent" : "bg-dark-100"
           } text-white px-3 py-1 rounded-full text-xs`}
         >
           {status}
-        </Text>
+        </Text> */}
       </View>
 
       <View className="mt-2">
         <View className="flex-row justify-between items-center my-4">
-          {/* <Text
+          <Text
             className={`text-xl font-semibold ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
             {name}
-          </Text> */}
+          </Text>
           <Text
             className={`text-xl font-semibold ${
               isDarkMode ? "text-white" : "text-black"
@@ -77,7 +102,7 @@ function ReferralCard({
           >
             {phone}
           </Text>
-          {status === "ACCEPTED" ? (
+          {/* {status === "ACCEPTED" ? (
             <MaterialCommunityIcons
               name="account-check-outline"
               size={20}
@@ -89,13 +114,13 @@ function ReferralCard({
               size={20}
               color={`${isDarkMode ? "white" : "black"}`}
             />
-          )}
+          )} */}
         </View>
-        <Text className="text-black mb-4 font-semibold">
+        {/* <Text className="text-black mb-4 font-semibold">
           Invited: {invited}
-        </Text>
+        </Text> */}
 
-        <ProgressBar progress={progress} level={level} />
+        {/* <ProgressBar progress={progress} level={level} /> */}
       </View>
     </View>
   );
@@ -108,6 +133,7 @@ export default function GenealogyScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const { data, isLoading } = useGenealogy();
+  console.log("GENEALOGY", data);
 
   const inviteMutation = useInvite();
 
@@ -163,7 +189,7 @@ export default function GenealogyScreen() {
         <SafeAreaView className="flex-1 items-center justify-center">
           <ActivityIndicator />
         </SafeAreaView>
-      ) : data?.recruits?.length === 0 ? (
+      ) : data?.length === 0 ? (
         <View className="flex-1 items-center justify-center px-4">
           <Ionicons name="git-branch-outline" size={60} color="#9CA3AF" />
           <Text className="text-center mt-3 text-lg text-gray-500">
@@ -176,15 +202,16 @@ export default function GenealogyScreen() {
       ) : (
         <FlatList
           data={data?.recruits}
-          keyExtractor={(item) => item.id}
+          // data={dataArray}
+          keyExtractor={(item) => item.name}
           renderItem={({ item }) => (
             <ReferralCard
               name={item.name}
               phone={item.phone}
-              status={item.status}
-              invited={item.invited}
-              level={item.level}
-              progress={item.progress}
+              // status={item.status}
+              // invited={item.invited}
+              // level={item.level}
+              // progress={item.progress}
             />
           )}
           className="mt-6"
