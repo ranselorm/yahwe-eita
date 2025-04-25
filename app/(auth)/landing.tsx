@@ -59,7 +59,7 @@ export default function Landing() {
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            Create your account to start winning
+            Create Account
           </Text>
         </View>
 

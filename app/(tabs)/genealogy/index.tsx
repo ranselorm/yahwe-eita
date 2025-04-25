@@ -189,7 +189,7 @@ export default function GenealogyScreen() {
         <SafeAreaView className="flex-1 items-center justify-center">
           <ActivityIndicator />
         </SafeAreaView>
-      ) : data?.length === 0 ? (
+      ) : data?.recruits?.length === 0 ? (
         <View className="flex-1 items-center justify-center px-4">
           <Ionicons name="git-branch-outline" size={60} color="#9CA3AF" />
           <Text className="text-center mt-3 text-lg text-gray-500">

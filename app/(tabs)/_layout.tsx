@@ -3,12 +3,15 @@ import Octicons from "@expo/vector-icons/Octicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useUser } from "@/context/userContext";
 
 export default function TabsLayout() {
-  // const isAuthenticated = false;
-  // if (!isAuthenticated) {
-  //   return <Redirect href="/landing" />;
-  // }
+  const { user } = useUser();
+  console.log(user, "in tabs");
+
+  if (!user) {
+    return <Redirect href="/(auth)/landing" />;
+  }
 
   return (
     <Tabs

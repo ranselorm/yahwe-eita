@@ -80,7 +80,7 @@ export default function StatusScreen() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-      // console.log(data, "STATUS DATA");
+      console.log(data, "STATUS DATA");
 
       if (data?.data?.status === "COMPLETED") {
         setDone(true);
