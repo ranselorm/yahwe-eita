@@ -97,7 +97,7 @@ export default function HomeScreen() {
             isDarkMode ? "bg-white" : "bg-dark-100"
           } w-full p-4 mt-6 rounded-xl`}
         >
-          <View className="flex-row justify-center gap-x-2 items-center">
+          <View className="flex-row gap-x-2 items-center">
             <Ionicons name="time-outline" size={24} color="white" />
             <Text
               className={`${
@@ -108,10 +108,10 @@ export default function HomeScreen() {
               <Countdown createdAt={homeData?.userInfo?.createdAt} />
             </Text>
           </View>
-          <View className="flex-row items-center justify-between mt-4 px-4">
-            <ProgressBar level={homeData?.level} progress={0} />
-            <Text className="text-white">Level: {homeData?.level}</Text>
-          </View>
+          {/* <View className="flex-row items-center justify-between mt-4 px-4"> */}
+          <ProgressBar level={homeData?.level} progress={homeData?.level} />
+          {/* <Text className="text-white">Level: {homeData?.level}</Text> */}
+          {/* </View> */}
         </View>
         {/* Balance Card */}
         <View
