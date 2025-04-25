@@ -1,3 +1,4 @@
+import { useUser } from "@/context/userContext";
 import { Stack, Redirect } from "expo-router";
 
 export default function AuthLayout() {
@@ -6,10 +7,13 @@ export default function AuthLayout() {
   // if (isAuthenticated) {
   //   return <Redirect href="/(tabs)" />;
   // }
+  const { user } = useUser();
+  if (user?.isLoggedIn) {
+    return <Redirect href="/(tabs)" />;
+  }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="index" options={{ headerShown: false }} /> */}
       <Stack.Screen name="index" />
       <Stack.Screen name="landing" />
       <Stack.Screen name="sponsor" />
