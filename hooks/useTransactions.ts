@@ -21,19 +21,19 @@ const fetchTransactions = async (
   return { transactions, count };
 };
 
-export const useTransactions = (page: number, limit: number) => {
+export const useTransactions = () => {
   const { user } = useUser();
   const token = user?.token;
 
   return useQuery({
-    queryKey: ["transactions", token, page, limit],
+    queryKey: ["transactions", token],
     queryFn: async () => {
       const { transactions, count } = await fetchTransactions(
         token!
         // page,
         // limit
       );
-      return { transactions, count };
+      return { transactions };
     },
     enabled: !!token,
   });

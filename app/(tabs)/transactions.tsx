@@ -9,6 +9,8 @@ import {
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useState } from "react";
+import { useTransactions } from "@/hooks/useTransactions";
+import moment from "moment";
 
 const data = [
   {
@@ -42,10 +44,12 @@ function Card({
   name,
   amount,
   date,
+  desc,
 }: {
   name: string;
   amount: number;
   date: string;
+  desc: string;
 }) {
   const isDarkMode = useColorScheme() === "dark";
 
@@ -79,12 +83,23 @@ function Card({
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            {date}
+            {timeAgo(date)}
           </Text>
         </View>
       </View>
+      <Text
+        className={`text-sm font-bold mt-4 ${
+          isDarkMode ? "text-white" : "text-black"
+        }`}
+      >
+        {desc}
+      </Text>
     </View>
   );
+}
+
+function timeAgo(date: any) {
+  return moment(date).fromNow();
 }
 
 export default function Transactions() {
@@ -92,11 +107,19 @@ export default function Transactions() {
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const {
+    data,
+    isLoading: transactionsLoading,
+    refetch,
+    error,
+  } = useTransactions();
+  console.log(data?.transactions);
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    //   await refetch();
+    await refetch();
     setRefreshing(false);
-  }, []); //add refetch to the dependency array
+  }, [refetch]);
 
   return (
     <SafeAreaView
@@ -120,7 +143,7 @@ export default function Transactions() {
 
       {isLoading ? (
         <ActivityIndicator />
-      ) : data?.length === 0 ? (
+      ) : data?.transactions.length === 0 ? (
         <View className="flex-1 items-center justify-center px-4">
           <FontAwesome name="exchange" size={24} color="black" />{" "}
           <Text className="text-center mt-3 text-lg text-gray-500">
@@ -132,10 +155,15 @@ export default function Transactions() {
         </View>
       ) : (
         <FlatList
-          data={data}
+          data={data?.transactions}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Card name={item.name} amount={item.amount} date={item.date} />
+            <Card
+              name={item?.user?.name}
+              amount={item.amount}
+              date={item.createdAt}
+              desc={item.description}
+            />
           )}
           className="mt-6 pb-20"
           refreshControl={
