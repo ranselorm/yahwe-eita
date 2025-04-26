@@ -13,7 +13,7 @@ import {
   NativeScrollEvent,
 } from "react-native";
 import { router } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
@@ -21,18 +21,18 @@ const { width } = Dimensions.get("window");
 const onboardingData = [
   {
     // image: require("@/assets/images/onboarding1.png"),
-    title: "Welcome to YAHWE-EITA",
-    description: "Join a powerful sales and marketing platform!",
+    title: "Welcome",
+    text: "Congratulations on your decision to join Yahwe-eita Culture Ventures, a registered company. \n\nYahwe-eita Culture, is a Sales and Marketing concept designed to drive sales of goods and services online. The concept is a membership affiliate programme that is designed essentially to reward loyal customers of a chosen brand, via a simple referral and compensation formula.",
   },
   {
     // image: require("@/assets/images/onboard2.png"),
-    title: "Grow Your Network",
-    description: "Refer products, earn commissions, grow your business.",
+    title: "OUR PURPOSE",
+    text: "Refer products, earn commissions, grow your business.",
   },
   {
     // image: require("@/assets/images/onboard3.png"),
     title: "Get Rewarded",
-    description: "Get compensated for every successful referral.",
+    text: "Get compensated for every successful referral.",
   },
 ];
 
@@ -76,42 +76,60 @@ export default function WelcomeScreen() {
     }
   };
 
-  const renderItem = ({ item, index }: any) => (
-    <View className="flex-1 items-center justify-center w-screen p-6">
-      {/* <Image
+  const renderItem = ({ item, index }: any) => {
+    const descriptionParagraphs = item.text.split("\n\n"); // double new line split
+
+    return (
+      <SafeAreaView
+        className={`flex-1 bg-red-300  p-6 w-screen ${
+          isDarkMode ? " bg-white" : "bg-black"
+        }`}
+      >
+        {/* <Image
         source={item.image}
         className="w-full h-2/3"
         resizeMode="contain"
       /> */}
-      <Text
-        className={`text-3xl font-bold mt-6 ${
-          isDarkMode ? "text-white" : "text-black"
-        }`}
-      >
-        {item.title}
-      </Text>
-      <Text
-        className={`text-lg text-center mt-4 ${
-          isDarkMode ? "text-gray-300" : "text-gray-700"
-        }`}
-      >
-        {item.description}
-      </Text>
-
-      {/* Checkbox only on last screen */}
-      {index === onboardingData.length - 1 && (
-        <View className="flex-row items-center mt-8">
-          <Checkbox checked={isChecked} onChange={setIsChecked} />
+        <View className="flex-1 items-center justify-center px-10">
+          <FontAwesome name="handshake-o" size={30} color="#dc6115" />
           <Text
-            className={`ml-2 ${isDarkMode ? "text-white" : "text-gray-700"}`}
+            className={`text-3xl font-bold uppercase mt-6 ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
           >
-            I agree to the{" "}
-            <Text className="text-orange-500">Terms and Conditions</Text>
+            {item.title}
           </Text>
+          <View className="mt-4">
+            {descriptionParagraphs.map((para: any, idx: any) => (
+              <Text
+                key={idx}
+                className={`text-lg text-center ${
+                  isDarkMode ? "text-white" : "text-black"
+                } ${idx > 0 ? "mt-4" : ""}`}
+              >
+                {para.trim()}
+              </Text>
+            ))}
+          </View>
+
+          {/* Checkbox only on last screen */}
+          {index === onboardingData.length - 1 && (
+            <View className="flex-row items-center mt-8">
+              <Checkbox checked={isChecked} onChange={setIsChecked} />
+              <Text
+                className={`ml-2 ${
+                  isDarkMode ? "text-white" : "text-gray-700"
+                }`}
+              >
+                I agree to the{" "}
+                <Text className="text-orange-500">Terms and Conditions</Text>
+              </Text>
+            </View>
+          )}
         </View>
-      )}
-    </View>
-  );
+      </SafeAreaView>
+    );
+  };
 
   return (
     <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
