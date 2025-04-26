@@ -1,6 +1,4 @@
-// app/(auth)/WelcomeScreen.tsx
-
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   FlatList,
@@ -11,27 +9,30 @@ import {
   Image,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  ScrollView,
 } from "react-native";
 import { router } from "expo-router";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const { width } = Dimensions.get("window");
+const { width, height: windowHeight } = Dimensions.get("window");
 
 const onboardingData = [
   {
-    // image: require("@/assets/images/onboarding1.png"),
     title: "Welcome",
-    text: "Congratulations on your decision to join Yahwe-eita Culture Ventures, a registered company. \n\nYahwe-eita Culture, is a Sales and Marketing concept designed to drive sales of goods and services online. The concept is a membership affiliate programme that is designed essentially to reward loyal customers of a chosen brand, via a simple referral and compensation formula.",
+    text: "Congratulations on your decision to join Yahwe-eita Culture Ventures, a registered company.\n\nYahwe-eita Culture, is a Sales and Marketing concept designed to drive sales of goods and services online. The concept is a membership affiliate programme that is designed essentially to reward loyal customers of a chosen brand, via a simple referral and compensation formula.",
   },
   {
-    // image: require("@/assets/images/onboard2.png"),
     title: "OUR PURPOSE",
-    text: "Refer products, earn commissions, grow your business.",
+    text: "Is to modernize and digitize the Ghanaian culture of voluntarily Giving (for example, to help out-door a newly born, or to bereaved friends and associates in raising funds to bury their dead).\n\nIt is a rewarding system to the network of Givers and Receivers that is routed through the Mobile phone Airtime and Data that we buy.\n\nYahwe-eita thus offers affiliate members an exciting opportunity to earn some supplementary income together with their reliable relations and friends in cycles of Eight-week periods by way of sharing their mobile phone Airtime credit with their uplines.",
+  },
+
+  {
+    title: "OUR CORPORATE VALUES",
+    text: "• Rewarding outstanding performance\n\n• Decent self-application in the Social Media space and in seeking beneficial relationships.\n\n• Teamwork, Loyalty and Trust in building solid relationships and networks.\n\n• Strict adherence to the highest ethical and professional standards.\n\n• Genuine contentment in helping others to succeed.",
   },
   {
-    // image: require("@/assets/images/onboard3.png"),
-    title: "Get Rewarded",
+    title: "OUR CORPORATE VALUES",
     text: "Get compensated for every successful referral.",
   },
 ];
@@ -77,21 +78,17 @@ export default function WelcomeScreen() {
   };
 
   const renderItem = ({ item, index }: any) => {
-    const descriptionParagraphs = item.text.split("\n\n"); // double new line split
+    const descriptionParagraphs = item.text.split("\n\n");
 
     return (
       <SafeAreaView
-        className={`flex-1 bg-red-300  p-6 w-screen ${
-          isDarkMode ? " bg-white" : "bg-black"
+        className={`flex-1 p-6 w-screen ${
+          isDarkMode ? "bg-black" : "bg-white"
         }`}
       >
-        {/* <Image
-        source={item.image}
-        className="w-full h-2/3"
-        resizeMode="contain"
-      /> */}
-        <View className="flex-1 items-center justify-center px-10">
+        <View className="flex-1 px-6 mt-24">
           <FontAwesome name="handshake-o" size={30} color="#dc6115" />
+
           <Text
             className={`text-3xl font-bold uppercase mt-6 ${
               isDarkMode ? "text-white" : "text-black"
@@ -99,17 +96,24 @@ export default function WelcomeScreen() {
           >
             {item.title}
           </Text>
-          <View className="mt-4">
-            {descriptionParagraphs.map((para: any, idx: any) => (
-              <Text
-                key={idx}
-                className={`text-lg text-center ${
-                  isDarkMode ? "text-white" : "text-black"
-                } ${idx > 0 ? "mt-4" : ""}`}
-              >
-                {para.trim()}
-              </Text>
-            ))}
+
+          {/* Fixed height description area */}
+          <View style={{ height: windowHeight * 0.5 }} className="w-full mt-6">
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 10 }}
+            >
+              {descriptionParagraphs.map((para: any, idx: any) => (
+                <Text
+                  key={idx}
+                  className={`text-lg text-left ${
+                    isDarkMode ? "text-white" : "text-black"
+                  } ${idx > 0 ? "mt-4" : ""}`}
+                >
+                  {para.trim()}
+                </Text>
+              ))}
+            </ScrollView>
           </View>
 
           {/* Checkbox only on last screen */}
