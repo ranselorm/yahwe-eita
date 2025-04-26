@@ -2,11 +2,7 @@ import { useUser } from "@/context/userContext";
 import { Stack, Redirect } from "expo-router";
 
 export default function AuthLayout() {
-  // const isAuthenticated = true; // fetch user dynamically later
 
-  // if (isAuthenticated) {
-  //   return <Redirect href="/(tabs)" />;
-  // }
   const { user } = useUser();
   if (user?.isLoggedIn) {
     return <Redirect href="/(tabs)" />;
