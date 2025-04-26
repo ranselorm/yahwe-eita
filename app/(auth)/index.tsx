@@ -163,20 +163,25 @@ export default function WelcomeScreen() {
 
   return (
     <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
-      <View className="items-center justify-left flex-row p-6">
-        <View className="w-16 h-16">
-          <Image
-            source={require("@/assets/images/logo.png")}
-            className="w-full h-full"
-          />
+      <View className="flex-row items-center justify-between p-6">
+        <View className="items-center justify-left flex-row">
+          <View className="w-16 h-16">
+            <Image
+              source={require("@/assets/images/logo.png")}
+              className="w-full h-full"
+            />
+          </View>
+          <Text
+            className={`text-lg font-bold text-center -ml-6 ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            YAHWE-EITA
+          </Text>
         </View>
-        <Text
-          className={`text-lg font-bold text-center -ml-6 ${
-            isDarkMode ? "text-white" : "text-black"
-          }`}
-        >
-          YAHWE-EITA
-        </Text>
+        <Pressable className={`${isDarkMode ? "bg-white" : "bg-black"}`}>
+          <Text>Login</Text>
+        </Pressable>
       </View>
       <FlatList
         ref={flatListRef}
