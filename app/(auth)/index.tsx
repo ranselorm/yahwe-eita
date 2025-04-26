@@ -112,26 +112,11 @@ export default function WelcomeScreen() {
           isDarkMode ? "bg-black" : "bg-white"
         }`}
       >
-        <View className="items-center justify-left flex-row">
-          <View className="w-16 h-16">
-            <Image
-              source={require("@/assets/images/logo.png")}
-              className="w-full h-full"
-            />
-          </View>
-          <Text
-            className={`text-lg font-bold text-center -ml-6 ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            YAHWE-EITA
-          </Text>
-        </View>
-        <View className="flex-1 px-6 mt-10">
-          <FontAwesome name="handshake-o" size={30} color="#dc6115" />
+        <View className="flex-1 px-6">
+          {/* <FontAwesome name="handshake-o" size={30} color="#dc6115" /> */}
 
           <Text
-            className={`text-3xl font-bold uppercase mt-6 ${
+            className={`text-2xl font-bold uppercase ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
@@ -159,7 +144,7 @@ export default function WelcomeScreen() {
 
           {/* Checkbox only on last screen */}
           {index === onboardingData.length - 1 && (
-            <View className="flex-row items-center mt-16">
+            <View className="flex-row items-center mt-10">
               <Checkbox checked={isChecked} onChange={setIsChecked} />
               <Text
                 className={`ml-2 ${
@@ -178,6 +163,21 @@ export default function WelcomeScreen() {
 
   return (
     <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
+      <View className="items-center justify-left flex-row p-6">
+        <View className="w-16 h-16">
+          <Image
+            source={require("@/assets/images/logo.png")}
+            className="w-full h-full"
+          />
+        </View>
+        <Text
+          className={`text-lg font-bold text-center -ml-6 ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
+          YAHWE-EITA
+        </Text>
+      </View>
       <FlatList
         ref={flatListRef}
         data={onboardingData}
