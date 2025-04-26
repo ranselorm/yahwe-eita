@@ -78,11 +78,11 @@ export default function WelcomeScreen() {
 
   const renderItem = ({ item, index }: any) => (
     <View className="flex-1 items-center justify-center w-screen p-6">
-      <Image
+      {/* <Image
         source={item.image}
         className="w-full h-2/3"
         resizeMode="contain"
-      />
+      /> */}
       <Text
         className={`text-3xl font-bold mt-6 ${
           isDarkMode ? "text-white" : "text-black"
