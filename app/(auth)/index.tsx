@@ -32,8 +32,34 @@ const onboardingData = [
     text: "• Rewarding outstanding performance\n\n• Decent self-application in the Social Media space and in seeking beneficial relationships.\n\n• Teamwork, Loyalty and Trust in building solid relationships and networks.\n\n• Strict adherence to the highest ethical and professional standards.\n\n• Genuine contentment in helping others to succeed.",
   },
   {
-    title: "OUR CORPORATE VALUES",
-    text: "Get compensated for every successful referral.",
+    title: "TERMS AND CONDITIONS",
+    text: `Every Prospective Member must:
+
+1. Be over 17 years, an MTN subscriber and must be introduced by an existing affiliate member in good standing.\n\n
+
+2. Have an Android or iOS phone or tab with the Momo wallet and with enough money to buy GHC 80 of Airtime or Data credit.\n\n
+
+3. Register and purchase GHC 80 of MTN Mobile Airtime credit.\n\n
+
+4. Must also introduce at least 3 people to join the scheme within 8 Days after registration to stay as a benefiting Member.\n\n
+
+5. Understand that members earn their Rewards only after fulfilling their individual responsibilities as in Point 4.\n\n
+
+6. Only click on the \"I AGREE TO TERMS\" icon when they have understood How It Works; that their registration and entry expires in 8 weeks, after which they may restart for a new cycle. (You may click on How It Works for re-direction to the website for further explanation.)\n\n
+
+7. Understand that it takes good relationships and constant reminders on every member's part to earn the cash, one registration at a time.\n\n
+
+8. Understand that every reward is received as INSTANTLY as your Downlines Register and buy their credit.\n\n
+
+9. Understand that YAHWE-EITA HAS A TERMINAL POINT OF ONLY 8 WEEKS and that...\n\n
+
+10. YAHWE-EITA DOES NOT MOBILIZE OR KEEP MONEY FOR ITS MEMBERS. ALL REWARDS ARE RECEIVED INSTANTLY ON YOUR PHONE. YAHWE-EITA SIMPLY RETAILS AIRTIME AND DATA CREDIT.\n\n
+
+We are confident that if you introduce very reliable friends and they also do likewise, you’d earn day by day, the targeted amount of GHC 49,185 PLUS GHC 45 AIRTIME IN 8 WEEKS from the get-go.\n\n
+
+We wish you every Success.\n\n
+
+Yawhe-eita Team.`,
   },
 ];
 
@@ -72,7 +98,7 @@ export default function WelcomeScreen() {
       flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
     } else {
       if (isChecked) {
-        router.push("/(auth)/landing");
+        router.push("/(auth)/sponsor");
       }
     }
   };
@@ -86,7 +112,22 @@ export default function WelcomeScreen() {
           isDarkMode ? "bg-black" : "bg-white"
         }`}
       >
-        <View className="flex-1 px-6 mt-24">
+        <View className="items-center justify-left flex-row">
+          <View className="w-16 h-16">
+            <Image
+              source={require("@/assets/images/logo.png")}
+              className="w-full h-full"
+            />
+          </View>
+          <Text
+            className={`text-lg font-bold text-center -ml-6 ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            YAHWE-EITA
+          </Text>
+        </View>
+        <View className="flex-1 px-6 mt-10">
           <FontAwesome name="handshake-o" size={30} color="#dc6115" />
 
           <Text
@@ -98,7 +139,7 @@ export default function WelcomeScreen() {
           </Text>
 
           {/* Fixed height description area */}
-          <View style={{ height: windowHeight * 0.5 }} className="w-full mt-6">
+          <View style={{ height: windowHeight * 0.55 }} className="w-full mt-6">
             <ScrollView
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 10 }}
@@ -118,7 +159,7 @@ export default function WelcomeScreen() {
 
           {/* Checkbox only on last screen */}
           {index === onboardingData.length - 1 && (
-            <View className="flex-row items-center mt-8">
+            <View className="flex-row items-center mt-16">
               <Checkbox checked={isChecked} onChange={setIsChecked} />
               <Text
                 className={`ml-2 ${
@@ -155,7 +196,7 @@ export default function WelcomeScreen() {
       {/* Bottom Next / Get Started Button */}
       <Pressable
         onPress={handleNext}
-        className={`absolute bottom-10 left-10 right-10 rounded-lg py-4 ${
+        className={`absolute bottom-6 left-10 right-10 rounded-xl py-3 ${
           currentIndex === onboardingData.length - 1 && !isChecked
             ? "bg-gray-400"
             : "bg-primary"
