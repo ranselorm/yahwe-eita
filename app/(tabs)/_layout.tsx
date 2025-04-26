@@ -10,7 +10,7 @@ export default function TabsLayout() {
   console.log(user, "in tabs");
 
   if (!user) {
-    return <Redirect href="/(auth)/landing" />;
+    return <Redirect href="/(auth)/login" />;
   }
 
   return (
