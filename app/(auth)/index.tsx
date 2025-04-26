@@ -1,17 +1,40 @@
+// app/(auth)/WelcomeScreen.tsx
+
+import React, { useRef, useState, useEffect } from "react";
 import {
   View,
+  FlatList,
+  Dimensions,
   Text,
   Pressable,
-  FlatList,
   useColorScheme,
   Image,
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";
-import { useRef, useState } from "react";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const { width } = Dimensions.get("window");
+
+const onboardingData = [
+  {
+    // image: require("@/assets/images/onboarding1.png"),
+    title: "Welcome to YAHWE-EITA",
+    description: "Join a powerful sales and marketing platform!",
+  },
+  {
+    // image: require("@/assets/images/onboard2.png"),
+    title: "Grow Your Network",
+    description: "Refer products, earn commissions, grow your business.",
+  },
+  {
+    // image: require("@/assets/images/onboard3.png"),
+    title: "Get Rewarded",
+    description: "Get compensated for every successful referral.",
+  },
+];
 
 function Checkbox({ checked, onChange }: any) {
   const isDarkMode = useColorScheme() === "dark";
@@ -32,127 +55,93 @@ function Checkbox({ checked, onChange }: any) {
   );
 }
 
-const pages = [
-  {
-    title: "Welcome",
-    icon: <FontAwesome name="handshake-o" size={30} color="#dc6115" />,
-    content:
-      "Congratulations on joining YAHWE-EITA. We are excited to have you.",
-  },
-  {
-    title: "About Us",
-    icon: <FontAwesome name="users" size={30} color="#dc6115" />,
-    content:
-      "We are a Sales and Marketers platform designed to drive online sales.",
-  },
-  {
-    title: "Get Started",
-    icon: <FontAwesome name="rocket" size={30} color="#dc6115" />,
-    content: "Join our membership affiliate program and start earning.",
-  },
-];
-
 export default function WelcomeScreen() {
-  const isDarkMode = useColorScheme() === "dark";
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isChecked, setIsChecked] = useState(false);
   const flatListRef = useRef<FlatList>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isChecked, setIsChecked] = useState(false);
+  const isDarkMode = useColorScheme() === "dark";
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const index = Math.round(event.nativeEvent.contentOffset.x / width);
+    setCurrentIndex(index);
+  };
 
   const handleNext = () => {
-    if (currentPage < pages.length - 1) {
-      flatListRef.current?.scrollToIndex({ index: currentPage + 1 });
+    if (currentIndex < onboardingData.length - 1) {
+      flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
+    } else {
+      if (isChecked) {
+        router.push("/(auth)/landing");
+      }
     }
   };
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const pageIndex = Math.round(
-      event.nativeEvent.contentOffset.x /
-        event.nativeEvent.layoutMeasurement.width
-    );
-    setCurrentPage(pageIndex);
-  };
+  const renderItem = ({ item, index }: any) => (
+    <View className="flex-1 items-center justify-center w-screen p-6">
+      <Image
+        source={item.image}
+        className="w-full h-2/3"
+        resizeMode="contain"
+      />
+      <Text
+        className={`text-3xl font-bold mt-6 ${
+          isDarkMode ? "text-white" : "text-black"
+        }`}
+      >
+        {item.title}
+      </Text>
+      <Text
+        className={`text-lg text-center mt-4 ${
+          isDarkMode ? "text-gray-300" : "text-gray-700"
+        }`}
+      >
+        {item.description}
+      </Text>
+
+      {/* Checkbox only on last screen */}
+      {index === onboardingData.length - 1 && (
+        <View className="flex-row items-center mt-8">
+          <Checkbox checked={isChecked} onChange={setIsChecked} />
+          <Text
+            className={`ml-2 ${isDarkMode ? "text-white" : "text-gray-700"}`}
+          >
+            I agree to the{" "}
+            <Text className="text-orange-500">Terms and Conditions</Text>
+          </Text>
+        </View>
+      )}
+    </View>
+  );
 
   return (
-    <SafeAreaView
-      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} p-6 h-full`}
-    >
-      <View className="mb-5 items-center flex-row justify-center">
-        <View className="w-20 h-20">
-          <Image
-            source={require("@/assets/images/logo.png")}
-            className="w-full h-full"
-          />
-        </View>
-        <Text
-          className={`text-2xl font-bold text-center -ml-6 ${
-            isDarkMode ? "text-white" : "text-black"
-          }`}
-        >
-          YAHWE-EITA
-        </Text>
-      </View>
-
+    <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
       <FlatList
         ref={flatListRef}
-        data={pages}
+        data={onboardingData}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={renderItem}
         horizontal
         pagingEnabled
+        snapToInterval={width}
+        decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View className="w-full items-center justify-center px-4">
-            <View className="mb-4">{item.icon}</View>
-            <Text
-              className={`text-3xl font-bold text-center ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
-            >
-              {item.title}
-            </Text>
-            <Text
-              className={`mt-5 text-lg text-center ${
-                isDarkMode ? "text-white" : "text-gray-800"
-              }`}
-            >
-              {item.content}
-            </Text>
-            {currentPage === pages.length - 1 && (
-              <View className="mt-6 flex-row items-center">
-                <Checkbox checked={isChecked} onChange={setIsChecked} />
-                <Text
-                  className={`ml-2 text-base ${
-                    isDarkMode ? "text-white" : "text-gray-600"
-                  }`}
-                >
-                  I agree to the{" "}
-                  <Text className="text-orange-500">terms and conditions</Text>
-                </Text>
-              </View>
-            )}
-          </View>
-        )}
-        onMomentumScrollEnd={handleScroll}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        contentContainerStyle={{ flexGrow: 1 }}
       />
 
+      {/* Bottom Next / Get Started Button */}
       <Pressable
-        disabled={currentPage === pages.length - 1 && !isChecked}
-        className={`mt-6 px-6 py-3 rounded-lg w-[80%] self-center ${
-          currentPage === pages.length - 1
-            ? isChecked
-              ? "bg-primary"
-              : "bg-gray-400"
+        onPress={handleNext}
+        className={`absolute bottom-10 left-10 right-10 rounded-lg py-4 ${
+          currentIndex === onboardingData.length - 1 && !isChecked
+            ? "bg-gray-400"
             : "bg-primary"
         }`}
-        onPress={() => {
-          if (currentPage === pages.length - 1) {
-            router.push("/(auth)/landing");
-          } else {
-            handleNext();
-          }
-        }}
+        disabled={currentIndex === onboardingData.length - 1 && !isChecked}
       >
-        <Text className="text-white text-lg font-semibold text-center">
-          {currentPage === pages.length - 1 ? "GET STARTED" : "NEXT"}
+        <Text className="text-white text-center text-lg font-semibold">
+          {currentIndex === onboardingData.length - 1 ? "Get Started" : "Next"}
         </Text>
       </Pressable>
     </SafeAreaView>
