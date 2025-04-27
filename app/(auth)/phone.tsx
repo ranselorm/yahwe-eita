@@ -45,7 +45,7 @@ export default function PhoneScreen() {
     const result = await refetch();
     if (result.data) {
       Toast.show({ type: "success", text1: "Verified!" });
-    } else if (error?.response?.status === 404) {
+    } else if (error?.response?.status === 500) {
       Toast.show({
         type: "error",
         text1: "Not found",
@@ -63,43 +63,6 @@ export default function PhoneScreen() {
   React.useEffect(() => {
     if (phone.length === 10) tryVerify();
   }, [phone]);
-
-  const handlePress = async () => {
-    if (!phone.trim()) {
-      Toast.show({ type: "error", text1: "Phone number required" });
-      return;
-    }
-
-    try {
-      const { data } = await refetch({ throwOnError: true });
-      setAccessToken(data?.data?.accessToken);
-      // console.log(data?.data, "data");
-
-      Toast.show({ type: "success", text1: "Sponsor found" });
-      setTimeout(() => {
-        router.push({
-          pathname: "/confirmation",
-          params: { sponsor: JSON.stringify(data?.data?.user) },
-        });
-      }, 500);
-    } catch (err: any) {
-      if (axios.isAxiosError(err) && err.response?.status === 500) {
-        Toast.show({
-          type: "error",
-          text1: "No sponsor found",
-          text2: "Please check the phone number",
-        });
-      } else {
-        setTimeout(() => {
-          Toast.show({
-            type: "error",
-            text1: "Network error",
-            text2: "Please check connection and try again",
-          });
-        }, 500);
-      }
-    }
-  };
 
   return (
     <SafeAreaView
@@ -138,7 +101,12 @@ export default function PhoneScreen() {
             } ${isFetching ? "opacity-50" : ""} ${
               phone.length < 10 ? "opacity-50" : ""
             }`}
-            onPress={handlePress}
+            onPress={() =>
+              router.push({
+                pathname: "/(auth)/register",
+                params: { fullName: JSON.stringify(data?.data) },
+              })
+            }
             disabled={isFetching || phone.length < 10}
           >
             {isFetching ? (
