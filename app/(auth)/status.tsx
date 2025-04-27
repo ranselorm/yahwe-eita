@@ -31,7 +31,7 @@ export default function StatusScreen() {
   const [timeLeft, setTimeLeft] = useState(30);
   const [isChecking, setIsChecking] = useState(false);
   const [done, setDone] = useState(false);
-  const [isStillPending, setIsStillPending] = useState(true);
+  const [isStillPending, setIsStillPending] = useState(false);
   const { setUser } = useUser();
 
   // Countdown timer
