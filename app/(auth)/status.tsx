@@ -27,14 +27,14 @@ export default function StatusScreen() {
     payload: string;
   }>();
   const parsedPayload = payload ? JSON.parse(payload) : {};
-  console.log(parsedPayload, reference, "in status");
 
   const [timeLeft, setTimeLeft] = useState(30);
   const [isChecking, setIsChecking] = useState(false);
   const [done, setDone] = useState(false);
+  const [isStillPending, setIsStillPending] = useState(true);
   const { setUser } = useUser();
 
-  // countdown
+  // Countdown timer
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -48,12 +48,11 @@ export default function StatusScreen() {
     return () => clearInterval(interval);
   }, []);
 
-  // register mutation (validateOnly = false)
+  // Register mutation
   const registerMutation = useRegister(accessToken, false);
   const updateUserSession = async (responseData: any) => {
     try {
       const decodedToken: any = jwtDecode(responseData?.data?.id_token);
-      console.log(decodedToken, "DECODED TOKEN");
       const updatedUser = {
         isLoggedIn: true,
         name: `${decodedToken.name}`,
@@ -82,7 +81,6 @@ export default function StatusScreen() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-      console.log(data, "STATUS DATA");
 
       if (data?.data?.status === "COMPLETED") {
         setDone(true);
@@ -101,6 +99,7 @@ export default function StatusScreen() {
         });
       } else {
         Toast.show({ type: "info", text1: "Payment still pending" });
+        setIsStillPending(true); // <-- Mark payment still pending
       }
     } catch (err: any) {
       Toast.show({
@@ -125,42 +124,41 @@ export default function StatusScreen() {
     <SafeAreaView
       className={`flex-1 items-center p-6 ${isDark ? "bg-black" : "bg-white"}`}
     >
-      <View className="flex-1 items-center px-8 w-full">
-        <PendingDots />
+      <View className="flex-1 items-center px-6 w-full">
+        {/* Icon / Animation */}
+        {isStillPending ? (
+          <MaterialIcons name="error-outline" size={62} color="#dc6115" />
+        ) : (
+          <PendingDots />
+        )}
+
+        {/* Title */}
+        {!isStillPending && (
+          <Text
+            className={`text-lg font-bold mt-4  ${
+              isDark ? "text-white" : "text-black"
+            }`}
+          >
+            Pending Payment
+          </Text>
+        )}
+
+        {/* Description */}
         <Text
-          className={`text-lg font-bold mt-4 ${
+          className={`text-base text-center mt-4 ${
             isDark ? "text-white" : "text-black"
           }`}
         >
-          Pending Payment
+          {isStillPending
+            ? "If you didn’t see a payment pop-up, dial *170#, choose 'My Wallet' > 'My Approvals' to approve your transaction manually."
+            : "Your payment is pending. Authorize this payment and click the button below."}
         </Text>
 
-        <Text
-          className={`text-base mt-4 text-center ${
-            isDark ? "text-white" : "text-black"
-          }`}
-        >
-          Your payment is pending. Authorize this payment and click the button
-          below
-        </Text>
-        {/* 
-        <Text
-          className={`text-lg mb-6 ${
-            isDark ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
-          {timeLeft > 0
-            ? `Please wait ${timeLeft}s before checking`
-            : done
-            ? "Done ✅"
-            : "Ready to check"}
-        </Text> */}
-
+        {/* Button */}
         <Pressable
-          className={`
-          w-full mt-8 p-3 rounded-xl items-center bg-primary
-          ${done || timeLeft > 0 || isChecking ? "opacity-50" : ""}
-        `}
+          className={`w-full mt-8 p-3 rounded-xl items-center bg-primary ${
+            done || timeLeft > 0 || isChecking ? "opacity-50" : ""
+          }`}
           disabled={done || timeLeft > 0 || isChecking}
           onPress={checkStatus}
         >
@@ -168,7 +166,7 @@ export default function StatusScreen() {
             <ActivityIndicator color={isDark ? "black" : "white"} />
           ) : (
             <Text
-              className={`${
+              className={`text-lg ${
                 isDark ? "text-black" : "text-white uppercase"
               } font-semibold`}
             >
@@ -177,7 +175,6 @@ export default function StatusScreen() {
           )}
         </Pressable>
       </View>
-      {/* <Toast /> */}
     </SafeAreaView>
   );
 }
