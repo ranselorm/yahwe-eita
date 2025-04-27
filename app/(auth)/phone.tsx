@@ -7,6 +7,7 @@ import {
   Pressable,
   ActivityIndicator,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useSponsor } from "@/hooks/useSponsor";
 import Toast from "react-native-toast-message";
@@ -21,7 +22,9 @@ export default function PhoneScreen() {
   const [phone, setPhone] = useState("");
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { setAccessToken, accessToken } = useUser();
+  const { accessToken } = useUser();
+
+  console.log({ phone });
 
   //verify phone (momo) number
   const { data, error, isFetching, refetch } = useVerify(
@@ -35,16 +38,17 @@ export default function PhoneScreen() {
   );
 
   const responseData = data?.data?.data;
+  console.log(responseData);
 
   const tryVerify = async () => {
-    if (phone.length !== 10) {
+    if (phone.length !== 9) {
       Toast.show({ type: "error", text1: "Enter a 10‑digit phone #" });
       return;
     }
 
     const result = await refetch();
     if (result.data) {
-      Toast.show({ type: "success", text1: "Verified!" });
+      Toast.show({ type: "success", text1: "You are registered" });
     } else if (error?.response?.status === 500) {
       Toast.show({
         type: "error",
@@ -61,7 +65,7 @@ export default function PhoneScreen() {
   };
 
   React.useEffect(() => {
-    if (phone.length === 10) tryVerify();
+    if (phone.length === 9) tryVerify();
   }, [phone]);
 
   return (
@@ -85,21 +89,48 @@ export default function PhoneScreen() {
             Enter your phone (momo) number
           </Text>
 
-          <TextInput
-            value={phone}
-            onChangeText={setPhone}
-            keyboardType="phone-pad"
-            autoCapitalize="none"
-            placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-            className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
-              isDarkMode ? "border-white text-white" : "border-black text-black"
-            }`}
-          />
+          <View className="flex-row items-center space-x-2">
+            {/* +233 box */}
+            <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
+              <Text className="text-lg text-black">+233</Text>
+            </View>
+
+            {/* Phone input */}
+            <TextInput
+              value={phone}
+              onChangeText={(text) => {
+                if (text.startsWith("0")) {
+                  setPhone(text.slice(1)); // remove leading 0
+                } else {
+                  setPhone(text);
+                }
+              }}
+              keyboardType="phone-pad"
+              autoCapitalize="none"
+              placeholder="Enter phone number"
+              maxLength={9}
+              placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+              className={`flex-1 border rounded-xl p-3 text-center text-lg ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-black text-black"
+              }`}
+            />
+          </View>
+
+          <View className="my-5">
+            {responseData ? (
+              <Text className="font-bold">{responseData?.name}</Text>
+            ) : (
+              <Text></Text>
+            )}
+          </View>
+
           <Pressable
-            className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
+            className={`w-full max-w-sm  p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-black"
             } ${isFetching ? "opacity-50" : ""} ${
-              phone.length < 10 ? "opacity-50" : ""
+              phone.length < 9 ? "opacity-50" : ""
             }`}
             onPress={() =>
               router.push({
@@ -107,7 +138,7 @@ export default function PhoneScreen() {
                 params: { fullName: JSON.stringify(data?.data) },
               })
             }
-            disabled={isFetching || phone.length < 10}
+            disabled={isFetching || phone.length < 9}
           >
             {isFetching ? (
               <ActivityIndicator color={isDarkMode ? "black" : "white"} />
