@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { useSponsor } from "@/hooks/useSponsor";
 import Toast from "react-native-toast-message";
@@ -82,19 +83,25 @@ export default function PhoneScreen() {
       <View className="flex-1 justify-center items-center h-full">
         <View className={`flex-1 justify-center items-center w-full`}>
           <Text
-            className={`text-2xl font-semibold mb-8 text-center ${
+            className={`text-2xl font-semibold mb-2 text-center ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
             Enter your phone (momo) number
           </Text>
+          <Text
+            className={`text-lg mb-8 text-center px-20 ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            Enter your MobileMoney number without the 0
+          </Text>
 
-          <View className="flex-row items-center space-x-2">
+          <View className="flex-row items-center space-x-2 px-4 gap-x-4">
             {/* +233 box */}
             <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
               <Text className="text-lg text-black">+233</Text>
             </View>
-
             {/* Phone input */}
             <TextInput
               value={phone}
@@ -117,44 +124,46 @@ export default function PhoneScreen() {
               }`}
             />
           </View>
-
-          <View className="my-5">
-            {responseData ? (
-              <Text className="font-bold">{responseData?.name}</Text>
+          <View className="mt-6">
+            {isFetching ? (
+              <ActivityIndicator />
+            ) : responseData ? (
+              <Text className="text-center font-bold text-lg">
+                {responseData?.name}
+              </Text>
             ) : (
-              <Text></Text>
+              ""
             )}
           </View>
-
-          <Pressable
-            className={`w-full max-w-sm  p-3 rounded-xl items-center ${
-              isDarkMode ? "bg-white" : "bg-black"
-            } ${isFetching ? "opacity-50" : ""} ${
-              phone.length < 9 ? "opacity-50" : ""
-            }`}
-            onPress={() =>
-              router.push({
-                pathname: "/(auth)/register",
-                params: { fullName: JSON.stringify(data?.data) },
-              })
-            }
-            disabled={isFetching || phone.length < 9}
-          >
-            {isFetching ? (
-              <ActivityIndicator color={isDarkMode ? "black" : "white"} />
-            ) : (
-              <Text
-                className={`text-lg font-semibold ${
-                  isDarkMode ? "text-black" : "text-white"
-                }`}
-              >
-                CONTINUE
-              </Text>
-            )}
-          </Pressable>
         </View>
       </View>
       <Toast />
+      <Pressable
+        className={`w-full max-w-sm  mx-auto p-3 rounded-xl items-center ${
+          isDarkMode ? "bg-white" : "bg-black"
+        } ${isFetching ? "opacity-50" : ""} ${
+          phone.length < 9 ? "opacity-50" : ""
+        }`}
+        onPress={() =>
+          router.push({
+            pathname: "/(auth)/register",
+            params: { fullName: JSON.stringify(data?.data?.name) },
+          })
+        }
+        disabled={!responseData}
+      >
+        {isFetching ? (
+          <ActivityIndicator color={isDarkMode ? "black" : "white"} />
+        ) : (
+          <Text
+            className={`text-lg font-semibold ${
+              isDarkMode ? "text-black" : "text-white"
+            }`}
+          >
+            CONTINUE
+          </Text>
+        )}
+      </Pressable>
     </SafeAreaView>
   );
 }
