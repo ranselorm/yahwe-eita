@@ -187,8 +187,8 @@ export default function WelcomeScreen() {
           className={`py-2 px-4 rounded-full ${
             isDarkMode ? "bg-white" : "bg-black"
           }`}
-          // onPress={() => router.push("/(auth)/login")}
-          onPress={() => router.push("/(auth)/status")}
+          onPress={() => router.push("/(auth)/login")}
+          // onPress={() => router.push("/(auth)/status")}
         >
           <Text
             className={`font-bold ${isDarkMode ? "text-black" : "text-white"}`}
@@ -212,7 +212,6 @@ export default function WelcomeScreen() {
         contentContainerStyle={{ flexGrow: 1 }}
       />
 
-      {/* Bottom Next / Get Started Button */}
       <Pressable
         onPress={handleNext}
         className={`absolute bottom-6 left-10 right-10 rounded-xl py-3 ${
