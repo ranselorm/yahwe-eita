@@ -2,7 +2,6 @@ import { useUser } from "@/context/userContext";
 import { Stack, Redirect } from "expo-router";
 
 export default function AuthLayout() {
-
   const { user } = useUser();
   if (user?.isLoggedIn) {
     return <Redirect href="/(tabs)" />;
@@ -14,7 +13,8 @@ export default function AuthLayout() {
       <Stack.Screen name="landing" />
       <Stack.Screen name="sponsor" />
       <Stack.Screen name="confirmation" />
-      <Stack.Screen name="verify" />
+      <Stack.Screen name="phone" />
+      {/* <Stack.Screen name="verify" /> */}
       <Stack.Screen name="register" />
       <Stack.Screen name="status" />
       <Stack.Screen name="login" />

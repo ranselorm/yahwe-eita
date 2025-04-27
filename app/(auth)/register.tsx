@@ -338,14 +338,6 @@ export default function RegisterScreen() {
     !formData.network ||
     registerMutation.isPending;
 
-  // if (registerMutation.isPending) {
-  //   return (
-  //     <SafeAreaView className="flex-1 justify-center items-center">
-  //       <ActivityIndicator size="large" />
-  //     </SafeAreaView>
-  //   );
-  // }
-
   return (
     <>
       <StatusBar translucent backgroundColor="transparent" />

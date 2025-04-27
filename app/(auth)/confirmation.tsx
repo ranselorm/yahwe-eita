@@ -30,7 +30,7 @@ export default function ConfirmationScreen() {
 
   const handlePress = () => {
     setSponsorId(sponsorId);
-    router.push("/register");
+    router.push("/phone");
   };
   return (
     <SafeAreaView

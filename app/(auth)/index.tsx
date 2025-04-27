@@ -12,7 +12,11 @@ import {
   ScrollView,
 } from "react-native";
 import { router } from "expo-router";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height: windowHeight } = Dimensions.get("window");
@@ -152,7 +156,7 @@ export default function WelcomeScreen() {
                 }`}
               >
                 I agree to the{" "}
-                <Text className="text-orange-500">Terms and Conditions</Text>
+                <Text className="font-bold">Terms and Conditions</Text>
               </Text>
             </View>
           )}
@@ -179,8 +183,17 @@ export default function WelcomeScreen() {
             YAHWE-EITA
           </Text>
         </View>
-        <Pressable className={`${isDarkMode ? "bg-white" : "bg-black"}`}>
-          <Text>Login</Text>
+        <Pressable
+          className={`py-2 px-4 rounded-full ${
+            isDarkMode ? "bg-white" : "bg-black"
+          }`}
+          onPress={() => router.push("/(auth)/login")}
+        >
+          <Text
+            className={`font-bold ${isDarkMode ? "text-black" : "text-white"}`}
+          >
+            Login
+          </Text>
         </Pressable>
       </View>
       <FlatList
