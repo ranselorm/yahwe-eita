@@ -158,8 +158,7 @@ export default function StatusScreen() {
 
         <Pressable
           className={`
-          w-full mt-4 p-3 rounded-xl items-center
-          ${isDark ? "bg-white" : "bg-black"}
+          w-full mt-8 p-3 rounded-xl items-center bg-primary
           ${done || timeLeft > 0 || isChecking ? "opacity-50" : ""}
         `}
           disabled={done || timeLeft > 0 || isChecking}
@@ -170,10 +169,10 @@ export default function StatusScreen() {
           ) : (
             <Text
               className={`${
-                isDark ? "text-black" : "text-white"
+                isDark ? "text-black" : "text-white uppercase"
               } font-semibold`}
             >
-              {done ? "Completed" : "Check Status"}
+              Check Status
             </Text>
           )}
         </Pressable>
