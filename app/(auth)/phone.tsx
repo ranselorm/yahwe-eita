@@ -147,7 +147,7 @@ export default function PhoneScreen() {
         onPress={() =>
           router.push({
             pathname: "/(auth)/register",
-            params: { fullName: JSON.stringify(data?.data?.name) },
+            params: { name: JSON.stringify(responseData?.name), phone },
           })
         }
         disabled={!responseData}

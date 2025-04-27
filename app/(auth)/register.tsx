@@ -16,7 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from "@react-native-picker/picker";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import * as yup from "yup";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useRegister } from "@/hooks/useRegister";
 import { useUser } from "@/context/userContext";
@@ -64,8 +64,11 @@ export default function RegisterScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { accessToken } = useUser();
   const [feeId, setFeeId] = useState("qGD7Wwq7JylaI");
-
   const { sponsorId, setUser } = useUser();
+  const { name, phone } = useLocalSearchParams();
+  const fullName = name ? JSON.parse(name as string) : null;
+  console.log(name, "name in register");
+  console.log(fullName, "fullname register", phone);
 
   const onChange = (_event: any, selectedDate?: Date) => {
     setShowPicker(Platform.OS === "ios");
