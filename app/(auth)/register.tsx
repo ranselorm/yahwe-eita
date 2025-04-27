@@ -31,7 +31,7 @@ import axios from "axios";
 import { useFee } from "@/hooks/useFee";
 
 const validationSchema = yup.object().shape({
-  fullName: yup.string().required("Full name is required"),
+  // fullName: yup.string().required("Full name is required"),
   email: yup
     .string()
     .email("Invalid email address")
@@ -45,10 +45,10 @@ const validationSchema = yup.object().shape({
       "Password must contain at least one symbol"
     )
     .required("Password is required"),
-  phone: yup
-    .string()
-    .min(10, "Phone number should be at least 10 digits")
-    .required("Phone number is required"),
+  // phone: yup
+  //   .string()
+  //   .min(10, "Phone number should be at least 9 digits")
+  //   .required("Phone number is required"),
   ghanaCardNumber: yup
     .string()
     .min(6, "Ghana card number is required")
@@ -68,6 +68,7 @@ export default function RegisterScreen() {
   const { name, phoneNumber } = useLocalSearchParams();
   const fullName = name ? JSON.parse(name as string) : null;
   const phone = phoneNumber ? JSON.parse(phoneNumber as string) : null;
+  console.log(accessToken);
 
   const onChange = (_event: any, selectedDate?: Date) => {
     setShowPicker(Platform.OS === "ios");
@@ -205,8 +206,8 @@ export default function RegisterScreen() {
   };
 
   const feePayload = {
-    phone: formData.phone,
-    customerName: formData.fullName,
+    phone: phone,
+    customerName: fullName,
     customerEmail: formData.email,
     channel: "mtn-gh", // mtn-gh | vodafone-gh | tigo-gh
   };
@@ -332,10 +333,8 @@ export default function RegisterScreen() {
   };
 
   const isButtonDisabled =
-    !formData.fullName ||
     !formData.email ||
     !formData.password ||
-    !formData.phone ||
     !formData.ghanaCardNumber ||
     !formData.network ||
     registerMutation.isPending;
@@ -364,7 +363,7 @@ export default function RegisterScreen() {
             </View>
 
             <TextInput
-              value={formData.phone}
+              value={phone}
               // onChangeText={setPin}
               // placeholder="6-digit OTP"
               // keyboardType="number-pad"
@@ -472,9 +471,8 @@ export default function RegisterScreen() {
             <TextInput
               placeholder="PHONE NUMBER (MOMO ENABLED)"
               value={phone}
-              // onChangeText={(value) => handleChange("phone", value)}
-              // keyboardType="phone-pad"
-              // maxLength={10}
+              editable={false}
+              selectTextOnFocus={false}
               className={`border rounded-xl p-3 text-base text-center ${
                 isDarkMode
                   ? "border-white text-white"

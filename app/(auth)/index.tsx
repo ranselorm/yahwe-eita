@@ -187,7 +187,8 @@ export default function WelcomeScreen() {
           className={`py-2 px-4 rounded-full ${
             isDarkMode ? "bg-white" : "bg-black"
           }`}
-          onPress={() => router.push("/(auth)/login")}
+          // onPress={() => router.push("/(auth)/login")}
+          onPress={() => router.push("/(auth)/status")}
         >
           <Text
             className={`font-bold ${isDarkMode ? "text-black" : "text-white"}`}
