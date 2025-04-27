@@ -65,10 +65,9 @@ export default function RegisterScreen() {
   const { accessToken } = useUser();
   const [feeId, setFeeId] = useState("qGD7Wwq7JylaI");
   const { sponsorId, setUser } = useUser();
-  const { name, phone } = useLocalSearchParams();
+  const { name, phoneNumber } = useLocalSearchParams();
   const fullName = name ? JSON.parse(name as string) : null;
-  console.log(name, "name in register");
-  console.log(fullName, "fullname register", phone);
+  const phone = phoneNumber ? JSON.parse(phoneNumber as string) : null;
 
   const onChange = (_event: any, selectedDate?: Date) => {
     setShowPicker(Platform.OS === "ios");
@@ -436,10 +435,10 @@ export default function RegisterScreen() {
         <View className="flex-1 justify-center items-center h-full">
           <View className="w-full max-w-sm gap-y-6">
             <TextInput
-              placeholder="FULL NAME"
-              value={formData.fullName}
-              onChangeText={(value) => handleChange("fullName", value)}
-              className={`border rounded-xl p-3 text-base text-center ${
+              value={fullName}
+              editable={false}
+              selectTextOnFocus={false}
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
                 isDarkMode
                   ? "border-white text-white"
                   : "border-secondary-100 text-secondary-100"
@@ -472,10 +471,10 @@ export default function RegisterScreen() {
 
             <TextInput
               placeholder="PHONE NUMBER (MOMO ENABLED)"
-              value={formData.phone}
-              onChangeText={(value) => handleChange("phone", value)}
-              keyboardType="phone-pad"
-              maxLength={10}
+              value={phone}
+              // onChangeText={(value) => handleChange("phone", value)}
+              // keyboardType="phone-pad"
+              // maxLength={10}
               className={`border rounded-xl p-3 text-base text-center ${
                 isDarkMode
                   ? "border-white text-white"
@@ -579,14 +578,11 @@ export default function RegisterScreen() {
             isDarkMode ? "bg-white" : "bg-secondary-100"
           } ${isButtonDisabled ? "opacity-50" : ""}`}
           onPress={handleSubmit}
-          // onPress={() => setIsModalVisible(true)}
-          // disabled={isButtonDisabled}
         >
           <Text
             className={`text-lg font-semibold ${
               isDarkMode ? "text-secondary-100" : "text-white"
             }`}
-            // disabled={registerMutation.isPending}
           >
             {registerMutation.isPending ? (
               <ActivityIndicator size={"small"} />
@@ -598,8 +594,6 @@ export default function RegisterScreen() {
         </Pressable>
         <Toast />
         {/* <StatusBar translucent backgroundColor="transparent" /> */}
-
-        {/* MODAL */}
       </SafeAreaView>
     </>
   );
