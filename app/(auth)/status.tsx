@@ -16,6 +16,8 @@ import { useUser } from "@/context/userContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
+import { MaterialIcons } from "@expo/vector-icons";
+import PendingDots from "@/components/PendingDots";
 
 export default function StatusScreen() {
   const isDark = useColorScheme() === "dark";
@@ -111,7 +113,7 @@ export default function StatusScreen() {
     }
   };
 
-  if (isChecking || registerMutation.isPending) {
+  if (registerMutation.isPending) {
     return (
       <SafeAreaView className="flex-1 justify-center items-center bg-white">
         <ActivityIndicator size="small" />
@@ -121,49 +123,62 @@ export default function StatusScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 items-center justify-center p-6 ${
-        isDark ? "bg-black" : "bg-white"
-      }`}
+      className={`flex-1 items-center p-6 ${isDark ? "bg-black" : "bg-white"}`}
     >
-      <Text
-        className={`text-2xl font-bold mb-4 ${
-          isDark ? "text-white" : "text-black"
-        }`}
-      >
-        Payment Status
-      </Text>
+      <View className="flex-1 items-center px-8 w-full">
+        <PendingDots />
+        <Text
+          className={`text-lg font-bold mt-4 ${
+            isDark ? "text-white" : "text-black"
+          }`}
+        >
+          Pending Payment
+        </Text>
 
-      <Text
-        className={`text-lg mb-6 ${isDark ? "text-gray-300" : "text-gray-700"}`}
-      >
-        {timeLeft > 0
-          ? `Please wait ${timeLeft}s before checking`
-          : done
-          ? "Done ✅"
-          : "Ready to check"}
-      </Text>
+        <Text
+          className={`text-base mt-4 text-center ${
+            isDark ? "text-white" : "text-black"
+          }`}
+        >
+          Your payment is pending. Authorize this payment and click the button
+          below
+        </Text>
+        {/* 
+        <Text
+          className={`text-lg mb-6 ${
+            isDark ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
+          {timeLeft > 0
+            ? `Please wait ${timeLeft}s before checking`
+            : done
+            ? "Done ✅"
+            : "Ready to check"}
+        </Text> */}
 
-      <Pressable
-        className={`
-          w-full max-w-sm mt-4 p-3 rounded-xl items-center
+        <Pressable
+          className={`
+          w-full mt-4 p-3 rounded-xl items-center
           ${isDark ? "bg-white" : "bg-black"}
           ${done || timeLeft > 0 || isChecking ? "opacity-50" : ""}
         `}
-        disabled={done || timeLeft > 0 || isChecking}
-        onPress={checkStatus}
-      >
-        {isChecking ? (
-          <ActivityIndicator color={isDark ? "black" : "white"} />
-        ) : (
-          <Text
-            className={`${isDark ? "text-black" : "text-white"} font-semibold`}
-          >
-            {done ? "Completed" : "Check Status"}
-          </Text>
-        )}
-      </Pressable>
-
-      <Toast />
+          disabled={done || timeLeft > 0 || isChecking}
+          onPress={checkStatus}
+        >
+          {isChecking ? (
+            <ActivityIndicator color={isDark ? "black" : "white"} />
+          ) : (
+            <Text
+              className={`${
+                isDark ? "text-black" : "text-white"
+              } font-semibold`}
+            >
+              {done ? "Completed" : "Check Status"}
+            </Text>
+          )}
+        </Pressable>
+      </View>
+      {/* <Toast /> */}
     </SafeAreaView>
   );
 }
