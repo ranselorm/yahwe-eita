@@ -18,6 +18,7 @@ import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
 import { MaterialIcons } from "@expo/vector-icons";
 import PendingDots from "@/components/PendingDots";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function StatusScreen() {
   const isDark = useColorScheme() === "dark";
@@ -114,11 +115,7 @@ export default function StatusScreen() {
   };
 
   if (registerMutation.isPending) {
-    return (
-      <SafeAreaView className="flex-1 justify-center items-center bg-white">
-        <ActivityIndicator size="small" />
-      </SafeAreaView>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -126,14 +123,12 @@ export default function StatusScreen() {
       className={`flex-1 items-center p-6 ${isDark ? "bg-black" : "bg-white"}`}
     >
       <View className="flex-1 items-center px-6 w-full">
-        {/* Icon / Animation */}
         {isStillPending ? (
           <MaterialIcons name="error-outline" size={62} color="#dc6115" />
         ) : (
           <PendingDots />
         )}
 
-        {/* Title */}
         {!isStillPending && (
           <Text
             className={`text-lg font-bold mt-4  ${
@@ -144,7 +139,6 @@ export default function StatusScreen() {
           </Text>
         )}
 
-        {/* Description */}
         <Text
           className={`text-base text-center mt-4 ${
             isDark ? "text-white" : "text-black"
@@ -156,7 +150,6 @@ export default function StatusScreen() {
           {timeLeft}
         </Text>
 
-        {/* Button */}
         <Pressable
           className={`w-full mt-8 p-3 rounded-xl items-center bg-primary ${
             done || timeLeft > 0 || isChecking ? "opacity-50" : ""

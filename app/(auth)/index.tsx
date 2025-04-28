@@ -173,66 +173,66 @@ export default function WelcomeScreen() {
   };
 
   return (
-    // <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
-    //   <View className="flex-row items-center justify-between p-6">
-    //     <View className="items-center justify-left flex-row">
-    //       <View className="w-16 h-16">
-    //         <Image
-    //           source={require("@/assets/images/logo.png")}
-    //           className="w-full h-full"
-    //         />
-    //       </View>
-    //       <Text
-    //         className={`text-lg font-bold text-center -ml-6 ${
-    //           isDarkMode ? "text-white" : "text-black"
-    //         }`}
-    //       >
-    //         YAHWE-EITA
-    //       </Text>
-    //     </View>
-    //     <Pressable
-    //       className={`py-2 px-4 rounded-full ${
-    //         isDarkMode ? "bg-white" : "bg-black"
-    //       }`}
-    //       onPress={() => router.push("/(auth)/login")}
-    //       // onPress={() => router.push("/(auth)/status")}
-    //     >
-    //       <Text
-    //         className={`font-bold ${isDarkMode ? "text-black" : "text-white"}`}
-    //       >
-    //         Login
-    //       </Text>
-    //     </Pressable>
-    //   </View>
-    //   <FlatList
-    //     ref={flatListRef}
-    //     data={onboardingData}
-    //     keyExtractor={(_, index) => index.toString()}
-    //     renderItem={renderItem}
-    //     horizontal
-    //     pagingEnabled
-    //     snapToInterval={width}
-    //     decelerationRate="fast"
-    //     showsHorizontalScrollIndicator={false}
-    //     onScroll={handleScroll}
-    //     scrollEventThrottle={16}
-    //     contentContainerStyle={{ flexGrow: 1 }}
-    //   />
+    <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
+      <View className="flex-row items-center justify-between p-6">
+        <View className="items-center justify-left flex-row">
+          <View className="w-16 h-16">
+            <Image
+              source={require("@/assets/images/logo.png")}
+              className="w-full h-full"
+            />
+          </View>
+          <Text
+            className={`text-lg font-bold text-center -ml-6 ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            YAHWE-EITA
+          </Text>
+        </View>
+        <Pressable
+          className={`py-2 px-4 rounded-full ${
+            isDarkMode ? "bg-white" : "bg-black"
+          }`}
+          onPress={() => router.push("/(auth)/login")}
+          // onPress={() => router.push("/(auth)/status")}
+        >
+          <Text
+            className={`font-bold ${isDarkMode ? "text-black" : "text-white"}`}
+          >
+            Login
+          </Text>
+        </Pressable>
+      </View>
+      <FlatList
+        ref={flatListRef}
+        data={onboardingData}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={renderItem}
+        horizontal
+        pagingEnabled
+        snapToInterval={width}
+        decelerationRate="fast"
+        showsHorizontalScrollIndicator={false}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        contentContainerStyle={{ flexGrow: 1 }}
+      />
 
-    //   <Pressable
-    //     onPress={handleNext}
-    //     className={`absolute bottom-6 left-10 right-10 rounded-xl py-3 ${
-    //       currentIndex === onboardingData.length - 1 && !isChecked
-    //         ? "bg-gray-400"
-    //         : "bg-primary"
-    //     }`}
-    //     disabled={currentIndex === onboardingData.length - 1 && !isChecked}
-    //   >
-    //     <Text className="text-white text-center text-lg font-semibold">
-    //       {currentIndex === onboardingData.length - 1 ? "Get Started" : "Next"}
-    //     </Text>
-    //   </Pressable>
-    // </SafeAreaView>
-    <LoadingScreen />
+      <Pressable
+        onPress={handleNext}
+        className={`absolute bottom-6 left-10 right-10 rounded-xl py-3 ${
+          currentIndex === onboardingData.length - 1 && !isChecked
+            ? "bg-gray-400"
+            : "bg-primary"
+        }`}
+        disabled={currentIndex === onboardingData.length - 1 && !isChecked}
+      >
+        <Text className="text-white text-center text-lg font-semibold">
+          {currentIndex === onboardingData.length - 1 ? "Get Started" : "Next"}
+        </Text>
+      </Pressable>
+    </SafeAreaView>
+    // <LoadingScreen />
   );
 }
