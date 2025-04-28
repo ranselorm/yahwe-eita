@@ -218,9 +218,6 @@ export default function RegisterScreen() {
       await validationSchema.validate(formData);
       registerMutation.mutate(payload, {
         onSuccess: (data) => {
-          // updateUserSession(data);
-          // router.replace("/(tabs)");
-          console.log(data);
           setTimeout(() => {
             setIsModalVisible(true);
             console.log("MODAL IS OPENED");
@@ -337,7 +334,6 @@ export default function RegisterScreen() {
     !formData.email ||
     !formData.password ||
     !formData.ghanaCardNumber ||
-    // !formData.network ||
     registerMutation.isPending;
 
   return (
@@ -365,9 +361,6 @@ export default function RegisterScreen() {
 
             <TextInput
               value={phone}
-              // onChangeText={setPin}
-              // placeholder="6-digit OTP"
-              // keyboardType="number-pad"
               editable={false}
               selectTextOnFocus={false}
               className="bg-gray-200 border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
