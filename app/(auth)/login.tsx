@@ -17,6 +17,7 @@ import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import Toast from "react-native-toast-message";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -70,12 +71,7 @@ export default function LoginScreen() {
     );
   };
 
-  if (mutation.isPending)
-    return (
-      <SafeAreaView className="flex-1 justify-center items-center bg-white">
-        <ActivityIndicator size={"large"} />
-      </SafeAreaView>
-    );
+  if (mutation.isPending) return <LoadingScreen />;
 
   return (
     <SafeAreaView
