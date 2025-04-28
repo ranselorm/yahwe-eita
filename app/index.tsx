@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { getUserData } from "@/utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "@/context/userContext";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const SplashScreen = () => {
   const [loading, setLoading] = useState(true);
@@ -25,12 +26,8 @@ const SplashScreen = () => {
     checkUser();
   }, []);
 
-  if (loading) {
-    return (
-      <SafeAreaView className={"flex-1 bg-white justify-center items-center"}>
-        <ActivityIndicator size="large" />;
-      </SafeAreaView>
-    );
+  if (!loading) {
+    return <LoadingScreen />;
   }
 
   return (
