@@ -86,7 +86,6 @@ export default function Tree() {
           >
             <View className="items-center w-full">
               <View className="items-center justify-center min-w-[400px]">
-                {/* 🚀 START FROM ROOT USER, not recruits */}
                 <UserNode user={data} />
               </View>
             </View>

@@ -49,6 +49,7 @@ const dataArray = [
 function ReferralCard({
   name,
   phone,
+  status,
 }: // status,
 // invited,
 // level,
@@ -56,12 +57,14 @@ function ReferralCard({
 {
   name: string;
   phone: string;
+  status: string;
   // status: string;
   // invited: number;
   // level: number;
   // progress: number;
 }) {
   const isDarkMode = useColorScheme() === "dark";
+  console.log("STATUS", status);
 
   return (
     <View
@@ -77,13 +80,13 @@ function ReferralCard({
         >
           Recruit
         </Text>
-        {/* <Text
+        <Text
           className={`${
-            status === "ACCEPTED" ? "bg-accent" : "bg-dark-100"
+            status === "false" ? "bg-black" : "bg-accent"
           } text-white px-3 py-1 rounded-full text-xs`}
         >
-          {status}
-        </Text> */}
+          {status === "false" ? "Inactive" : "Active"}
+        </Text>
       </View>
 
       <View className="mt-2">
@@ -208,7 +211,7 @@ export default function GenealogyScreen() {
             <ReferralCard
               name={item.name}
               phone={item.phone}
-              // status={item.status}
+              status={item.recruitWindowClosed}
               // invited={item.invited}
               // level={item.level}
               // progress={item.progress}
