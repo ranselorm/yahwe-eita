@@ -11,6 +11,7 @@ import {
   NativeScrollEvent,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from "react-native";
 import { router } from "expo-router";
 import {
@@ -94,6 +95,18 @@ export default function WelcomeScreen() {
   const [isChecked, setIsChecked] = useState(false);
   const isDarkMode = useColorScheme() === "dark";
 
+  // function to open url
+
+  const openURL = async (url: string) => {
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      console.error("Cannot open URL:", url);
+    }
+  };
+
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const index = Math.round(event.nativeEvent.contentOffset.x / width);
     setCurrentIndex(index);
@@ -149,24 +162,36 @@ export default function WelcomeScreen() {
           </View>
 
           {/* Checkbox only on last screen */}
-          <View className="flex-row items-center mt-10">
+          <View className="flex-row items-center mt-6">
             {index === onboardingData.length - 1 && (
-              <View className="flex-row items-center">
-                <Checkbox checked={isChecked} onChange={setIsChecked} />
-                <Text
-                  className={`ml-2 ${
-                    isDarkMode ? "text-white" : "text-gray-700"
-                  }`}
-                >
-                  I agree to the{" "}
-                  <Text className="font-bold">Terms and Conditions</Text>
-                </Text>
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
+                  <Checkbox checked={isChecked} onChange={setIsChecked} />
+                  <Text
+                    className={`ml-2 text-lg ${
+                      isDarkMode ? "text-white" : "text-black"
+                    }`}
+                  >
+                    I agree to the{" "}
+                    <Text className="font-bold">Terms and Conditions</Text>
+                  </Text>
+                </View>
               </View>
             )}
-            <TouchableOpacity>
-              <Text>How It Works</Text>
-            </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            onPress={() =>
+              openURL("https://www.yahwe-eitaglobal.com/#features")
+            }
+          >
+            <Text
+              className={`text-lg mt-3 text-center ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              How It Works
+            </Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
