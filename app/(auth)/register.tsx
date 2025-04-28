@@ -217,11 +217,11 @@ export default function RegisterScreen() {
     try {
       await validationSchema.validate(formData);
       registerMutation.mutate(payload, {
-        onSuccess: (data) => {
+        onSuccess: () => {
           setTimeout(() => {
             setIsModalVisible(true);
             console.log("MODAL IS OPENED");
-          }, 2000);
+          }, 1000);
         },
         onError: (error) => {
           console.log(error);
