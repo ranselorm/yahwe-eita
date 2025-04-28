@@ -28,7 +28,7 @@ export default function StatusScreen() {
   }>();
   const parsedPayload = payload ? JSON.parse(payload) : {};
 
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [isChecking, setIsChecking] = useState(false);
   const [done, setDone] = useState(false);
   const [isStillPending, setIsStillPending] = useState(false);
