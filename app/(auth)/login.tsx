@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   TextInput,
   Pressable,
   Text,
   useColorScheme,
-  ActivityIndicator,
   Alert,
   View,
   TouchableOpacity,

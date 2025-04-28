@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { router } from "expo-router";
 import { getUserData } from "@/utils";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "@/context/userContext";
 import LoadingScreen from "@/components/LoadingScreen";
 
