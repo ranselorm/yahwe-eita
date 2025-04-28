@@ -36,8 +36,7 @@ export default function SettingsScreen() {
   const handleLogout = () => {
     logout();
     clearUserData();
-    router.replace("/(auth)/landing");
-    // router.replace("/(auth)/otp");
+    router.replace("/(auth)/login");
   };
 
   const isDarkMode = useColorScheme() === "dark";

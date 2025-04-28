@@ -11,34 +11,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useGenealogy } from "@/hooks/useGenealogy";
 
-const genealogyData = [
-  {
-    id: "user_1",
-    name: "John Doe",
-    phone: "0557587124",
-    recruits: [
-      {
-        id: "user_2",
-        name: "Jane Smith",
-        phone: "0550013021",
-        recruits: [],
-      },
-      {
-        id: "user_3",
-        name: "Alice Green",
-        phone: "0557587135",
-        recruits: [],
-      },
-      {
-        id: "user_4",
-        name: "Jeery Fresh",
-        phone: "0557587135",
-        recruits: [],
-      },
-    ],
-  },
-];
-
 const UserNode = ({ user }: { user: any }) => {
   return (
     <View className="items-center justify-center relative min-w-[70px]">
@@ -67,6 +39,7 @@ const UserNode = ({ user }: { user: any }) => {
 export default function Tree() {
   const isDark = useColorScheme() === "dark";
   const { data, isLoading } = useGenealogy();
+
   console.log(data, "data from useGenealogy");
 
   return (
@@ -90,8 +63,8 @@ export default function Tree() {
       </View>
 
       {isLoading ? (
-        <ActivityIndicator />
-      ) : data?.recruits?.length === 0 ? (
+        <ActivityIndicator size="large" color="#00BFFF" />
+      ) : !data ? (
         <View className="flex-1 items-center justify-center px-4">
           <Ionicons name="git-branch-outline" size={60} color="#9CA3AF" />
           <Text className="text-center mt-3 text-lg text-gray-500">
@@ -104,14 +77,17 @@ export default function Tree() {
       ) : (
         <ScrollView horizontal className="flex-1">
           <ScrollView
-            contentContainerStyle={{ minWidth: "100%", alignItems: "center" }}
+            contentContainerStyle={{
+              minWidth: "100%",
+              alignItems: "center",
+              paddingBottom: 40,
+            }}
             showsVerticalScrollIndicator={false}
           >
             <View className="items-center w-full">
               <View className="items-center justify-center min-w-[400px]">
-                {data?.recruits?.map((user: any) => (
-                  <UserNode key={user.id} user={user} />
-                ))}
+                {/* 🚀 START FROM ROOT USER, not recruits */}
+                <UserNode user={data} />
               </View>
             </View>
           </ScrollView>

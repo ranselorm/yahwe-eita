@@ -203,7 +203,7 @@ export default function GenealogyScreen() {
         <FlatList
           data={data?.recruits}
           // data={dataArray}
-          keyExtractor={(item) => item.name}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <ReferralCard
               name={item.name}
