@@ -32,10 +32,15 @@ const LoadingScreen = () => {
             YAHWE-EITA
           </Text>
         </View>
-        <ActivityIndicator className="mt-6" size={"large"} />
+        <ActivityIndicator className="mt-6" size={"small"} />
       </View>
-      <View>
+      <View className="flex-row mx-auto items-center">
         <Text className="text-sm">Powered By</Text>
+        <Image
+          source={require("@/assets/images/berth.png")}
+          className="w-32 h-16"
+          resizeMode="contain"
+        />
       </View>
     </SafeAreaView>
   );
