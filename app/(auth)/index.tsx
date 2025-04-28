@@ -148,9 +148,9 @@ export default function WelcomeScreen() {
           </View>
 
           {/* Checkbox only on last screen */}
-          <View className="flex-row items-center">
+          <View className="flex-row items-center mt-10">
             {index === onboardingData.length - 1 && (
-              <View className="flex-row items-center mt-10">
+              <View className="flex-row items-center">
                 <Checkbox checked={isChecked} onChange={setIsChecked} />
                 <Text
                   className={`ml-2 ${
@@ -162,9 +162,9 @@ export default function WelcomeScreen() {
                 </Text>
               </View>
             )}
-            {/* <TouchableOpacity>
+            <TouchableOpacity>
               <Text>How It Works</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>

@@ -82,7 +82,7 @@ export default function StatusScreen() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-      console.log(data, "FEE DATA IN STATUS");
+      // console.log(data, "FEE DATA IN STATUS");
       if (data?.data?.status === "COMPLETED") {
         setDone(true);
         Toast.show({ type: "success", text1: "Payment complete" });
@@ -100,7 +100,7 @@ export default function StatusScreen() {
         });
       } else {
         Toast.show({ type: "info", text1: "Payment still pending" });
-        setIsStillPending(true); //Mark payment still pending
+        setIsStillPending(true);
       }
     } catch (err: any) {
       Toast.show({
