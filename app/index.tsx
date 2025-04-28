@@ -26,7 +26,7 @@ const SplashScreen = () => {
     checkUser();
   }, []);
 
-  if (!loading) {
+  if (loading) {
     return <LoadingScreen />;
   }
 
