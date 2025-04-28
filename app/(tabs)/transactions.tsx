@@ -61,7 +61,7 @@ function Card({
     >
       <View className="flex-row justify-between items-center">
         <Text
-          className={`text-lg font-bold ${
+          className={`text-sm font-bold ${
             isDarkMode ? "text-white" : "text-black"
           }`}
         >
@@ -69,7 +69,7 @@ function Card({
         </Text>
         <View className="flex-row items-center justify-between gap-x-4">
           <Text
-            className={`py-1 rounded-full text-2xl font-bold text-green-500`}
+            className={`py-1 rounded-full text-xl font-bold text-green-500`}
           >
             + GHS {amount}
           </Text>

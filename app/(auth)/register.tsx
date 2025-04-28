@@ -53,7 +53,7 @@ const validationSchema = yup.object().shape({
     .string()
     .min(6, "Ghana card number is required")
     .required("Ghana card number is required"),
-  network: yup.string().required("Network is required"),
+  // network: yup.string().required("Network is required"),
   // termsAccepted: yup.boolean().oneOf([true], "You must accept the terms"),
 });
 
@@ -65,10 +65,11 @@ export default function RegisterScreen() {
   const { accessToken } = useUser();
   const [feeId, setFeeId] = useState("qGD7Wwq7JylaI");
   const { sponsorId, setUser } = useUser();
-  const { name, phoneNumber } = useLocalSearchParams();
+  const { name, phoneNumber, network } = useLocalSearchParams();
   const fullName = name ? JSON.parse(name as string) : null;
   const phone = phoneNumber ? JSON.parse(phoneNumber as string) : null;
-  console.log(accessToken);
+  const channel = network ? JSON.parse(network as string) : null;
+  console.log(channel);
 
   const onChange = (_event: any, selectedDate?: Date) => {
     setShowPicker(Platform.OS === "ios");
@@ -81,7 +82,7 @@ export default function RegisterScreen() {
     password: "",
     phone: "",
     ghanaCardNumber: "",
-    network: "",
+    // network: "",
   });
 
   const registerMutation = useRegister(accessToken, true);
@@ -201,7 +202,7 @@ export default function RegisterScreen() {
     dateOfBirth: new Date(dob).toISOString().split("T")[0],
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
-    channel: "mtn-gh",
+    channel: channel,
     feeId: feeId,
   };
 
@@ -209,7 +210,7 @@ export default function RegisterScreen() {
     phone: phone,
     customerName: fullName,
     customerEmail: formData.email,
-    channel: "mtn-gh", // mtn-gh | vodafone-gh | tigo-gh
+    channel: channel, // mtn-gh | vodafone-gh | tigo-gh
   };
 
   const handleSubmit = async () => {
@@ -303,14 +304,14 @@ export default function RegisterScreen() {
             pathname: "/(auth)/status",
             params: {
               payload: JSON.stringify({
-                fullName: formData.fullName,
+                fullName: fullName,
                 email: formData.email,
                 password: formData.password,
-                phone: formData.phone,
+                phone: phone,
                 dateOfBirth: new Date(dob).toISOString().split("T")[0],
                 sponsorId: sponsorId,
                 ghanaCardNumber: formData.ghanaCardNumber,
-                channel: "mtn-gh",
+                channel: channel,
                 feeId: data?.data?.reference,
               }),
               reference: data?.data?.reference,
@@ -336,7 +337,7 @@ export default function RegisterScreen() {
     !formData.email ||
     !formData.password ||
     !formData.ghanaCardNumber ||
-    !formData.network ||
+    // !formData.network ||
     registerMutation.isPending;
 
   return (
@@ -539,35 +540,16 @@ export default function RegisterScreen() {
               />
             )}
 
-            <View
-              className={`border rounded-xl h-[50px] justify-center relative ${
-                isDarkMode ? "border-white" : "border-black"
+            <TextInput
+              value={channel}
+              editable={false}
+              selectTextOnFocus={false}
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
               }`}
-            >
-              <Text
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
-                style={{ color: isDarkMode ? "white" : "black" }}
-              >
-                {formData.network
-                  ? formData.network.toUpperCase()
-                  : "SELECT YOUR NETWORK"}
-              </Text>
-              <Picker
-                selectedValue={formData.network}
-                onValueChange={(value) => handleChange("network", value)}
-                style={{
-                  opacity: 0,
-                  width: "100%",
-                  height: 50,
-                  fontSize: 10,
-                }}
-              >
-                <Picker.Item label="SELECT YOUR NETWORK" value="" />
-                <Picker.Item label="MTN" value="mtn" />
-                <Picker.Item label="Vodafone" value="vodafone" />
-                <Picker.Item label="AirtelTigo" value="airteltigo" />
-              </Picker>
-            </View>
+            />
           </View>
         </View>
         {/* </KeyboardAwareScrollView> */}

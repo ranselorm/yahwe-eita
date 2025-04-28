@@ -105,7 +105,7 @@ function ReferralCard({
           >
             {phone}
           </Text>
-          {/* {status === "ACCEPTED" ? (
+          {/* {status === "false" ? (
             <MaterialCommunityIcons
               name="account-check-outline"
               size={20}

@@ -70,6 +70,7 @@ export default function StatusScreen() {
     }
   };
 
+  console.log(parsedPayload, "IN STATUS");
   const checkStatus = async () => {
     if (!reference) return;
     setIsChecking(true);
@@ -81,7 +82,7 @@ export default function StatusScreen() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-
+      console.log(data, "FEE DATA IN STATUS");
       if (data?.data?.status === "COMPLETED") {
         setDone(true);
         Toast.show({ type: "success", text1: "Payment complete" });
@@ -99,7 +100,7 @@ export default function StatusScreen() {
         });
       } else {
         Toast.show({ type: "info", text1: "Payment still pending" });
-        setIsStillPending(true); // <-- Mark payment still pending
+        setIsStillPending(true); //Mark payment still pending
       }
     } catch (err: any) {
       Toast.show({
@@ -151,7 +152,8 @@ export default function StatusScreen() {
         >
           {isStillPending
             ? "If you didn’t see a payment pop-up, dial *170#, choose 'My Wallet' > 'My Approvals' to approve your transaction manually."
-            : "Your payment is pending. Authorize this payment and click the button below."}
+            : "Your payment is pending. Authorize this payment and click the button below."}{" "}
+          {timeLeft}
         </Text>
 
         {/* Button */}

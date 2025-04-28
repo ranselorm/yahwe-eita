@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -7,46 +7,41 @@ import {
   Pressable,
   ActivityIndicator,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Alert,
 } from "react-native";
-import { useSponsor } from "@/hooks/useSponsor";
-import Toast from "react-native-toast-message";
+import { useVerify, VerifyType } from "@/hooks/useVerify";
+import { useUser } from "@/context/userContext";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import axios from "axios";
-import { useUser } from "@/context/userContext";
-import { useVerify, VerifyType } from "@/hooks/useVerify";
+import { Picker } from "@react-native-picker/picker";
+import Toast from "react-native-toast-message";
 
 export default function PhoneScreen() {
   const [phone, setPhone] = useState("");
+  const [channel, setChannel] = useState("");
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
   const { accessToken } = useUser();
 
-  console.log({ phone });
-
-  //verify phone (momo) number
   const { data, error, isFetching, refetch } = useVerify(
-    { type: "phone" as VerifyType, id: phone, provider: "mtn-gh" },
+    { type: "phone" as VerifyType, id: phone, provider: channel },
     accessToken,
     {
-      queryKey: ["verify", { type: "phone", id: phone, provider: "mtn-gh" }],
+      queryKey: ["verify", { type: "phone", id: phone, provider: channel }],
       enabled: false,
       retry: false,
     }
   );
 
+  console.log({ channel });
+
   const responseData = data?.data?.data;
-  console.log(responseData);
 
   const tryVerify = async () => {
     if (phone.length !== 9) {
       Toast.show({ type: "error", text1: "Enter a 10‑digit phone #" });
       return;
     }
-
     const result = await refetch();
     if (result.data) {
       Toast.show({ type: "success", text1: "You are registered" });
@@ -65,7 +60,7 @@ export default function PhoneScreen() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (phone.length === 9) tryVerify();
   }, [phone]);
 
@@ -77,11 +72,13 @@ export default function PhoneScreen() {
         <MaterialCommunityIcons
           name="arrow-left"
           size={25}
-          color={`${isDarkMode ? "white" : "black"}`}
+          color={isDarkMode ? "white" : "black"}
         />
       </TouchableOpacity>
+
       <View className="flex-1 justify-center items-center h-full">
-        <View className={`flex-1 justify-center items-center w-full`}>
+        <View className="flex-1 justify-center items-center w-full">
+          {/* Heading */}
           <Text
             className={`text-2xl font-semibold mb-2 text-center ${
               isDarkMode ? "text-white" : "text-black"
@@ -97,17 +94,46 @@ export default function PhoneScreen() {
             Enter your MobileMoney number without the 0
           </Text>
 
-          <View className="flex-row items-center space-x-2 px-4 gap-x-4">
-            {/* +233 box */}
+          {/* Network Picker first */}
+          <View
+            className={`border rounded-xl h-[50px] w-[92%] mb-6 justify-center relative ${
+              isDarkMode ? "border-white" : "border-black"
+            }`}
+          >
+            <Text
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base"
+              style={{ color: isDarkMode ? "white" : "black" }}
+            >
+              {channel ? channel.toUpperCase() : "SELECT YOUR NETWORK"}
+            </Text>
+            <Picker
+              selectedValue={channel}
+              onValueChange={(value) => setChannel(value)}
+              style={{
+                opacity: 0,
+                width: "90%",
+                height: 50,
+                fontSize: 10,
+              }}
+            >
+              <Picker.Item label="SELECT YOUR NETWORK" value="" />
+              <Picker.Item label="MTN" value="mtn-gh" />
+              <Picker.Item label="Vodafone" value="vodafone-gh" />
+              <Picker.Item label="AirtelTigo" value="tigo-gh" />
+            </Picker>
+          </View>
+
+          {/* Phone Input */}
+          <View className="flex-row items-center space-x-2 px-4 gap-x-4 w-full">
             <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
               <Text className="text-lg text-black">+233</Text>
             </View>
-            {/* Phone input */}
+
             <TextInput
               value={phone}
               onChangeText={(text) => {
                 if (text.startsWith("0")) {
-                  setPhone(text.slice(1)); // remove leading 0
+                  setPhone(text.slice(1));
                 } else {
                   setPhone(text);
                 }
@@ -124,6 +150,8 @@ export default function PhoneScreen() {
               }`}
             />
           </View>
+
+          {/* Verification result */}
           <View className="mt-6">
             {isFetching ? (
               <ActivityIndicator />
@@ -131,25 +159,23 @@ export default function PhoneScreen() {
               <Text className="text-center font-bold text-lg">
                 {responseData?.name}
               </Text>
-            ) : (
-              ""
-            )}
+            ) : null}
           </View>
         </View>
       </View>
-      <Toast />
+
+      {/* Bottom Button */}
       <Pressable
-        className={`w-full max-w-sm  mx-auto p-3 rounded-xl items-center ${
+        className={`w-full max-w-sm mx-auto p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-black"
-        } ${isFetching ? "opacity-50" : ""} ${
-          phone.length < 9 ? "opacity-50" : ""
-        }`}
+        } ${isFetching || phone.length < 9 ? "opacity-50" : ""}`}
         onPress={() =>
           router.push({
             pathname: "/(auth)/register",
             params: {
               name: JSON.stringify(responseData?.name),
               phoneNumber: JSON.stringify(phone),
+              network: JSON.stringify(channel),
             },
           })
         }
@@ -167,6 +193,8 @@ export default function PhoneScreen() {
           </Text>
         )}
       </Pressable>
+
+      <Toast />
     </SafeAreaView>
   );
 }

@@ -10,6 +10,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { router } from "expo-router";
 import {
@@ -147,19 +148,24 @@ export default function WelcomeScreen() {
           </View>
 
           {/* Checkbox only on last screen */}
-          {index === onboardingData.length - 1 && (
-            <View className="flex-row items-center mt-10">
-              <Checkbox checked={isChecked} onChange={setIsChecked} />
-              <Text
-                className={`ml-2 ${
-                  isDarkMode ? "text-white" : "text-gray-700"
-                }`}
-              >
-                I agree to the{" "}
-                <Text className="font-bold">Terms and Conditions</Text>
-              </Text>
-            </View>
-          )}
+          <View className="flex-row items-center">
+            {index === onboardingData.length - 1 && (
+              <View className="flex-row items-center mt-10">
+                <Checkbox checked={isChecked} onChange={setIsChecked} />
+                <Text
+                  className={`ml-2 ${
+                    isDarkMode ? "text-white" : "text-gray-700"
+                  }`}
+                >
+                  I agree to the{" "}
+                  <Text className="font-bold">Terms and Conditions</Text>
+                </Text>
+              </View>
+            )}
+            {/* <TouchableOpacity>
+              <Text>How It Works</Text>
+            </TouchableOpacity> */}
+          </View>
         </View>
       </SafeAreaView>
     );
