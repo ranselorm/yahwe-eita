@@ -96,7 +96,7 @@ export default function PhoneScreen() {
 
           {/* Network Picker first */}
           <View
-            className={`border rounded-xl h-[50px] w-[92%] mb-6 justify-center relative ${
+            className={`border rounded-xl h-[50px] w-full max-w-sm mb-6 justify-center relative ${
               isDarkMode ? "border-white" : "border-black"
             }`}
           >
@@ -111,7 +111,7 @@ export default function PhoneScreen() {
               onValueChange={(value) => setChannel(value)}
               style={{
                 opacity: 0,
-                width: "90%",
+                width: "80%",
                 height: 50,
                 fontSize: 10,
               }}
@@ -124,7 +124,7 @@ export default function PhoneScreen() {
           </View>
 
           {/* Phone Input */}
-          <View className="flex-row items-center space-x-2 px-4 gap-x-4 w-full">
+          <View className="flex-row items-center space-x-2 gap-x-2 w-full max-w-sm">
             <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
               <Text className="text-lg text-black">+233</Text>
             </View>

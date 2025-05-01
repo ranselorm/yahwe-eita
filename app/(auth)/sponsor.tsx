@@ -83,7 +83,7 @@ export default function SponsorScreen() {
           >
             Enter your sponsor's phone number without the 0
           </Text>
-          <View className="flex-row items-center space-x-2  gap-x-2 max-w-sm w-full">
+          <View className="flex-row items-center space-x-2 gap-x-2 max-w-sm w-full">
             <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
               <Text className="text-lg text-black">+233</Text>
             </View>
