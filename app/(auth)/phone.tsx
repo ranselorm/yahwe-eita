@@ -151,7 +151,6 @@ export default function PhoneScreen() {
             />
           </View>
 
-          {/* Verification result */}
           <View className="mt-6">
             {isFetching ? (
               <ActivityIndicator />
@@ -168,7 +167,9 @@ export default function PhoneScreen() {
       <Pressable
         className={`w-full max-w-sm mx-auto p-3 rounded-xl items-center ${
           isDarkMode ? "bg-white" : "bg-black"
-        } ${isFetching || phone.length < 9 ? "opacity-50" : ""}`}
+        } ${isFetching || phone.length < 9 ? "opacity-50" : ""} ${
+          !responseData ? "opacity-50" : ""
+        }`}
         onPress={() =>
           router.push({
             pathname: "/(auth)/register",
@@ -181,17 +182,13 @@ export default function PhoneScreen() {
         }
         disabled={!responseData}
       >
-        {isFetching ? (
-          <ActivityIndicator color={isDarkMode ? "black" : "white"} />
-        ) : (
-          <Text
-            className={`text-lg font-semibold ${
-              isDarkMode ? "text-black" : "text-white"
-            }`}
-          >
-            CONTINUE
-          </Text>
-        )}
+        <Text
+          className={`text-lg font-semibold ${
+            isDarkMode ? "text-black" : "text-white"
+          }`}
+        >
+          CONTINUE
+        </Text>
       </Pressable>
 
       <Toast />
