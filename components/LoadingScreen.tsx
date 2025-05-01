@@ -8,6 +8,10 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+interface LoadingProps {
+  description?: string;
+}
+
 const LoadingScreen = () => {
   const isDarkMode = useColorScheme() === "dark";
   return (
@@ -32,6 +36,8 @@ const LoadingScreen = () => {
             YAHWE-EITA
           </Text>
         </View>
+        <View></View>
+        <Text>Please wait</Text>
         <ActivityIndicator className="mt-6" size={"small"} />
       </View>
       <View className="flex-row mx-auto items-center">

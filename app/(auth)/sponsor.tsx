@@ -36,7 +36,6 @@ export default function SponsorScreen() {
     try {
       const { data } = await refetch({ throwOnError: true });
       setAccessToken(data?.data?.accessToken);
-      // console.log(data?.data, "data");
 
       Toast.show({ type: "success", text1: "Sponsor found" });
       setTimeout(() => {
@@ -85,16 +84,32 @@ export default function SponsorScreen() {
             Enter sponsor phone number
           </Text>
 
-          <TextInput
-            value={phone}
-            onChangeText={setPhone}
-            keyboardType="phone-pad"
-            autoCapitalize="none"
-            placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-            className={`w-full max-w-sm border rounded-xl p-3 text-center text-lg ${
-              isDarkMode ? "border-white text-white" : "border-black text-black"
-            }`}
-          />
+          <View className="flex-row items-center space-x-2 px-4 gap-x-4 w-full">
+            <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
+              <Text className="text-lg text-black">+233</Text>
+            </View>
+
+            <TextInput
+              value={phone}
+              onChangeText={(text) => {
+                if (text.startsWith("0")) {
+                  setPhone(text.slice(1));
+                } else {
+                  setPhone(text);
+                }
+              }}
+              keyboardType="phone-pad"
+              autoCapitalize="none"
+              placeholder="Enter phone number"
+              maxLength={9}
+              placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+              className={`flex-1 border rounded-xl p-3 text-center text-lg ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-black text-black"
+              }`}
+            />
+          </View>
           <Pressable
             className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-black"
