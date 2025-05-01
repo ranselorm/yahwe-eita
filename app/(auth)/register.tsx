@@ -164,6 +164,8 @@ export default function RegisterScreen() {
     }
   }, [formData.ghanaCardNumber, ghanaCardVerifyRefetch]);
 
+  console.log(ghanaCardVerifyData);
+
   // handle results
   useEffect(() => {
     if (ghanaCardVerifyFetching) return;
@@ -305,7 +307,7 @@ export default function RegisterScreen() {
                 email: formData.email,
                 password: formData.password,
                 phone: phone,
-                dateOfBirth: new Date(dob).toISOString().split("T")[0],
+                dateOfBirth: ghanaCardData?.dateOfBirth,
                 sponsorId: sponsorId,
                 ghanaCardNumber: formData.ghanaCardNumber,
                 channel: channel,
@@ -506,7 +508,7 @@ export default function RegisterScreen() {
             )}
 
             {/* date */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => setShowPicker(true)}
               activeOpacity={1.5}
             >
@@ -521,17 +523,17 @@ export default function RegisterScreen() {
                 editable={false}
                 selectTextOnFocus={false}
               />
-            </TouchableOpacity>
-            {showPicker && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={dob}
-                mode="date"
-                display={Platform.OS === "ios" ? "spinner" : "default"}
-                onChange={onChange}
-                maximumDate={new Date()}
-              />
-            )}
+            </TouchableOpacity> */}
+            <TextInput
+              value={ghanaCardData?.dateOfBirth}
+              editable={false}
+              selectTextOnFocus={false}
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
 
             <TextInput
               value={channel}
