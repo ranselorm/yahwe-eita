@@ -13,17 +13,12 @@ import {
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Picker } from "@react-native-picker/picker";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import * as yup from "yup";
 import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useRegister } from "@/hooks/useRegister";
 import { useUser } from "@/context/userContext";
-import { jwtDecode } from "jwt-decode";
-import { saveUserData } from "@/utils";
-import { useSendOtp } from "@/hooks/useSendOtp";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useVerify, VerifyType } from "@/hooks/useVerify";
 import { useVerifyGhanaCard } from "@/hooks/useVerifyGhanaCard";
@@ -31,7 +26,6 @@ import axios from "axios";
 import { useFee } from "@/hooks/useFee";
 
 const validationSchema = yup.object().shape({
-  // fullName: yup.string().required("Full name is required"),
   email: yup
     .string()
     .email("Invalid email address")
@@ -45,16 +39,11 @@ const validationSchema = yup.object().shape({
       "Password must contain at least one symbol"
     )
     .required("Password is required"),
-  // phone: yup
-  //   .string()
-  //   .min(10, "Phone number should be at least 9 digits")
-  //   .required("Phone number is required"),
+
   ghanaCardNumber: yup
     .string()
     .min(6, "Ghana card number is required")
     .required("Ghana card number is required"),
-  // network: yup.string().required("Network is required"),
-  // termsAccepted: yup.boolean().oneOf([true], "You must accept the terms"),
 });
 
 export default function RegisterScreen() {
@@ -64,30 +53,20 @@ export default function RegisterScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { accessToken } = useUser();
   const [feeId, setFeeId] = useState("qGD7Wwq7JylaI");
-  const { sponsorId, setUser } = useUser();
+  const { sponsorId } = useUser();
   const { name, phoneNumber, network } = useLocalSearchParams();
   const fullName = name ? JSON.parse(name as string) : null;
   const phone = phoneNumber ? JSON.parse(phoneNumber as string) : null;
   const channel = network ? JSON.parse(network as string) : null;
-  console.log(channel);
-
-  const onChange = (_event: any, selectedDate?: Date) => {
-    setShowPicker(Platform.OS === "ios");
-    if (selectedDate) setDob(selectedDate);
-  };
 
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
-    phone: "",
     ghanaCardNumber: "",
-    // network: "",
   });
 
   const registerMutation = useRegister(accessToken, true);
   const feeMutation = useFee();
-  // const sendOtpMutation = useSendOtp();
 
   const handleChange = (name: string, value: string | boolean) => {
     setFormData({ ...formData, [name]: value });
@@ -104,47 +83,14 @@ export default function RegisterScreen() {
 
   //verify phone (momo) number
   const { data, error, isFetching, refetch } = useVerify(
-    { type: "phone" as VerifyType, id: formData.phone, provider: "mtn-gh" },
+    { type: "phone" as VerifyType, id: phone, provider: "mtn-gh" },
     accessToken,
     {
-      queryKey: [
-        "verify",
-        { type: "phone", id: formData.phone, provider: "mtn-gh" },
-      ],
+      queryKey: ["verify", { type: "phone", id: phone, provider: "mtn-gh" }],
       enabled: false,
       retry: false,
     }
   );
-
-  const responseData = data?.data?.data;
-
-  const tryVerify = async () => {
-    if (formData.phone.length !== 10) {
-      Toast.show({ type: "error", text1: "Enter a 10‑digit phone #" });
-      return;
-    }
-
-    const result = await refetch();
-    if (result.data) {
-      Toast.show({ type: "success", text1: "Verified!" });
-    } else if (error?.response?.status === 404) {
-      Toast.show({
-        type: "error",
-        text1: "Not found",
-        text2: "Please check the number",
-      });
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Network error",
-        text2: "Try again later",
-      });
-    }
-  };
-
-  React.useEffect(() => {
-    if (formData.phone.length === 10) tryVerify();
-  }, [formData.phone]);
 
   //verify ghana card
 
@@ -195,11 +141,11 @@ export default function RegisterScreen() {
   ]);
 
   const payload = {
-    fullName: formData.fullName,
+    fullName: fullName && fullName,
     email: formData.email,
     password: formData.password,
-    phone: formData.phone,
-    dateOfBirth: new Date(dob).toISOString().split("T")[0],
+    phone: phone && phone,
+    dateOfBirth: ghanaCardData?.dateOfBirth,
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
     channel: channel,
@@ -214,6 +160,7 @@ export default function RegisterScreen() {
   };
 
   const handleSubmit = async () => {
+    console.log(payload);
     try {
       await validationSchema.validate(formData);
       registerMutation.mutate(payload, {
@@ -230,7 +177,7 @@ export default function RegisterScreen() {
             text2:
               (error as any)?.response?.data?.message ||
               "Something went wrong!",
-            position: "top",
+            position: "bottom",
           });
         },
       });
@@ -297,7 +244,6 @@ export default function RegisterScreen() {
     try {
       feeMutation.mutate(feePayload, {
         onSuccess: (data) => {
-          console.log(data?.data?.reference, "FEE DATA");
           router.push({
             pathname: "/(auth)/status",
             params: {
@@ -337,6 +283,11 @@ export default function RegisterScreen() {
     !formData.password ||
     !formData.ghanaCardNumber ||
     registerMutation.isPending;
+  const formattedDateOfBirth = new Date(ghanaCardData?.dateOfBirth)
+    .toISOString()
+    .split("T")[0];
+
+  console.log(formattedDateOfBirth, "date");
 
   return (
     <>
@@ -475,16 +426,6 @@ export default function RegisterScreen() {
                     : "border-secondary-100 text-secondary-100"
                 }`}
               />
-
-              {isFetching ? (
-                <ActivityIndicator />
-              ) : responseData ? (
-                <Text className="text-center font-bold text-sm">
-                  Phone verified as: {responseData?.name}
-                </Text>
-              ) : (
-                ""
-              )}
 
               <TextInput
                 placeholder="GHANA CARD NUMBER"
