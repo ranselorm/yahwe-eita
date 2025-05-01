@@ -24,6 +24,7 @@ import { useVerify, VerifyType } from "@/hooks/useVerify";
 import { useVerifyGhanaCard } from "@/hooks/useVerifyGhanaCard";
 import axios from "axios";
 import { useFee } from "@/hooks/useFee";
+import dayjs from "dayjs";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -283,9 +284,9 @@ export default function RegisterScreen() {
     !formData.password ||
     !formData.ghanaCardNumber ||
     registerMutation.isPending;
-  const formattedDateOfBirth = new Date(ghanaCardData?.dateOfBirth)
-    .toISOString()
-    .split("T")[0];
+  const formattedDateOfBirth = dayjs(ghanaCardData?.dateOfBirth).format(
+    "YYYY-MM-DD"
+  );
 
   console.log(formattedDateOfBirth, "date");
 
