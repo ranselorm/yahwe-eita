@@ -20,7 +20,7 @@ export default function SponsorScreen() {
   const [phone, setPhone] = useState("");
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { setAccessToken, accessToken } = useUser();
+  const { setAccessToken } = useUser();
 
   const { isLoading, refetch } = useSponsor(phone, {
     queryKey: ["sponsor", phone],
@@ -65,7 +65,7 @@ export default function SponsorScreen() {
 
   return (
     <SafeAreaView
-      className={`flex-1 px-3 py-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      className={`flex-1 p-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
     >
       <TouchableOpacity onPress={() => router.back()}>
         <MaterialCommunityIcons
@@ -77,14 +77,13 @@ export default function SponsorScreen() {
       <View className="flex-1 justify-center items-center h-full">
         <View className={`flex-1 justify-center items-center w-full`}>
           <Text
-            className={`text-2xl font-semibold mb-8 text-center ${
+            className={`text-xl font-semibold mb-8 text-center max-w-sm ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            Enter sponsor phone number
+            Enter your sponsor's phone number without the 0
           </Text>
-
-          <View className="flex-row items-center space-x-2 px-4 gap-x-4 w-full">
+          <View className="flex-row items-center space-x-2  gap-x-2 max-w-sm w-full">
             <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
               <Text className="text-lg text-black">+233</Text>
             </View>
@@ -111,13 +110,13 @@ export default function SponsorScreen() {
             />
           </View>
           <Pressable
-            className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center ${
+            className={`w-full max-w-sm mt-6 p-3 rounded-xl items-center ${
               isDarkMode ? "bg-white" : "bg-black"
             } ${isLoading ? "opacity-50" : ""} ${
-              phone.length < 10 ? "opacity-50" : ""
+              phone.length < 9 ? "opacity-50" : ""
             }`}
             onPress={handlePress}
-            disabled={isLoading || phone.length < 10}
+            disabled={isLoading || phone.length < 9}
           >
             {isLoading ? (
               <ActivityIndicator color={isDarkMode ? "black" : "white"} />
