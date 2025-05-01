@@ -164,8 +164,6 @@ export default function RegisterScreen() {
     }
   }, [formData.ghanaCardNumber, ghanaCardVerifyRefetch]);
 
-  console.log(ghanaCardVerifyData);
-
   // handle results
   useEffect(() => {
     if (ghanaCardVerifyFetching) return;
@@ -222,15 +220,16 @@ export default function RegisterScreen() {
         onSuccess: () => {
           setTimeout(() => {
             setIsModalVisible(true);
-            console.log("MODAL IS OPENED");
           }, 1000);
         },
         onError: (error) => {
-          console.log(error);
+          console.log(error?.response?.data, "Axios response:");
           Toast.show({
             type: "error",
             text1: "Registration Failed",
-            text2: (error as any)?.message || "Something went wrong!",
+            text2:
+              (error as any)?.response?.data?.message ||
+              "Something went wrong!",
             position: "top",
           });
         },
@@ -319,6 +318,7 @@ export default function RegisterScreen() {
         },
         onError: (error) => {
           console.log(error);
+          console.log("Axios response:", error?.response);
           Toast.show({
             type: "error",
             text1: "Payment failed!",
@@ -419,96 +419,96 @@ export default function RegisterScreen() {
             Reg
           </Text>
         </View>
-        {/* <KeyboardAwareScrollView
+        <KeyboardAwareScrollView
           bottomOffset={10}
           className="flex-1"
           contentContainerStyle={{
             justifyContent: "center",
             flex: 1,
           }}
-        > */}
-        <View className="flex-1 justify-center items-center h-full">
-          <View className="w-full max-w-sm gap-y-6">
-            <TextInput
-              value={fullName}
-              editable={false}
-              selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
+        >
+          <View className="flex-1 justify-center items-center h-full">
+            <View className="w-full max-w-sm gap-y-6">
+              <TextInput
+                value={fullName}
+                editable={false}
+                selectTextOnFocus={false}
+                className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
 
-            <TextInput
-              placeholder="EMAIL"
-              value={formData.email}
-              onChangeText={(value) => handleChange("email", value)}
-              keyboardType="email-address"
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
+              <TextInput
+                placeholder="EMAIL"
+                value={formData.email}
+                onChangeText={(value) => handleChange("email", value)}
+                keyboardType="email-address"
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
 
-            <TextInput
-              placeholder="PASSWORD"
-              value={formData.password}
-              onChangeText={(value) => handleChange("password", value)}
-              secureTextEntry
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
+              <TextInput
+                placeholder="PASSWORD"
+                value={formData.password}
+                onChangeText={(value) => handleChange("password", value)}
+                secureTextEntry
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
 
-            <TextInput
-              placeholder="PHONE NUMBER (MOMO ENABLED)"
-              value={phone}
-              editable={false}
-              selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
+              <TextInput
+                placeholder="PHONE NUMBER (MOMO ENABLED)"
+                value={phone}
+                editable={false}
+                selectTextOnFocus={false}
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
 
-            {isFetching ? (
-              <ActivityIndicator />
-            ) : responseData ? (
-              <Text className="text-center font-bold text-sm">
-                Phone verified as: {responseData?.name}
-              </Text>
-            ) : (
-              ""
-            )}
+              {isFetching ? (
+                <ActivityIndicator />
+              ) : responseData ? (
+                <Text className="text-center font-bold text-sm">
+                  Phone verified as: {responseData?.name}
+                </Text>
+              ) : (
+                ""
+              )}
 
-            <TextInput
-              placeholder="GHANA CARD NUMBER"
-              value={formData.ghanaCardNumber}
-              onChangeText={(value) => handleChange("ghanaCardNumber", value)}
-              className={`border rounded-xl p-3 text-base text-center ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
+              <TextInput
+                placeholder="GHANA CARD NUMBER"
+                value={formData.ghanaCardNumber}
+                onChangeText={(value) => handleChange("ghanaCardNumber", value)}
+                className={`border rounded-xl p-3 text-base text-center ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
 
-            {ghanaCardVerifyFetching ? (
-              <ActivityIndicator />
-            ) : ghanaCardData ? (
-              <Text className="text-center font-bold text-sm">
-                Ghana card verified as: {ghanaCardData?.name}
-              </Text>
-            ) : (
-              ""
-            )}
+              {ghanaCardVerifyFetching ? (
+                <ActivityIndicator />
+              ) : ghanaCardData ? (
+                <Text className="text-center font-bold text-sm">
+                  Ghana card verified as: {ghanaCardData?.name}
+                </Text>
+              ) : (
+                ""
+              )}
 
-            {/* date */}
-            {/* <TouchableOpacity
+              {/* date */}
+              {/* <TouchableOpacity
               onPress={() => setShowPicker(true)}
               activeOpacity={1.5}
             >
@@ -524,30 +524,31 @@ export default function RegisterScreen() {
                 selectTextOnFocus={false}
               />
             </TouchableOpacity> */}
-            <TextInput
-              value={ghanaCardData?.dateOfBirth}
-              editable={false}
-              selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
+              <TextInput
+                placeholder="DATE OF BIRTH"
+                value={ghanaCardData?.dateOfBirth}
+                editable={false}
+                selectTextOnFocus={false}
+                className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
 
-            <TextInput
-              value={channel}
-              editable={false}
-              selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
+              <TextInput
+                value={channel.toUpperCase()}
+                editable={false}
+                selectTextOnFocus={false}
+                className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-secondary-100 text-secondary-100"
+                }`}
+              />
+            </View>
           </View>
-        </View>
-        {/* </KeyboardAwareScrollView> */}
+        </KeyboardAwareScrollView>
         <Pressable
           className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
             isDarkMode ? "bg-white" : "bg-secondary-100"
@@ -568,7 +569,6 @@ export default function RegisterScreen() {
           {/* <Text>CREATE</Text> */}
         </Pressable>
         <Toast />
-        {/* <StatusBar translucent backgroundColor="transparent" /> */}
       </SafeAreaView>
     </>
   );

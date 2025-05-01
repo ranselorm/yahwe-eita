@@ -22,6 +22,7 @@ export default function PhoneScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
   const { accessToken } = useUser();
+  console.log(accessToken);
 
   const { data, error, isFetching, refetch } = useVerify(
     { type: "phone" as VerifyType, id: phone, provider: channel },
