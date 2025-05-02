@@ -58,9 +58,12 @@ export default function StatusScreen() {
     return () => clearInterval(interval);
   }, []);
 
+  // console.log(isChecking, "IS CHECKING");
+
   const checkStatus = async () => {
     if (!reference) return;
     setIsChecking(true);
+
     try {
       const { data } = await axios.get(
         "https://yahwe-eita-api.azurewebsites.net/api/fee/status",
@@ -69,22 +72,9 @@ export default function StatusScreen() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-      // console.log(data, "FEE DATA IN STATUS");
       if (data?.data?.status === "COMPLETED") {
         setDone(true);
         Toast.show({ type: "success", text1: "Payment complete" });
-        // registerMutation.mutate(parsedPayload, {
-        //   onSuccess: async (data) => {
-        //     updateUserSession(data);
-        //     router.replace("/(tabs)");
-        //   },
-        //   onError: (err) =>
-        //     Toast.show({
-        //       type: "error",
-        //       text1: "Registration failed",
-        //       text2: err.message,
-        //     }),
-        // });
       } else {
         Toast.show({ type: "info", text1: "Payment still pending" });
         setIsStillPending(true);
@@ -200,14 +190,14 @@ export default function StatusScreen() {
             : isStillPending
             ? "If you didn’t see a payment pop-up, dial *170#, choose 'My Wallet' > 'My Approvals' to approve your transaction manually."
             : "Your payment is pending. Authorize this payment and click the button below."}{" "}
-          {!isStillPending && done ? timeLeft : ""}
+          {!isStillPending && done ? "" : timeLeft}
         </Text>
 
         <Pressable
           className={`w-full mt-8 p-3 rounded-xl items-center bg-primary ${
             timeLeft > 0 || isChecking ? "opacity-50" : ""
           }`}
-          disabled={!done || timeLeft > 0 || isChecking}
+          disabled={timeLeft > 0 || isChecking}
           onPress={done ? handleSubmit : checkStatus}
         >
           {isChecking ? (
@@ -222,6 +212,13 @@ export default function StatusScreen() {
             </Text>
           )}
         </Pressable>
+        {/* <Pressable
+          className="mt-4"
+          // onPress={() => Alert.alert("HELLO ALERTED")}
+          onPress={done ? handleSubmit : checkStatus}
+        >
+          <Text>GO NOW</Text>
+        </Pressable> */}
       </View>
     </SafeAreaView>
   );
