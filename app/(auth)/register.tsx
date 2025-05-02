@@ -251,7 +251,7 @@ export default function RegisterScreen() {
                 email: formData.email,
                 password: formData.password,
                 phone: phone,
-                dateOfBirth: ghanaCardData?.dateOfBirth,
+                dateOfBirth: toIsoDate(ghanaCardData?.dateOfBirth || ""),
                 sponsorId: sponsorId,
                 ghanaCardNumber: formData.ghanaCardNumber,
                 channel: channel,
