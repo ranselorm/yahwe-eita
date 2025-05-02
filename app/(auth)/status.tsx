@@ -16,7 +16,7 @@ import { useUser } from "@/context/userContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import PendingDots from "@/components/PendingDots";
 import LoadingScreen from "@/components/LoadingScreen";
 
@@ -165,7 +165,7 @@ export default function StatusScreen() {
     >
       <View className="flex-1 items-center px-6 w-full">
         {done ? (
-          <Text>Done</Text>
+          <AntDesign name="checkcircle" size={24} color="black" />
         ) : isStillPending ? (
           <MaterialIcons name="error-outline" size={62} color="#dc6115" />
         ) : (
