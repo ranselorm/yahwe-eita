@@ -113,7 +113,6 @@ export default function StatusScreen() {
   };
 
   const handleSubmit = async () => {
-    console.log(parsedPayload, "IN STATUS HANDLE SUBMIT");
     try {
       registerMutation.mutate(parsedPayload, {
         onSuccess: (data) => {
@@ -210,13 +209,6 @@ export default function StatusScreen() {
             </Text>
           )}
         </Pressable>
-        {/* <Pressable
-          className="mt-4"
-          // onPress={() => Alert.alert("HELLO ALERTED")}
-          onPress={done ? handleSubmit : checkStatus}
-        >
-          <Text>GO NOW</Text>
-        </Pressable> */}
       </View>
     </SafeAreaView>
   );
