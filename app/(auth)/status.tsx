@@ -165,7 +165,7 @@ export default function StatusScreen() {
     >
       <View className="flex-1 items-center px-6 w-full">
         {done ? (
-          <AntDesign name="checkcircle" size={24} color="black" />
+          <AntDesign name="checkcircle" size={24} color="#5cb85c" />
         ) : isStillPending ? (
           <MaterialIcons name="error-outline" size={62} color="#dc6115" />
         ) : (
