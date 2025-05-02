@@ -105,25 +105,7 @@ function ReferralCard({
           >
             {phone}
           </Text>
-          {/* {status === "false" ? (
-            <MaterialCommunityIcons
-              name="account-check-outline"
-              size={20}
-              color={`${isDarkMode ? "white" : "black"}`}
-            />
-          ) : (
-            <MaterialCommunityIcons
-              name="account-alert-outline"
-              size={20}
-              color={`${isDarkMode ? "white" : "black"}`}
-            />
-          )} */}
         </View>
-        {/* <Text className="text-black mb-4 font-semibold">
-          Invited: {invited}
-        </Text> */}
-
-        {/* <ProgressBar progress={progress} level={level} /> */}
       </View>
     </View>
   );
@@ -221,7 +203,7 @@ export default function GenealogyScreen() {
         />
       )}
 
-      <View className="absolute bottom-6 left-1/2 -translate-x-1/2 items-center">
+      <View className="mx-auto  items-center mb-6">
         <Pressable
           className="w-12 h-12 bg-black rounded-full items-center justify-center"
           onPress={() => setModalVisible(true)}
