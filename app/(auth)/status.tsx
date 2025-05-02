@@ -58,6 +58,48 @@ export default function StatusScreen() {
     return () => clearInterval(interval);
   }, []);
 
+  const checkStatus = async () => {
+    if (!reference) return;
+    setIsChecking(true);
+    try {
+      const { data } = await axios.get(
+        "https://yahwe-eita-api.azurewebsites.net/api/fee/status",
+        {
+          params: { reference },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      // console.log(data, "FEE DATA IN STATUS");
+      if (data?.data?.status === "COMPLETED") {
+        setDone(true);
+        Toast.show({ type: "success", text1: "Payment complete" });
+        // registerMutation.mutate(parsedPayload, {
+        //   onSuccess: async (data) => {
+        //     updateUserSession(data);
+        //     router.replace("/(tabs)");
+        //   },
+        //   onError: (err) =>
+        //     Toast.show({
+        //       type: "error",
+        //       text1: "Registration failed",
+        //       text2: err.message,
+        //     }),
+        // });
+      } else {
+        Toast.show({ type: "info", text1: "Payment still pending" });
+        setIsStillPending(true);
+      }
+    } catch (err: any) {
+      Toast.show({
+        type: "error",
+        text1: "Error checking payment",
+        text2: err.message,
+      });
+    } finally {
+      setIsChecking(false);
+    }
+  };
+
   // Register mutation
   const registerMutation = useRegister(accessToken, false);
   const updateUserSession = async (responseData: any) => {
@@ -113,48 +155,6 @@ export default function StatusScreen() {
     }
   };
 
-  const checkStatus = async () => {
-    if (!reference) return;
-    setIsChecking(true);
-    try {
-      const { data } = await axios.get(
-        "https://yahwe-eita-api.azurewebsites.net/api/fee/status",
-        {
-          params: { reference },
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-      // console.log(data, "FEE DATA IN STATUS");
-      if (data?.data?.status === "COMPLETED") {
-        setDone(true);
-        Toast.show({ type: "success", text1: "Payment complete" });
-        registerMutation.mutate(parsedPayload, {
-          onSuccess: async (data) => {
-            updateUserSession(data);
-            router.replace("/(tabs)");
-          },
-          onError: (err) =>
-            Toast.show({
-              type: "error",
-              text1: "Registration failed",
-              text2: err.message,
-            }),
-        });
-      } else {
-        Toast.show({ type: "info", text1: "Payment still pending" });
-        setIsStillPending(true);
-      }
-    } catch (err: any) {
-      Toast.show({
-        type: "error",
-        text1: "Error checking payment",
-        text2: err.message,
-      });
-    } finally {
-      setIsChecking(false);
-    }
-  };
-
   if (registerMutation.isPending) {
     return <LoadingScreen />;
   }
@@ -164,13 +164,23 @@ export default function StatusScreen() {
       className={`flex-1 items-center p-6 ${isDark ? "bg-black" : "bg-white"}`}
     >
       <View className="flex-1 items-center px-6 w-full">
-        {isStillPending ? (
+        {done ? (
+          <Text>Done</Text>
+        ) : isStillPending ? (
           <MaterialIcons name="error-outline" size={62} color="#dc6115" />
         ) : (
           <PendingDots />
         )}
 
-        {!isStillPending && (
+        {done ? (
+          <Text
+            className={`text-lg font-bold mt-4  ${
+              isDark ? "text-white" : "text-black"
+            }`}
+          >
+            Payment Confirmed
+          </Text>
+        ) : !isStillPending ? (
           <Text
             className={`text-lg font-bold mt-4  ${
               isDark ? "text-white" : "text-black"
@@ -178,25 +188,27 @@ export default function StatusScreen() {
           >
             Pending Payment
           </Text>
-        )}
+        ) : null}
 
         <Text
           className={`text-base text-center mt-4 ${
             isDark ? "text-white" : "text-black"
           }`}
         >
-          {isStillPending
+          {done
+            ? "Press the button below to sign up"
+            : isStillPending
             ? "If you didn’t see a payment pop-up, dial *170#, choose 'My Wallet' > 'My Approvals' to approve your transaction manually."
             : "Your payment is pending. Authorize this payment and click the button below."}{" "}
-          {timeLeft}
+          {!isStillPending && done ? timeLeft : ""}
         </Text>
 
         <Pressable
           className={`w-full mt-8 p-3 rounded-xl items-center bg-primary ${
-            done || timeLeft > 0 || isChecking ? "opacity-50" : ""
+            timeLeft > 0 || isChecking ? "opacity-50" : ""
           }`}
-          disabled={done || timeLeft > 0 || isChecking}
-          onPress={checkStatus}
+          disabled={!done || timeLeft > 0 || isChecking}
+          onPress={done ? handleSubmit : checkStatus}
         >
           {isChecking ? (
             <ActivityIndicator color={isDark ? "black" : "white"} />
@@ -206,7 +218,7 @@ export default function StatusScreen() {
                 isDark ? "text-black" : "text-white uppercase"
               } font-semibold`}
             >
-              Check Status
+              {done ? "Proceed" : "Check Status"}
             </Text>
           )}
         </Pressable>
