@@ -78,18 +78,40 @@ export default function RegisterScreen() {
     december: "12",
   };
 
-  function toIsoDate(input: string): string {
-    // e.g. "1998 october 20"
-    const parts = input.trim().split(/\s+/);
-    if (parts.length !== 3) throw new Error("Expected 3 parts: YYYY MMMM DD");
+  function toIsoDate(input: unknown): string {
+    if (!input || typeof input !== "string") {
+      return "";
+    }
+    const s = input.trim();
 
+    // 1) Already ISO? YYYY-MM-DD (maybe with time after)
+    const isoMatch = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+    if (isoMatch) {
+      const [, y, m, d] = isoMatch;
+      // pad month/day to two digits
+      const mm = m.padStart(2, "0");
+      const dd = d.padStart(2, "0");
+      return `${y}-${mm}-${dd}`;
+    }
+
+    // 2) Try native Date parser
+    const dt = new Date(s);
+    if (!isNaN(dt.getTime())) {
+      return dt.toISOString().slice(0, 10); // "YYYY-MM-DD"
+    }
+
+    // 3) Manual month-name mapping
+    const parts = s.split(/\s+/);
+    if (parts.length !== 3) {
+      throw new Error(`toIsoDate: expected "YYYY MMMM DD", got "${s}"`);
+    }
     const [year, monthName, dayPart] = parts;
     const mm = monthMap[monthName.toLowerCase()];
-    if (!mm) throw new Error(`Unknown month: ${monthName}`);
-
-    // ensure day is two-digits
+    if (!mm) {
+      throw new Error(`toIsoDate: unrecognized month "${monthName}"`);
+    }
     const dd = dayPart.padStart(2, "0");
-    return `${year}-${mm}-${dd}`; // "1998-10-20"
+    return `${year}-${mm}-${dd}`;
   }
 
   const [formData, setFormData] = useState({
@@ -192,7 +214,6 @@ export default function RegisterScreen() {
   };
 
   const handleSubmit = async () => {
-    console.log(payload);
     try {
       await validationSchema.validate(formData);
       registerMutation.mutate(payload, {
@@ -213,60 +234,6 @@ export default function RegisterScreen() {
           });
         },
       });
-
-      // sendOtpMutation.mutate(
-      //   { phone },
-      //   {
-      //     onSuccess: (otpRes) => {
-      //       const pin_id = otpRes?.data?.data?.pinId;
-      //       console.log(otpRes?.data?.message, "message");
-
-      //       Toast.show({
-      //         type: "success",
-      //         text1: "OTP Sent",
-      //         text2: otpRes?.data?.message || "OTP sent successfully",
-      //         position: "top",
-      //       });
-
-      //       setTimeout(() => {
-      //         router.push({
-      //           pathname: "/otp",
-      //           params: {
-      //             pin_id,
-      //             payload: JSON.stringify(payload),
-      //           },
-      //         });
-      //       }, 2000);
-      //     },
-
-      //     onError: () => {
-      //       Toast.show({
-      //         type: "error",
-      //         text1: "OTP Failed",
-      //         text2: "Couldn't send OTP after registration.",
-      //         position: "top",
-      //       });
-      //     },
-      //   }
-      // );
-
-      // registerMutation.mutate(payload, {
-      //   onSuccess: (data) => {
-      //     updateUserSession(data);
-      //     //Immediately send OTP after registration
-      //   },
-
-      //   onError: (error) => {
-      //     Toast.show({
-      //       type: "error",
-      //       text1: "Registration Failed",
-      //       text2:
-      //         (error as any)?.response?.data?.issue?.message ||
-      //         "Something went wrong!",
-      //       position: "top",
-      //     });
-      //   },
-      // });
     } catch (error) {
       showErrorToast((error as any).message);
     }
@@ -309,8 +276,6 @@ export default function RegisterScreen() {
       showErrorToast((error as any).message);
     }
   };
-
-  console.log(toIsoDate(ghanaCardData?.dateOfBirth || ""));
 
   const isButtonDisabled =
     !formData.email ||
@@ -398,109 +363,109 @@ export default function RegisterScreen() {
             Reg
           </Text>
         </View>
-        <KeyboardAwareScrollView
+        {/* <KeyboardAwareScrollView
           bottomOffset={10}
           className="flex-1"
           contentContainerStyle={{
             justifyContent: "center",
             flex: 1,
           }}
-        >
-          <View className="flex-1 justify-center items-center h-full">
-            <View className="w-full max-w-sm gap-y-6">
-              <TextInput
-                value={fullName}
-                editable={false}
-                selectTextOnFocus={false}
-                className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
+        > */}
+        <View className="flex-1 justify-center items-center h-full">
+          <View className="w-full max-w-sm gap-y-6">
+            <TextInput
+              value={fullName}
+              editable={false}
+              selectTextOnFocus={false}
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
 
-              <TextInput
-                placeholder="EMAIL"
-                value={formData.email}
-                onChangeText={(value) => handleChange("email", value)}
-                keyboardType="email-address"
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
+            <TextInput
+              placeholder="EMAIL"
+              value={formData.email}
+              onChangeText={(value) => handleChange("email", value)}
+              keyboardType="email-address"
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
 
-              <TextInput
-                placeholder="PASSWORD"
-                value={formData.password}
-                onChangeText={(value) => handleChange("password", value)}
-                secureTextEntry
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
+            <TextInput
+              placeholder="PASSWORD"
+              value={formData.password}
+              onChangeText={(value) => handleChange("password", value)}
+              secureTextEntry
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
 
-              <TextInput
-                placeholder="PHONE NUMBER (MOMO ENABLED)"
-                value={phone}
-                editable={false}
-                selectTextOnFocus={false}
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
+            <TextInput
+              placeholder="PHONE NUMBER (MOMO ENABLED)"
+              value={phone}
+              editable={false}
+              selectTextOnFocus={false}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
 
-              <TextInput
-                placeholder="GHANA CARD NUMBER"
-                value={formData.ghanaCardNumber}
-                onChangeText={(value) => handleChange("ghanaCardNumber", value)}
-                className={`border rounded-xl p-3 text-base text-center ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
+            <TextInput
+              placeholder="GHANA CARD NUMBER"
+              value={formData.ghanaCardNumber}
+              onChangeText={(value) => handleChange("ghanaCardNumber", value)}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
 
-              {ghanaCardVerifyFetching ? (
-                <ActivityIndicator />
-              ) : ghanaCardData ? (
-                <Text className="text-center font-bold text-sm">
-                  Ghana card verified as: {ghanaCardData?.name}
-                </Text>
-              ) : (
-                ""
-              )}
+            {ghanaCardVerifyFetching ? (
+              <ActivityIndicator />
+            ) : ghanaCardData ? (
+              <Text className="text-center font-bold text-sm">
+                Ghana card verified as: {ghanaCardData?.name}
+              </Text>
+            ) : (
+              ""
+            )}
 
-              <TextInput
-                placeholder="DATE OF BIRTH"
-                value={ghanaCardData?.dateOfBirth}
-                editable={false}
-                selectTextOnFocus={false}
-                className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
+            <TextInput
+              placeholder="DATE OF BIRTH"
+              value={ghanaCardData?.dateOfBirth}
+              editable={false}
+              selectTextOnFocus={false}
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
 
-              <TextInput
-                value={channel.toUpperCase()}
-                editable={false}
-                selectTextOnFocus={false}
-                className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-              />
-            </View>
+            <TextInput
+              value={channel.toUpperCase()}
+              editable={false}
+              selectTextOnFocus={false}
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
+            />
           </View>
-        </KeyboardAwareScrollView>
+        </View>
+        {/* </KeyboardAwareScrollView> */}
         <Pressable
           className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
             isDarkMode ? "bg-white" : "bg-secondary-100"

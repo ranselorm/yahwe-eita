@@ -35,6 +35,15 @@ export default function StatusScreen() {
   const [isStillPending, setIsStillPending] = useState(false);
   const { setUser } = useUser();
 
+  const showErrorToast = (message: string) => {
+    Toast.show({
+      type: "error",
+      text1: "Validation Error",
+      text2: message,
+      position: "top",
+    });
+  };
+
   // Countdown timer
   useEffect(() => {
     const interval = setInterval(() => {
@@ -71,7 +80,39 @@ export default function StatusScreen() {
     }
   };
 
-  console.log(parsedPayload, "IN STATUS");
+  const handleSubmit = async () => {
+    console.log(parsedPayload, "IN STATUS HANDLE SUBMIT");
+    try {
+      registerMutation.mutate(parsedPayload, {
+        onSuccess: (data) => {
+          updateUserSession(data);
+          Toast.show({
+            type: "success",
+            text1: "Registration Successful",
+            text2: data?.data?.message || "Registration successful",
+            position: "top",
+          });
+          setTimeout(() => {
+            router.replace("/(tabs)");
+          }, 2000);
+        },
+        onError: (error) => {
+          console.log(error?.response?.data, "Axios response:");
+          Toast.show({
+            type: "error",
+            text1: "Registration Failed",
+            text2:
+              (error as any)?.response?.data?.message ||
+              "Something went wrong!",
+            position: "top",
+          });
+        },
+      });
+    } catch (error) {
+      showErrorToast((error as any).message);
+    }
+  };
+
   const checkStatus = async () => {
     if (!reference) return;
     setIsChecking(true);
