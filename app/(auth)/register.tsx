@@ -177,7 +177,7 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: phone && phone,
-    dateOfBirth: ghanaCardData?.dateOfBirth,
+    dateOfBirth: toIsoDate(ghanaCardData?.dateOfBirth || ""),
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
     channel: channel,
@@ -310,7 +310,7 @@ export default function RegisterScreen() {
     }
   };
 
-  console.log(toIsoDate(ghanaCardData?.dateOfBirth || "")); // "1998-10-20"
+  console.log(toIsoDate(ghanaCardData?.dateOfBirth || ""));
 
   const isButtonDisabled =
     !formData.email ||
