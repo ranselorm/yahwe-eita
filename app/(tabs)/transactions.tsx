@@ -12,34 +12,6 @@ import { useCallback, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
 import moment from "moment";
 
-const data = [
-  {
-    id: "1",
-    name: "Janelle Addae",
-    amount: 5,
-    date: "1d",
-  },
-
-  {
-    id: "2",
-    name: "Randy Selorm",
-    amount: 5,
-    date: "2d",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-    amount: 5,
-    date: "3d",
-  },
-];
-
 function Card({
   name,
   amount,
