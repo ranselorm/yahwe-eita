@@ -25,6 +25,9 @@ import { useVerifyGhanaCard } from "@/hooks/useVerifyGhanaCard";
 import axios from "axios";
 import { useFee } from "@/hooks/useFee";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -60,6 +63,35 @@ export default function RegisterScreen() {
   const phone = phoneNumber ? JSON.parse(phoneNumber as string) : null;
   const channel = network ? JSON.parse(network as string) : null;
 
+  const monthMap: Record<string, string> = {
+    january: "01",
+    february: "02",
+    march: "03",
+    april: "04",
+    may: "05",
+    june: "06",
+    july: "07",
+    august: "08",
+    september: "09",
+    october: "10",
+    november: "11",
+    december: "12",
+  };
+
+  function toIsoDate(input: string): string {
+    // e.g. "1998 october 20"
+    const parts = input.trim().split(/\s+/);
+    if (parts.length !== 3) throw new Error("Expected 3 parts: YYYY MMMM DD");
+
+    const [year, monthName, dayPart] = parts;
+    const mm = monthMap[monthName.toLowerCase()];
+    if (!mm) throw new Error(`Unknown month: ${monthName}`);
+
+    // ensure day is two-digits
+    const dd = dayPart.padStart(2, "0");
+    return `${year}-${mm}-${dd}`; // "1998-10-20"
+  }
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -94,7 +126,6 @@ export default function RegisterScreen() {
   );
 
   //verify ghana card
-
   const {
     data: ghanaCardVerifyData,
     error: ghanaCardVerifyError,
@@ -279,16 +310,13 @@ export default function RegisterScreen() {
     }
   };
 
+  console.log(toIsoDate(ghanaCardData?.dateOfBirth || "")); // "1998-10-20"
+
   const isButtonDisabled =
     !formData.email ||
     !formData.password ||
     !formData.ghanaCardNumber ||
     registerMutation.isPending;
-  const formattedDateOfBirth = dayjs(ghanaCardData?.dateOfBirth).format(
-    "YYYY-MM-DD"
-  );
-
-  console.log(formattedDateOfBirth, "date");
 
   return (
     <>
@@ -346,7 +374,6 @@ export default function RegisterScreen() {
       <SafeAreaView
         className={`flex-1 p-6 ${isDarkMode ? "bg-secondary-100" : "bg-white"}`}
       >
-        {/* Header */}
         <View className="flex-row justify-between mb-5 items-center">
           <TouchableOpacity onPress={() => router.back()}>
             <MaterialCommunityIcons
@@ -449,23 +476,6 @@ export default function RegisterScreen() {
                 ""
               )}
 
-              {/* date */}
-              {/* <TouchableOpacity
-              onPress={() => setShowPicker(true)}
-              activeOpacity={1.5}
-            >
-              <TextInput
-                placeholder="DATE OF BIRTH"
-                value={dob.toDateString()}
-                className={`border rounded-xl p-3 text-base text-center uppercase ${
-                  isDarkMode
-                    ? "border-white text-white"
-                    : "border-secondary-100 text-secondary-100"
-                }`}
-                editable={false}
-                selectTextOnFocus={false}
-              />
-            </TouchableOpacity> */}
               <TextInput
                 placeholder="DATE OF BIRTH"
                 value={ghanaCardData?.dateOfBirth}
