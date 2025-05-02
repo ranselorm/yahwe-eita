@@ -54,7 +54,6 @@ export default function LoginScreen() {
       {
         onSuccess: async (data) => {
           updateUserSession(data);
-          console.log("Login successful!", data);
           router.replace("/(tabs)");
         },
         onError: (error) => {

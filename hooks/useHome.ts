@@ -32,5 +32,8 @@ export const useHome = () => {
       throw new Error("No token or user_id found");
     },
     enabled: !!token,
+    staleTime: 0,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
   });
 };
