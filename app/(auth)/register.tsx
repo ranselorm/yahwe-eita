@@ -377,7 +377,7 @@ export default function RegisterScreen() {
               value={fullName}
               editable={false}
               selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+              className={`border rounded-xl p-3 text-base text-center bg-gray-100  border-gray-300 ${
                 isDarkMode
                   ? "border-white text-white"
                   : "border-secondary-100 text-secondary-100"
@@ -413,7 +413,7 @@ export default function RegisterScreen() {
               value={phone}
               editable={false}
               selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center ${
+              className={`border rounded-xl p-3 text-base text-center bg-gray-100 ${
                 isDarkMode
                   ? "border-white text-white"
                   : "border-secondary-100 text-secondary-100"
@@ -446,7 +446,7 @@ export default function RegisterScreen() {
               value={ghanaCardData?.dateOfBirth}
               editable={false}
               selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 bg-gray-100 ${
                 isDarkMode
                   ? "border-white text-white"
                   : "border-secondary-100 text-secondary-100"
@@ -457,7 +457,7 @@ export default function RegisterScreen() {
               value={channel.toUpperCase()}
               editable={false}
               selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center  border-gray-300 ${
+              className={`border rounded-xl p-3 text-base text-center  border-gray-300 bg-gray-100 ${
                 isDarkMode
                   ? "border-white text-white"
                   : "border-secondary-100 text-secondary-100"

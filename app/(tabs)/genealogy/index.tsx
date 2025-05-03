@@ -98,13 +98,13 @@ function ReferralCard({
           >
             {name}
           </Text>
-          <Text
+          {/* <Text
             className={`text-xl font-semibold ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
             {phone}
-          </Text>
+          </Text> */}
         </View>
       </View>
     </View>

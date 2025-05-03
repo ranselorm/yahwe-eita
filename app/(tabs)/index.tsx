@@ -33,7 +33,9 @@ export default function HomeScreen() {
 
   //hooks
   const inviteMutation = useInvite();
-  const { data: homeData, refetch, isRefetching } = useHome();
+  const { data: homeData, refetch } = useHome();
+
+  console.log(homeData, "HOME DATA");
 
   const handleInvite = () => {
     if (!name || !phone) {
@@ -162,7 +164,7 @@ export default function HomeScreen() {
             ))}
           </View>
         </View>
-        <Pressable onPress={() => setModalVisible(true)}>
+        {/* <Pressable onPress={() => setModalVisible(true)}>
           <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
             <Text className="text-white text-lg font-semibold">
               Create new referral code
@@ -174,12 +176,12 @@ export default function HomeScreen() {
               className="text-primary bg-white p-1 rounded-full"
             />
           </View>
-        </Pressable>
+        </Pressable> */}
 
         {/* Stats Card */}
         <View className="flex-row justify-between w-full mt-6 gap-x-2">
           <View className="bg-accent p-6 w-[47%] rounded-xl">
-            <Text className="text-white">Earnings this week</Text>
+            <Text className="text-white">Earnings</Text>
             <View className="flex-row items-center justify-between mt-5">
               <FontAwesome name="money" size={24} color="white" />
               <Text className="text-white text-xl font-semibold">
@@ -188,7 +190,7 @@ export default function HomeScreen() {
             </View>
           </View>
           <View className="bg-gray-100 p-6 w-[47%] rounded-xl">
-            <Text className="text-black">Recruits this week</Text>
+            <Text className="text-black">Downlines</Text>
             <View className="flex-row items-center justify-between mt-5">
               <MaterialCommunityIcons
                 name="account-check-outline"
@@ -196,7 +198,8 @@ export default function HomeScreen() {
                 color="black"
               />
               <Text className="text-black text-xl font-semibold">
-                {homeData?.newRecruitsThisWeek} recruits
+                {homeData?.totalRecruits}{" "}
+                {homeData?.totalRecruits > 1 ? "Downlines" : "Downline"}
               </Text>
             </View>
           </View>
@@ -251,10 +254,10 @@ export default function HomeScreen() {
                           : "border-gray-300"
                       } bg-white  h-8 w-8 rounded-full items-center justify-center border-2`}
                     >
-                      <Text>{item.name[0]}</Text>
+                      <Text className="">{item.name[0]}</Text>
                     </View>
                     <Text
-                      className={`${
+                      className={`text-xs text-center ${
                         isDarkMode ? "text-white" : "text-black"
                       } mt-2`}
                     >
