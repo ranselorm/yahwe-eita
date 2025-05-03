@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import {
+  EvilIcons,
   FontAwesome,
   MaterialCommunityIcons,
   MaterialIcons,
@@ -185,13 +186,16 @@ export default function WelcomeScreen() {
                 openURL("https://www.yahwe-eitaglobal.com/#features")
               }
             >
-              <Text
-                className={`text-lg mt-6 text-center ${
-                  isDarkMode ? "text-white" : "text-black"
-                }`}
-              >
-                How It Works
-              </Text>
+              <View className="flex-row items-center justify-center mt-6 gap-x-3">
+                <EvilIcons name="external-link" size={24} color="#3b82f6" />
+                <Text
+                  className={`text-lg text-center ${
+                    isDarkMode ? "text-blue-500" : "text-blue-500"
+                  }`}
+                >
+                  How It Works
+                </Text>
+              </View>
             </TouchableOpacity>
           )}
         </View>
