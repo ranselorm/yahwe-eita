@@ -132,11 +132,8 @@ export default function HomeScreen() {
             }`}
           >
             {/* GHS {homeData?.balance} */}
-            {isRefetching ? (
-              <Text>Loading...</Text>
-            ) : (
-              <Text>GHS {homeData?.balance}</Text>
-            )}
+
+            <Text>GHS {homeData?.balance}</Text>
           </Text>
 
           <View className="flex-row justify-between mt-6">
