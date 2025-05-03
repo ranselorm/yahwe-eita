@@ -31,8 +31,6 @@ export default function HomeScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  // console.log(refreshing, "refreshing");
-
   //hooks
   const inviteMutation = useInvite();
   const { data: homeData, refetch, isRefetching } = useHome();
