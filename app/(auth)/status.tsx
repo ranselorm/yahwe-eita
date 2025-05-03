@@ -117,12 +117,6 @@ export default function StatusScreen() {
       registerMutation.mutate(parsedPayload, {
         onSuccess: (data) => {
           updateUserSession(data);
-          // Toast.show({
-          //   type: "success",
-          //   text1: "Registration Successful",
-          //   text2: data?.data?.message || "Registration successful",
-          //   position: "top",
-          // });
           router.replace("/(tabs)");
         },
         onError: (error) => {
