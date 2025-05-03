@@ -213,7 +213,7 @@ export default function HomeScreen() {
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              My Recruits
+              My Downlines
             </Text>
           </View>
 
@@ -254,10 +254,10 @@ export default function HomeScreen() {
                           : "border-gray-300"
                       } bg-white  h-8 w-8 rounded-full items-center justify-center border-2`}
                     >
-                      <Text className="">{item.name[0]}</Text>
+                      <Text>{item.name[0]}</Text>
                     </View>
                     <Text
-                      className={`text-xs text-center ${
+                      className={`text-xs text-center font-bold ${
                         isDarkMode ? "text-white" : "text-black"
                       } mt-2`}
                     >
