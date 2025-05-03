@@ -17,7 +17,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
