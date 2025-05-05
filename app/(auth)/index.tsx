@@ -204,7 +204,7 @@ export default function WelcomeScreen() {
     <>
       <StatusBar
         barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor="transparent" // or any color you like
+        backgroundColor="transparent"
         translucent
       />
       <SafeAreaView

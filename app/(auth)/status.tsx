@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   useColorScheme,
   Alert,
+  StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -141,69 +142,79 @@ export default function StatusScreen() {
   }
 
   return (
-    <SafeAreaView
-      className={`flex-1 items-center p-6 ${isDark ? "bg-black" : "bg-white"}`}
-    >
-      <View className="flex-1 items-center px-6 w-full">
-        {done ? (
-          <AntDesign name="checkcircle" size={24} color="#5cb85c" />
-        ) : isStillPending ? (
-          <MaterialIcons name="error-outline" size={62} color="#dc6115" />
-        ) : (
-          <PendingDots />
-        )}
+    <>
+      <StatusBar
+        barStyle={isDark ? "light-content" : "dark-content"}
+        backgroundColor="transparent"
+        translucent
+      />
 
-        {done ? (
-          <Text
-            className={`text-lg font-bold mt-4  ${
-              isDark ? "text-white" : "text-black"
-            }`}
-          >
-            Payment Confirmed
-          </Text>
-        ) : !isStillPending ? (
-          <Text
-            className={`text-lg font-bold mt-4  ${
-              isDark ? "text-white" : "text-black"
-            }`}
-          >
-            Pending Payment
-          </Text>
-        ) : null}
-
-        <Text
-          className={`text-base text-center mt-4 ${
-            isDark ? "text-white" : "text-black"
-          }`}
-        >
-          {done
-            ? "Press the button below to sign up"
-            : isStillPending
-            ? "If you didn’t see a payment pop-up, dial *170#, choose 'My Wallet' > 'My Approvals' to approve your transaction manually."
-            : "Your payment is pending. Authorize this payment and click the button below."}{" "}
-          {!isStillPending && done ? "" : timeLeft}
-        </Text>
-
-        <Pressable
-          className={`w-full mt-8 p-3 rounded-xl items-center bg-primary ${
-            timeLeft > 0 || isChecking ? "opacity-50" : ""
-          }`}
-          disabled={timeLeft > 0 || isChecking}
-          onPress={done ? handleSubmit : checkStatus}
-        >
-          {isChecking ? (
-            <ActivityIndicator color={isDark ? "black" : "white"} />
+      <SafeAreaView
+        className={`flex-1 items-center p-6 ${
+          isDark ? "bg-black" : "bg-white"
+        }`}
+      >
+        <View className="flex-1 items-center px-6 w-full">
+          {done ? (
+            <AntDesign name="checkcircle" size={24} color="#5cb85c" />
+          ) : isStillPending ? (
+            <MaterialIcons name="error-outline" size={62} color="#dc6115" />
           ) : (
-            <Text
-              className={`text-lg ${
-                isDark ? "text-black" : "text-white uppercase"
-              } font-semibold`}
-            >
-              {done ? "Proceed" : "Check Status"}
-            </Text>
+            <PendingDots />
           )}
-        </Pressable>
-      </View>
-    </SafeAreaView>
+
+          {done ? (
+            <Text
+              className={`text-lg font-bold mt-4  ${
+                isDark ? "text-white" : "text-black"
+              }`}
+            >
+              Payment Confirmed
+            </Text>
+          ) : !isStillPending ? (
+            <Text
+              className={`text-lg font-bold mt-4  ${
+                isDark ? "text-white" : "text-black"
+              }`}
+            >
+              Pending Payment
+            </Text>
+          ) : null}
+
+          <Text
+            className={`text-base text-center mt-4 ${
+              isDark ? "text-white" : "text-black"
+            }`}
+          >
+            {done
+              ? "Press the button below to sign up"
+              : isStillPending
+              ? "If you didn’t see a payment pop-up, dial *170#, choose 'My Wallet' > 'My Approvals' to approve your transaction manually."
+              : "Your payment is pending. Authorize this payment and click the button below."}{" "}
+            {!isStillPending && done ? "" : timeLeft}
+          </Text>
+
+          <Pressable
+            className={`w-full mt-8 p-3 rounded-xl items-center bg-primary ${
+              timeLeft > 0 || isChecking ? "opacity-50" : ""
+            }`}
+            disabled={timeLeft > 0 || isChecking}
+            onPress={done ? handleSubmit : checkStatus}
+          >
+            {isChecking ? (
+              <ActivityIndicator color={isDark ? "black" : "white"} />
+            ) : (
+              <Text
+                className={`text-lg ${
+                  isDark ? "text-black" : "text-white uppercase"
+                } font-semibold`}
+              >
+                {done ? "Proceed" : "Check Status"}
+              </Text>
+            )}
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    </>
   );
 }

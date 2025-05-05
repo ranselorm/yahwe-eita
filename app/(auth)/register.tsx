@@ -52,8 +52,6 @@ const validationSchema = yup.object().shape({
 
 export default function RegisterScreen() {
   const isDarkMode = useColorScheme() === "dark";
-  const [dob, setDob] = useState<Date>(new Date("2000-01-01"));
-  const [showPicker, setShowPicker] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { accessToken } = useUser();
   const [feeId, setFeeId] = useState("qGD7Wwq7JylaI");
