@@ -136,7 +136,7 @@ export default function HomeScreen() {
             <Text>GHS {homeData?.balance}</Text>
           </Text>
 
-          <View className="flex-row justify-between mt-6">
+          {/* <View className="flex-row justify-between mt-6">
             {[
               { label: "Topup", icon: "add" },
               { label: "Withdraw", icon: "arrow-downward" },
@@ -162,7 +162,7 @@ export default function HomeScreen() {
                 <Text className="text-sm mt-1 text-gray-500">{item.label}</Text>
               </View>
             ))}
-          </View>
+          </View> */}
         </View>
         {/* <Pressable onPress={() => setModalVisible(true)}>
           <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
@@ -181,7 +181,7 @@ export default function HomeScreen() {
         {/* Stats Card */}
         <View className="flex-row justify-between w-full mt-6 gap-x-2">
           <View className="bg-accent p-6 w-[47%] rounded-xl">
-            <Text className="text-white">Earnings</Text>
+            <Text className="text-white">Cash Earnings</Text>
             <View className="flex-row items-center justify-between mt-5">
               <FontAwesome name="money" size={24} color="white" />
               <Text className="text-white text-xl font-semibold">
