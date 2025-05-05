@@ -26,7 +26,7 @@ import { StatusBar } from "react-native";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "light";
+  const isDarkMode = colorScheme === "dark";
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);

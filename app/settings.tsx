@@ -3,6 +3,7 @@ import { router, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useUser } from "@/context/userContext";
 import { clearUserData } from "@/utils";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function SettingsItem({ title, icon }: { title: string; icon: string }) {
   const isDarkMode = useColorScheme() === "dark";
@@ -42,7 +43,9 @@ export default function SettingsScreen() {
   const isDarkMode = useColorScheme() === "dark";
 
   return (
-    <View className={`flex-1 px-6  ${isDarkMode ? "bg-black" : "bg-white"}`}>
+    <SafeAreaView
+      className={`flex-1 px-6  ${isDarkMode ? "bg-black" : "bg-white"}`}
+    >
       <View className="flex-row items-center mt-4 justify-between">
         <Pressable onPress={() => router.back()}>
           <MaterialIcons
@@ -86,6 +89,6 @@ export default function SettingsScreen() {
         <MaterialIcons name="logout" size={24} color="red" />
         <Text className="text-red-500 text-lg font-semibold ml-4">Logout</Text>
       </Pressable>
-    </View>
+    </SafeAreaView>
   );
 }
