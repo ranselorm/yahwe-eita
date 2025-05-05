@@ -78,11 +78,11 @@ export default function HomeScreen() {
 
   return (
     <>
-      <StatusBar
+      {/* <StatusBar
         barStyle={isDarkMode ? "light-content" : "dark-content"}
         backgroundColor="transparent"
         translucent
-      />
+      /> */}
 
       <SafeAreaView
         className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}

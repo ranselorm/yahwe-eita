@@ -12,7 +12,7 @@ import { useColorScheme } from "react-native";
 const client = new QueryClient();
 
 const AppContent = () => {
-  const isDarkMode = useColorScheme() === "light";
+  const isDarkMode = useColorScheme() === "dark";
   const BG = isDarkMode ? "#000000" : "#FFFFFF";
 
   return (

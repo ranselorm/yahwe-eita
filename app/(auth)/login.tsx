@@ -75,11 +75,11 @@ export default function LoginScreen() {
 
   return (
     <>
-      <StatusBar
+      {/* <StatusBar
         barStyle={isDarkMode ? "light-content" : "dark-content"}
         backgroundColor="transparent"
         translucent
-      />
+      /> */}
 
       <SafeAreaView
         className={`flex-1 p-6 ${isDarkMode ? "bg-black" : "bg-white"}  w-full`}
