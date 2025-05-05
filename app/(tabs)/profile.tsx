@@ -4,11 +4,15 @@ import ReferralCard from "../../components/ReferralCard";
 import ReferralList from "@/components/ReferralList";
 import Header from "@/components/Header";
 import { useUser } from "@/context/userContext";
+import { useProfile } from "@/hooks/useProfile";
 // import BalanceCard from "../components/BalanceCard";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
+  const { data, isLoading } = useProfile();
+  console.log(data);
+
   const { user } = useUser();
 
   return (
