@@ -204,7 +204,6 @@ export default function WelcomeScreen() {
 
   return (
     <>
-      <StatusBar style={isDarkMode ? "dark" : "dark"} />
       <SafeAreaView
         className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}
       >

@@ -13,10 +13,15 @@ const client = new QueryClient();
 
 const AppContent = () => {
   const isDarkMode = useColorScheme() === "light";
+  const BG = isDarkMode ? "#000000" : "#FFFFFF";
 
   return (
     <>
-      <StatusBar style={isDarkMode ? "dark" : "dark"} translucent={false} />
+      <StatusBar
+        style={isDarkMode ? "light" : "dark"}
+        backgroundColor={BG}
+        translucent={false}
+      />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
