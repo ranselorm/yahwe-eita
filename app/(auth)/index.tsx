@@ -73,7 +73,9 @@ function Checkbox({ checked, onChange }: any) {
   return (
     <Pressable
       onPress={() => onChange(!checked)}
-      className="w-6 h-6 border rounded-md justify-center items-center"
+      className={`w-6 h-6 border rounded-md justify-center items-center ${
+        isDarkMode ? "border-white" : "border-black"
+      }`}
     >
       {checked && (
         <MaterialIcons

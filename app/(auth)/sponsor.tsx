@@ -20,7 +20,7 @@ import { StatusBar } from "react-native";
 export default function SponsorScreen() {
   const [phone, setPhone] = useState("");
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "light";
+  const isDarkMode = colorScheme === "dark";
   const { setAccessToken } = useUser();
 
   const { isLoading, refetch } = useSponsor(phone, {
@@ -68,7 +68,7 @@ export default function SponsorScreen() {
     <>
       <StatusBar
         barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor="transparent" // or any color you like
+        backgroundColor="transparent"
         translucent
       />
 

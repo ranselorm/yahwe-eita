@@ -12,6 +12,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "@/context/userContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StatusBar } from "react-native";
 
 export default function ConfirmationScreen() {
   const { sponsor } = useLocalSearchParams();
@@ -19,77 +20,79 @@ export default function ConfirmationScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
-  // console.log(sponsor, "in confirmation");
-
   const { setSponsorId } = useUser();
-
-  console.log(sponsorData, "data in confirm");
-
   const sponsorId = sponsorData?.id;
-  console.log(sponsorId && sponsorId);
 
   const handlePress = () => {
     setSponsorId(sponsorId);
     router.push("/phone");
   };
+
   return (
-    <SafeAreaView
-      className={`flex-1 p-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
-    >
-      <TouchableOpacity onPress={() => router.back()}>
-        <MaterialCommunityIcons
-          name="arrow-left"
-          size={25}
-          color={`${isDarkMode ? "white" : "black"}`}
-        />
-      </TouchableOpacity>
-      <View className="flex-1 justify-center items-center">
-        <View className="mb-8 items-center">
-          <AntDesign
-            name="checkcircleo"
-            size={40}
-            color="#22c55e"
-            className="text-green-500"
+    <>
+      <StatusBar
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
+        backgroundColor="transparent"
+        translucent
+      />
+      <SafeAreaView
+        className={`flex-1 p-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      >
+        <TouchableOpacity onPress={() => router.back()}>
+          <MaterialCommunityIcons
+            name="arrow-left"
+            size={25}
+            color={`${isDarkMode ? "white" : "black"}`}
           />
-          <Text
-            className={`text-lg font-semibold mt-4 ${
-              isDarkMode ? "text-black" : "text-black"
-            }`}
-          >
-            Successfully Verified Your Sponsor As
-          </Text>
+        </TouchableOpacity>
+        <View className="flex-1 justify-center items-center">
+          <View className="mb-8 items-center">
+            <AntDesign
+              name="checkcircleo"
+              size={40}
+              color="#22c55e"
+              className="text-green-500"
+            />
+            <Text
+              className={`text-lg font-semibold mt-4 ${
+                isDarkMode ? "text-black" : "text-black"
+              }`}
+            >
+              Successfully Verified Your Sponsor As
+            </Text>
+          </View>
+          <View className="items-center justify-center">
+            <Text
+              className={`text-3xl font-semibold uppercase ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              {sponsorData?.name}
+            </Text>
+            <Text
+              className={`text-lg font-semibold ${
+                isDarkMode ? "text-black" : "text-black"
+              }`}
+            >
+              {sponsorData?.phone}
+            </Text>
+          </View>
         </View>
-        <View className="items-center justify-center">
-          <Text
-            className={`text-3xl font-semibold uppercase ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            {sponsorData?.name}
-          </Text>
+        <Pressable
+          className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center mx-auto ${
+            isDarkMode ? "bg-white" : "bg-black"
+          } `}
+          onPress={handlePress}
+        >
           <Text
             className={`text-lg font-semibold ${
-              isDarkMode ? "text-black" : "text-black"
+              isDarkMode ? "text-black" : "text-white"
             }`}
           >
-            {sponsorData?.phone}
+            CONTINUE
           </Text>
-        </View>
-      </View>
-      <Pressable
-        className={`w-full max-w-sm mt-4 p-3 rounded-xl items-center mx-auto ${
-          isDarkMode ? "bg-white" : "bg-black"
-        } `}
-        onPress={handlePress}
-      >
-        <Text
-          className={`text-lg font-semibold ${
-            isDarkMode ? "text-black" : "text-white"
-          }`}
-        >
-          CONTINUE
-        </Text>
-      </Pressable>
-    </SafeAreaView>
+        </Pressable>
+      </SafeAreaView>
+    </>
   );
 }
