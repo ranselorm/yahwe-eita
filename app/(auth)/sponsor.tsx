@@ -15,11 +15,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from "axios";
 import { useUser } from "@/context/userContext";
+import { StatusBar } from "react-native";
 
 export default function SponsorScreen() {
   const [phone, setPhone] = useState("");
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
+  const isDarkMode = colorScheme === "light";
   const { setAccessToken } = useUser();
 
   const { isLoading, refetch } = useSponsor(phone, {
@@ -64,75 +65,83 @@ export default function SponsorScreen() {
   };
 
   return (
-    <SafeAreaView
-      className={`flex-1 p-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
-    >
-      <TouchableOpacity onPress={() => router.back()}>
-        <MaterialCommunityIcons
-          name="arrow-left"
-          size={25}
-          color={`${isDarkMode ? "white" : "black"}`}
-        />
-      </TouchableOpacity>
-      <View className="flex-1 justify-center items-center h-full">
-        <View className={`flex-1 justify-center items-center w-full`}>
-          <Text
-            className={`text-xl font-semibold mb-8 text-center max-w-sm ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            Enter your sponsor's phone number without the 0
-          </Text>
-          <View className="flex-row items-center space-x-2 gap-x-2 max-w-sm w-full">
-            <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
-              <Text className="text-lg text-black">+233</Text>
-            </View>
+    <>
+      <StatusBar
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
+        backgroundColor="transparent" // or any color you like
+        translucent
+      />
 
-            <TextInput
-              value={phone}
-              onChangeText={(text) => {
-                if (text.startsWith("0")) {
-                  setPhone(text.slice(1));
-                } else {
-                  setPhone(text);
-                }
-              }}
-              keyboardType="phone-pad"
-              autoCapitalize="none"
-              placeholder="Enter phone number"
-              maxLength={9}
-              placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-              className={`flex-1 border rounded-xl p-3 text-center text-lg ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-black text-black"
+      <SafeAreaView
+        className={`flex-1 p-6 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      >
+        <TouchableOpacity onPress={() => router.back()}>
+          <MaterialCommunityIcons
+            name="arrow-left"
+            size={25}
+            color={`${isDarkMode ? "white" : "black"}`}
+          />
+        </TouchableOpacity>
+        <View className="flex-1 justify-center items-center h-full">
+          <View className={`flex-1 justify-center items-center w-full`}>
+            <Text
+              className={`text-xl font-semibold mb-8 text-center max-w-sm ${
+                isDarkMode ? "text-white" : "text-black"
               }`}
-            />
-          </View>
-          <Pressable
-            className={`w-full max-w-sm mt-6 p-3 rounded-xl items-center ${
-              isDarkMode ? "bg-white" : "bg-black"
-            } ${isLoading ? "opacity-50" : ""} ${
-              phone.length < 9 ? "opacity-50" : ""
-            }`}
-            onPress={handlePress}
-            disabled={isLoading || phone.length < 9}
-          >
-            {isLoading ? (
-              <ActivityIndicator color={isDarkMode ? "black" : "white"} />
-            ) : (
-              <Text
-                className={`text-lg font-semibold ${
-                  isDarkMode ? "text-black" : "text-white"
+            >
+              Enter your sponsor's phone number without the 0
+            </Text>
+            <View className="flex-row items-center space-x-2 gap-x-2 max-w-sm w-full">
+              <View className="px-4 py-3 rounded-xl border border-gray-400 bg-gray-100">
+                <Text className="text-lg text-black">+233</Text>
+              </View>
+
+              <TextInput
+                value={phone}
+                onChangeText={(text) => {
+                  if (text.startsWith("0")) {
+                    setPhone(text.slice(1));
+                  } else {
+                    setPhone(text);
+                  }
+                }}
+                keyboardType="phone-pad"
+                autoCapitalize="none"
+                placeholder="Enter phone number"
+                maxLength={9}
+                placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+                className={`flex-1 border rounded-xl p-3 text-center text-lg ${
+                  isDarkMode
+                    ? "border-white text-white"
+                    : "border-black text-black"
                 }`}
-              >
-                VERIFY
-              </Text>
-            )}
-          </Pressable>
+              />
+            </View>
+            <Pressable
+              className={`w-full max-w-sm mt-6 p-3 rounded-xl items-center ${
+                isDarkMode ? "bg-white" : "bg-black"
+              } ${isLoading ? "opacity-50" : ""} ${
+                phone.length < 9 ? "opacity-50" : ""
+              }`}
+              onPress={handlePress}
+              disabled={isLoading || phone.length < 9}
+            >
+              {isLoading ? (
+                <ActivityIndicator color={isDarkMode ? "black" : "white"} />
+              ) : (
+                <Text
+                  className={`text-lg font-semibold ${
+                    isDarkMode ? "text-black" : "text-white"
+                  }`}
+                >
+                  VERIFY
+                </Text>
+              )}
+            </Pressable>
+          </View>
         </View>
-      </View>
-      <Toast />
-    </SafeAreaView>
+        <Toast />
+      </SafeAreaView>
+    </>
   );
 }

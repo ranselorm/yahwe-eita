@@ -90,7 +90,7 @@ export default function WelcomeScreen() {
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
-  const isDarkMode = useColorScheme() === "light";
+  const isDarkMode = useColorScheme() === "dark";
 
   // function to open urls in the default browser
   const openURL = async (url: string) => {
@@ -127,7 +127,7 @@ export default function WelcomeScreen() {
           isDarkMode ? "bg-black" : "bg-white"
         }`}
       >
-        <View className="flex-1 px-6">
+        <View className="flex-1 px-6 -mt-16">
           {/* <FontAwesome name="handshake-o" size={30} color="#dc6115" /> */}
 
           <Text
