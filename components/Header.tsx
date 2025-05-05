@@ -23,7 +23,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
+  const isDarkMode = colorScheme === "light";
   const { user } = useUser();
 
   return (

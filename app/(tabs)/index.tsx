@@ -22,10 +22,11 @@ import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
 import { useHome } from "@/hooks/useHome";
+import { StatusBar } from "react-native";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
+  const isDarkMode = colorScheme === "light";
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
@@ -76,67 +77,73 @@ export default function HomeScreen() {
   }, [refetch]);
 
   return (
-    <SafeAreaView
-      className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            tintColor={"#f97316"}
-          />
-        }
+    <>
+      <StatusBar
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
+        backgroundColor="transparent"
+        translucent
+      />
+
+      <SafeAreaView
+        className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}
       >
-        <Header />
-
-        {/* Countdown */}
-        <View
-          className={`${
-            isDarkMode ? "bg-white" : "bg-dark-100"
-          } w-full p-4 mt-6 rounded-xl`}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={"#f97316"}
+            />
+          }
         >
-          <View className="flex-row gap-x-2 items-center">
-            <Ionicons name="time-outline" size={24} color="white" />
-            <Text
-              className={`${
-                isDarkMode ? "text-black" : "text-white"
-              } text-lg font-semibold`}
-            >
-              Time left until next level:{" "}
-              <Countdown createdAt={homeData?.userInfo?.createdAt} />
-            </Text>
+          <Header />
+          {/* Countdown */}
+          <View
+            className={`${
+              isDarkMode ? "bg-white" : "bg-dark-100"
+            } w-full p-4 mt-6 rounded-xl`}
+          >
+            <View className="flex-row gap-x-2 items-center">
+              <Ionicons name="time-outline" size={24} color="white" />
+              <Text
+                className={`${
+                  isDarkMode ? "text-black" : "text-white"
+                } text-lg font-semibold`}
+              >
+                Time left until next level:{" "}
+                <Countdown createdAt={homeData?.userInfo?.createdAt} />
+              </Text>
+            </View>
+            {/* <View className="flex-row items-center justify-between mt-4 px-4"> */}
+            <ProgressBar level={homeData?.level} progress={homeData?.level} />
+            {/* <Text className="text-white">Level: {homeData?.level}</Text> */}
+            {/* </View> */}
           </View>
-          {/* <View className="flex-row items-center justify-between mt-4 px-4"> */}
-          <ProgressBar level={homeData?.level} progress={homeData?.level} />
-          {/* <Text className="text-white">Level: {homeData?.level}</Text> */}
-          {/* </View> */}
-        </View>
-        {/* Balance Card */}
-        <View
-          className={`p-4 rounded-xl mt-8 ${
-            isDarkMode ? "bg-dark-100" : "bg-gray-100"
-          }`}
-        >
-          <Text
-            className={`text-base mb-3 ${
-              isDarkMode ? "text-white" : "text-black"
+          {/* Balance Card */}
+          <View
+            className={`p-4 rounded-xl mt-8 ${
+              isDarkMode ? "bg-dark-100" : "bg-gray-100"
             }`}
           >
-            Self Reward Airtime:
-          </Text>
-          <Text
-            className={`text-3xl font-bold ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            {/* GHS {homeData?.balance} */}
+            <Text
+              className={`text-base mb-3 ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              Self Reward Airtime:
+            </Text>
+            <Text
+              className={`text-3xl font-bold ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              {/* GHS {homeData?.balance} */}
 
-            <Text>GHS {homeData?.balance}</Text>
-          </Text>
+              <Text>GHS {homeData?.balance}</Text>
+            </Text>
 
-          {/* <View className="flex-row justify-between mt-6">
+            {/* <View className="flex-row justify-between mt-6">
             {[
               { label: "Topup", icon: "add" },
               { label: "Withdraw", icon: "arrow-downward" },
@@ -163,8 +170,8 @@ export default function HomeScreen() {
               </View>
             ))}
           </View> */}
-        </View>
-        {/* <Pressable onPress={() => setModalVisible(true)}>
+          </View>
+          {/* <Pressable onPress={() => setModalVisible(true)}>
           <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
             <Text className="text-white text-lg font-semibold">
               Create new referral code
@@ -178,146 +185,149 @@ export default function HomeScreen() {
           </View>
         </Pressable> */}
 
-        {/* Stats Card */}
-        <View className="flex-row justify-between w-full mt-6 gap-x-2">
-          <View className="bg-accent p-6 w-[47%] rounded-xl">
-            <Text className="text-white">Cash Earnings</Text>
-            <View className="flex-row items-center justify-between mt-5">
-              <FontAwesome name="money" size={24} color="white" />
-              <Text className="text-white text-xl font-semibold">
-                GHS{homeData?.earnedThisWeek}
+          {/* Stats Card */}
+          <View className="flex-row justify-between w-full mt-6 gap-x-2">
+            <View className="bg-accent p-6 w-[47%] rounded-xl">
+              <Text className="text-white">Cash Earnings</Text>
+              <View className="flex-row items-center justify-between mt-5">
+                <FontAwesome name="money" size={24} color="white" />
+                <Text className="text-white text-xl font-semibold">
+                  GHS{homeData?.earnedThisWeek}
+                </Text>
+              </View>
+            </View>
+            <View className="bg-gray-100 p-6 w-[47%] rounded-xl">
+              <Text className="text-black">Downlines</Text>
+              <View className="flex-row items-center justify-between mt-5">
+                <MaterialCommunityIcons
+                  name="account-check-outline"
+                  size={24}
+                  color="black"
+                />
+                <Text className="text-black text-xl font-semibold">
+                  {homeData?.totalRecruits}{" "}
+                  {homeData?.totalRecruits > 1 ? "Downlines" : "Downline"}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Recruits */}
+          <View className="mt-6">
+            <View className="flex-row justify-between mb-4">
+              <Text
+                className={`font-semibold text-lg ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
+                My Downlines
               </Text>
             </View>
-          </View>
-          <View className="bg-gray-100 p-6 w-[47%] rounded-xl">
-            <Text className="text-black">Downlines</Text>
-            <View className="flex-row items-center justify-between mt-5">
-              <MaterialCommunityIcons
-                name="account-check-outline"
-                size={24}
-                color="black"
-              />
-              <Text className="text-black text-xl font-semibold">
-                {homeData?.totalRecruits}{" "}
-                {homeData?.totalRecruits > 1 ? "Downlines" : "Downline"}
-              </Text>
-            </View>
-          </View>
-        </View>
 
-        {/* Recruits */}
-        <View className="mt-6">
-          <View className="flex-row justify-between mb-4">
-            <Text
-              className={`font-semibold text-lg ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
+            {/* Referral List */}
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className="mt-2 w-full flex-1"
             >
-              My Downlines
-            </Text>
-          </View>
-
-          {/* Referral List */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className="mt-2 w-full flex-1"
-          >
-            <View className="flex-row gap-x-3 justify-center items-center w-full ">
-              {homeData?.userInfo?.recruits?.length > 0 ? (
-                homeData?.userInfo.recruits?.map((item: any, index: number) => (
-                  <View
-                    key={index}
-                    className={`w-[116px] h-24 rounded-lg items-center justify-center  ${
-                      isDarkMode ? "bg-dark-100" : "bg-gray-200"
-                    }`}
-                  >
-                    <View className="absolute top-1 right-2">
-                      {item?.verified === true ? (
-                        <MaterialCommunityIcons
-                          name="account-check-outline"
-                          size={20}
-                          color={`${isDarkMode ? "white" : "black"}`}
-                        />
-                      ) : (
-                        <MaterialCommunityIcons
-                          name="account-alert-outline"
-                          size={20}
-                          color={`${isDarkMode ? "white" : "black"}`}
-                        />
-                      )}
-                    </View>
-                    <View
-                      className={`${
-                        item.verified === true
-                          ? "border-green-500"
-                          : "border-gray-300"
-                      } bg-white  h-8 w-8 rounded-full items-center justify-center border-2`}
-                    >
-                      <Text>{item.name[0]}</Text>
-                    </View>
-                    <Text
-                      className={`text-xs text-center font-bold ${
-                        isDarkMode ? "text-white" : "text-black"
-                      } mt-2`}
-                    >
-                      {item.name}
-                    </Text>
-                  </View>
-                ))
-              ) : (
-                <View className="flex-1 items-center justify-center h-full w-full max-w-xl">
-                  <Text>No recruits</Text>
-                </View>
-              )}
-            </View>
-          </ScrollView>
-        </View>
-        {/* <ReferralList /> */}
-      </ScrollView>
-      <Modal visible={isModalVisible} transparent animationType="slide">
-        <View className="flex-1 justify-center items-center bg-black/60">
-          <View className="bg-white p-6 rounded-lg w-80">
-            <Text className="text-lg font-semibold mb-4 text-black">
-              Enter name and phone number
-            </Text>
-
-            <TextInput
-              value={name}
-              onChangeText={setName}
-              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
-            />
-            <TextInput
-              value={phone}
-              onChangeText={setPhone}
-              // placeholder="0234567891"
-              keyboardType="number-pad"
-              maxLength={10}
-              className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
-            />
-
-            <Pressable
-              className="bg-black p-3 rounded-md items-center"
-              onPress={handleInvite}
-            >
-              <Text className="text-white text-lg font-semibold">
-                {inviteMutation.isPending ? (
-                  <ActivityIndicator size={"small"} />
+              <View className="flex-row gap-x-3 justify-center items-center w-full ">
+                {homeData?.userInfo?.recruits?.length > 0 ? (
+                  homeData?.userInfo.recruits?.map(
+                    (item: any, index: number) => (
+                      <View
+                        key={index}
+                        className={`w-[116px] h-24 rounded-lg items-center justify-center  ${
+                          isDarkMode ? "bg-dark-100" : "bg-gray-200"
+                        }`}
+                      >
+                        <View className="absolute top-1 right-2">
+                          {item?.verified === true ? (
+                            <MaterialCommunityIcons
+                              name="account-check-outline"
+                              size={20}
+                              color={`${isDarkMode ? "white" : "black"}`}
+                            />
+                          ) : (
+                            <MaterialCommunityIcons
+                              name="account-alert-outline"
+                              size={20}
+                              color={`${isDarkMode ? "white" : "black"}`}
+                            />
+                          )}
+                        </View>
+                        <View
+                          className={`${
+                            item.verified === true
+                              ? "border-green-500"
+                              : "border-gray-300"
+                          } bg-white  h-8 w-8 rounded-full items-center justify-center border-2`}
+                        >
+                          <Text>{item.name[0]}</Text>
+                        </View>
+                        <Text
+                          className={`text-xs text-center font-bold ${
+                            isDarkMode ? "text-white" : "text-black"
+                          } mt-2`}
+                        >
+                          {item.name}
+                        </Text>
+                      </View>
+                    )
+                  )
                 ) : (
-                  "Submit"
+                  <View className="flex-1 items-center justify-center h-full w-full max-w-xl">
+                    <Text>No recruits</Text>
+                  </View>
                 )}
-              </Text>
-            </Pressable>
-
-            <Pressable
-              className="mt-4 items-center"
-              onPress={() => setModalVisible(false)}
-            >
-              <Text className="text-gray-600 text-sm">Cancel</Text>
-            </Pressable>
+              </View>
+            </ScrollView>
           </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
+          {/* <ReferralList /> */}
+        </ScrollView>
+        <Modal visible={isModalVisible} transparent animationType="slide">
+          <View className="flex-1 justify-center items-center bg-black/60">
+            <View className="bg-white p-6 rounded-lg w-80">
+              <Text className="text-lg font-semibold mb-4 text-black">
+                Enter name and phone number
+              </Text>
+
+              <TextInput
+                value={name}
+                onChangeText={setName}
+                className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+              />
+              <TextInput
+                value={phone}
+                onChangeText={setPhone}
+                // placeholder="0234567891"
+                keyboardType="number-pad"
+                maxLength={10}
+                className="border border-gray-300 rounded-md p-3 text-center text-lg mb-4"
+              />
+
+              <Pressable
+                className="bg-black p-3 rounded-md items-center"
+                onPress={handleInvite}
+              >
+                <Text className="text-white text-lg font-semibold">
+                  {inviteMutation.isPending ? (
+                    <ActivityIndicator size={"small"} />
+                  ) : (
+                    "Submit"
+                  )}
+                </Text>
+              </Pressable>
+
+              <Pressable
+                className="mt-4 items-center"
+                onPress={() => setModalVisible(false)}
+              >
+                <Text className="text-gray-600 text-sm">Cancel</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    </>
   );
 }
