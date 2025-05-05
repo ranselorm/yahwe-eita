@@ -12,9 +12,16 @@ const fetchHome = async (token: string) => {
       },
     });
     return response.data?.data;
-  } catch (error) {
-    console.error("Error fetching home:", error);
-    throw error;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.error("❌ status:", err.response?.status);
+      console.error("❌ headers:", err.response?.headers);
+      console.error("❌ body:", err.response?.data); // <–– your real error message usually lives here
+      // Optionally bubble up a friendlier message
+      throw new Error((err.response?.data as any)?.message || err.message);
+    }
+    console.error("Unexpected error:", err);
+    throw err;
   }
 };
 

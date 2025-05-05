@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { StatusBar } from "react-native";
+
 import {
   View,
   FlatList,
@@ -14,14 +16,8 @@ import {
   Linking,
 } from "react-native";
 import { router } from "expo-router";
-import {
-  EvilIcons,
-  FontAwesome,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import LoadingScreen from "@/components/LoadingScreen";
 
 const { width, height: windowHeight } = Dimensions.get("window");
 
@@ -94,10 +90,9 @@ export default function WelcomeScreen() {
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
-  const isDarkMode = useColorScheme() === "dark";
+  const isDarkMode = useColorScheme() === "light";
 
-  // function to open url
-
+  // function to open urls in the default browser
   const openURL = async (url: string) => {
     const supported = await Linking.canOpenURL(url);
 
@@ -204,66 +199,79 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <SafeAreaView className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
-      <View className="flex-row items-center justify-between p-6">
-        <View className="items-center justify-left flex-row">
-          <View className="w-16 h-16">
-            <Image
-              source={require("@/assets/images/logo.png")}
-              className="w-full h-full"
-            />
+    <>
+      <StatusBar
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
+        backgroundColor="transparent" // or any color you like
+        translucent
+      />
+      <SafeAreaView
+        className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}
+      >
+        <View className="flex-row items-center justify-between p-6">
+          <View className="items-center justify-left flex-row">
+            <View className="w-16 h-16">
+              <Image
+                source={require("@/assets/images/logo.png")}
+                className="w-full h-full"
+              />
+            </View>
+            <Text
+              className={`text-lg font-bold text-center -ml-6 ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              YAHWE-EITA
+            </Text>
           </View>
-          <Text
-            className={`text-lg font-bold text-center -ml-6 ${
-              isDarkMode ? "text-white" : "text-black"
+          <Pressable
+            className={`py-2 px-4 rounded-full ${
+              isDarkMode ? "bg-white" : "bg-black"
             }`}
+            onPress={() => router.push("/(auth)/login")}
+            // onPress={() => router.push("/(auth)/status")}
           >
-            YAHWE-EITA
-          </Text>
+            <Text
+              className={`font-bold ${
+                isDarkMode ? "text-black" : "text-white"
+              }`}
+            >
+              Login
+            </Text>
+          </Pressable>
         </View>
+        <FlatList
+          ref={flatListRef}
+          data={onboardingData}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={renderItem}
+          horizontal
+          pagingEnabled
+          snapToInterval={width}
+          decelerationRate="fast"
+          showsHorizontalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          contentContainerStyle={{ flexGrow: 1 }}
+        />
+
         <Pressable
-          className={`py-2 px-4 rounded-full ${
-            isDarkMode ? "bg-white" : "bg-black"
+          onPress={handleNext}
+          className={`absolute bottom-3 left-10 right-10 rounded-xl py-3 ${
+            currentIndex === onboardingData.length - 1 && !isChecked
+              ? "bg-gray-400"
+              : "bg-primary"
           }`}
-          onPress={() => router.push("/(auth)/login")}
-          // onPress={() => router.push("/(auth)/status")}
+          disabled={currentIndex === onboardingData.length - 1 && !isChecked}
         >
-          <Text
-            className={`font-bold ${isDarkMode ? "text-black" : "text-white"}`}
-          >
-            Login
+          <Text className="text-white text-center text-lg font-semibold">
+            {currentIndex === onboardingData.length - 1
+              ? "Get Started"
+              : "Next"}
           </Text>
         </Pressable>
-      </View>
-      <FlatList
-        ref={flatListRef}
-        data={onboardingData}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        snapToInterval={width}
-        decelerationRate="fast"
-        showsHorizontalScrollIndicator={false}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-        contentContainerStyle={{ flexGrow: 1 }}
-      />
-
-      <Pressable
-        onPress={handleNext}
-        className={`absolute bottom-3 left-10 right-10 rounded-xl py-3 ${
-          currentIndex === onboardingData.length - 1 && !isChecked
-            ? "bg-gray-400"
-            : "bg-primary"
-        }`}
-        disabled={currentIndex === onboardingData.length - 1 && !isChecked}
-      >
-        <Text className="text-white text-center text-lg font-semibold">
-          {currentIndex === onboardingData.length - 1 ? "Get Started" : "Next"}
-        </Text>
-      </Pressable>
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
     // <LoadingScreen />
   );
 }
