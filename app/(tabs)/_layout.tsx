@@ -4,10 +4,13 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useUser } from "@/context/userContext";
+import { useColorScheme } from "react-native";
 
 export default function TabsLayout() {
   const { user } = useUser();
   console.log(user, "in tabs");
+
+  const isDarkMode = useColorScheme() === "light";
 
   if (!user) {
     return <Redirect href="/(auth)/login" />;
@@ -17,10 +20,11 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         tabBarHideOnKeyboard: true,
-        tabBarInactiveTintColor: "#000",
-        tabBarActiveTintColor: "#000",
+        tabBarInactiveTintColor: isDarkMode ? "black" : "white",
+        tabBarActiveTintColor: isDarkMode ? "black" : "white",
         tabBarStyle: {
-          backgroundColor: "white",
+          // backgroundColor: "red",
+          backgroundColor: isDarkMode ? "white" : "black",
           borderColor: "#D3D3D3",
           borderTopWidth: 0.5,
           height: 60,
@@ -39,7 +43,11 @@ export default function TabsLayout() {
           title: "Home",
           tabBarIcon: ({ focused }: { focused: boolean }) => (
             <View className="items-center">
-              <Octicons name="home" size={24} color="black" />
+              <Octicons
+                name="home"
+                size={24}
+                color={`${isDarkMode ? "black" : "white"}`}
+              />
               {focused ? (
                 <View
                   style={{
@@ -75,7 +83,7 @@ export default function TabsLayout() {
               <MaterialCommunityIcons
                 name="account-group-outline"
                 size={30}
-                color="black"
+                color={`${isDarkMode ? "black" : "white"}`}
               />
               {focused ? (
                 <View
@@ -109,7 +117,11 @@ export default function TabsLayout() {
           title: "Transactions",
           tabBarIcon: ({ focused }: { focused: boolean }) => (
             <View className="items-center">
-              <FontAwesome name="exchange" size={24} color="black" />
+              <FontAwesome
+                name="exchange"
+                size={24}
+                color={`${isDarkMode ? "black" : "white"}`}
+              />
               {focused ? (
                 <View
                   style={{
@@ -145,7 +157,7 @@ export default function TabsLayout() {
               <MaterialCommunityIcons
                 name="account-outline"
                 size={30}
-                color="black"
+                color={`${isDarkMode ? "black" : "white"}`}
               />
               {focused ? (
                 <View

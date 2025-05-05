@@ -6,17 +6,24 @@ import { UserProvider } from "@/context/userContext";
 import Toast from "react-native-toast-message";
 import { CountdownProvider } from "@/context/CountdownContext";
 import { KeyboardProvider } from "react-native-keyboard-controller";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "react-native";
 
 const client = new QueryClient();
 
 const AppContent = () => {
+  const isDarkMode = useColorScheme() === "light";
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="settings" />
-      <Stack.Screen name="notifications" />
-    </Stack>
+    <>
+      <StatusBar style={isDarkMode ? "dark" : "dark"} translucent={false} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="settings" />
+        <Stack.Screen name="notifications" />
+      </Stack>
+    </>
   );
 };
 

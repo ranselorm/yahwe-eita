@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 import {
   View,
@@ -93,6 +93,8 @@ export default function WelcomeScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
   const isDarkMode = useColorScheme() === "dark";
+
+  const BG = isDarkMode ? "#000" : "#fff";
 
   // function to open urls in the default browser
   const openURL = async (url: string) => {
@@ -202,11 +204,7 @@ export default function WelcomeScreen() {
 
   return (
     <>
-      <StatusBar
-        barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor="transparent"
-        translucent
-      />
+      <StatusBar style={isDarkMode ? "dark" : "dark"} />
       <SafeAreaView
         className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}
       >
