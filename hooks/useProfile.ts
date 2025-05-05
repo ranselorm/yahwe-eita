@@ -13,7 +13,7 @@ const fetchProfile = async (token: string) => {
     });
     return response.data?.data;
   } catch (error) {
-    console.error("Error fetching home:", error);
+    console.error("Error fetching profile:", error);
     throw error;
   }
 };
@@ -25,10 +25,9 @@ export const useProfile = () => {
   return useQuery({
     queryKey: ["profile", token],
     queryFn: () => {
-      // now token is guaranteed to be truthy
       return fetchProfile(token!);
     },
-    enabled: Boolean(token), // ← only run when token !== undefined
+    enabled: Boolean(token),
     staleTime: 0,
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
