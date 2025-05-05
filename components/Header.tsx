@@ -23,7 +23,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
   const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "light";
+  const isDarkMode = colorScheme === "dark";
   const { user } = useUser();
 
   return (
@@ -63,11 +63,13 @@ const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
           </View>
         ) : (
           <TouchableOpacity onPress={() => router.push("/settings")}>
-            <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
+            <View
+              className={`w-10 h-10 rounded-xl border border-gray-400  justify-center items-center`}
+            >
               <AntDesign
                 name="setting"
                 size={20}
-                color={isDarkMode ? "white" : "black"}
+                color={isDarkMode ? "dark" : "white"}
               />
             </View>
           </TouchableOpacity>

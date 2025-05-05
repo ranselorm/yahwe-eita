@@ -102,7 +102,7 @@ export default function HomeScreen() {
           <View
             className={`${
               isDarkMode ? "bg-white" : "bg-dark-100"
-            } w-full p-4 mt-6 rounded-xl`}
+            } w-full p-4 mt-12 rounded-xl`}
           >
             <View className="flex-row gap-x-2 items-center">
               <Ionicons name="time-outline" size={24} color="white" />

@@ -23,7 +23,6 @@ export default function ProfileScreen() {
   const isDarkMode = colorScheme === "dark";
   const { data, isLoading } = useProfile();
   const { logout } = useUser();
-  console.log(data);
 
   const handleLogout = () => {
     logout();
@@ -90,7 +89,7 @@ export default function ProfileScreen() {
               {/* <ReferralCard /> */}
               <ReferralList recruits={data?.userInfo?.recruits} />
               <View
-                className={`p-4 mt-6 rounded-full flex-row justify-between ${
+                className={`p-4 mt-20 rounded-full flex-row justify-between ${
                   isDarkMode ? "bg-gray-900" : "bg-gray-100"
                 }`}
               >
