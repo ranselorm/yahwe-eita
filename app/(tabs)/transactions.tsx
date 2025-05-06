@@ -134,7 +134,6 @@ export default function Transactions() {
               name={item?.user?.name}
               amount={item.amount}
               date={item.createdAt}
-              t
               desc={item.description}
             />
           )}
