@@ -1,19 +1,62 @@
 import { ThemeProvider } from "@/context/ThemeProvider";
 import "../global.css";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { UserProvider } from "@/context/userContext";
+import { UserProvider, useUser } from "@/context/userContext";
 import Toast from "react-native-toast-message";
 import { CountdownProvider } from "@/context/CountdownContext";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
+import { useLogin } from "@/hooks/useLogin";
+import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const client = new QueryClient();
 
 const AppContent = () => {
   const isDarkMode = useColorScheme() === "dark";
   const BG = isDarkMode ? "#000000" : "#FFFFFF";
+
+  const { user, setAccessToken, logout } = useUser();
+  const loginMutation = useLogin();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = user?.token || localStorage.getItem("token");
+      if (!token || !user?.isLoggedIn) {
+        return router.replace("/(auth)");
+      }
+
+      const { exp } = jwtDecode<{ exp: number }>(token);
+      if (Date.now() > exp * 1000) {
+        if (user.email && user.password) {
+          try {
+            const res = await loginMutation.mutateAsync({
+              email: user.email,
+              password: user.password,
+            });
+            // assume res.accessToken is your new token
+            const newToken = res.accessToken;
+            // 4️⃣ update context + storage
+            setAccessToken(newToken);
+            localStorage.setItem("token", newToken);
+          } catch {
+            // 5️⃣ silent login failed → clear and redirect
+            logout();
+            localStorage.removeItem("token");
+            router.replace("/login");
+          }
+        } else {
+          logout();
+          localStorage.removeItem("token");
+          router.replace("/login");
+        }
+      }
+    };
+
+    checkAuth();
+  }, [user, loginMutation, setAccessToken, logout, router]);
 
   return (
     <>
