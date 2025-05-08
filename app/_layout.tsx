@@ -13,6 +13,8 @@ import { useLogin } from "@/hooks/useLogin";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData, saveUserToken } from "@/utils";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 const client = new QueryClient();
 
@@ -26,59 +28,59 @@ const AppContent = () => {
   console.log({ globalEmail, globalPassword });
   const loginMutation = useLogin();
 
-  const updateUserSession = async (responseData: any) => {
-    try {
-      const decodedToken: any = jwtDecode(responseData?.data?.id_token);
-      console.log(decodedToken, "DECODED TOKEN");
-      const updatedUser = {
-        isLoggedIn: true,
-        name: decodedToken.name,
-        id: decodedToken.sub,
-        email: decodedToken.email,
-        picture: decodedToken.picture,
-        exp: decodedToken.exp,
-        token: responseData?.data?.access_token,
-      };
-      await saveUserData(updatedUser);
-      await saveUserToken(responseData?.data?.id_token);
-      setUser(updatedUser);
-    } catch (error) {
-      console.error("Error updating session:", error);
-      Alert.alert("Error", "Failed to update user session.");
-    }
-  };
+  // const updateUserSession = async (responseData: any) => {
+  //   try {
+  //     const decodedToken: any = jwtDecode(responseData?.data?.id_token);
+  //     console.log(decodedToken, "DECODED TOKEN");
+  //     const updatedUser = {
+  //       isLoggedIn: true,
+  //       name: decodedToken.name,
+  //       id: decodedToken.sub,
+  //       email: decodedToken.email,
+  //       picture: decodedToken.picture,
+  //       exp: decodedToken.exp,
+  //       token: responseData?.data?.access_token,
+  //     };
+  //     await saveUserData(updatedUser);
+  //     await saveUserToken(responseData?.data?.id_token);
+  //     setUser(updatedUser);
+  //   } catch (error) {
+  //     console.error("Error updating session:", error);
+  //     Alert.alert("Error", "Failed to update user session.");
+  //   }
+  // };
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = user?.token || localStorage.getItem("token");
-      if (!token || !user?.isLoggedIn) {
-        return router.replace("/(auth)");
-      }
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     const token = user?.token || localStorage.getItem("token");
+  //     if (!token || !user?.isLoggedIn) {
+  //       return router.replace("/(auth)");
+  //     }
 
-      const { exp } = jwtDecode<{ exp: number }>(token);
-      if (Date.now() > exp * 1000) {
-        if (globalEmail && globalPassword) {
-          try {
-            const res = await loginMutation.mutateAsync({
-              email: globalEmail,
-              password: globalPassword,
-            });
-          } catch {
-            // 5️⃣ silent login failed → clear and redirect
-            logout();
-            localStorage.removeItem("token");
-            router.replace("/login");
-          }
-        } else {
-          logout();
-          localStorage.removeItem("token");
-          router.replace("/login");
-        }
-      }
-    };
+  //     const { exp } = jwtDecode<{ exp: number }>(token);
+  //     if (Date.now() > exp * 1000) {
+  //       if (globalEmail && globalPassword) {
+  //         try {
+  //           const res = await loginMutation.mutateAsync({
+  //             email: globalEmail,
+  //             password: globalPassword,
+  //           });
+  //         } catch {
+  //           // 5️⃣ silent login failed → clear and redirect
+  //           logout();
+  //           localStorage.removeItem("token");
+  //           router.replace("/login");
+  //         }
+  //       } else {
+  //         logout();
+  //         localStorage.removeItem("token");
+  //         router.replace("/login");
+  //       }
+  //     }
+  //   };
 
-    checkAuth();
-  }, [user, loginMutation, logout, router]);
+  //   checkAuth();
+  // }, [user, loginMutation, logout, router]);
 
   return (
     <>
@@ -99,17 +101,19 @@ const AppContent = () => {
 
 export default function RootLayout() {
   return (
-    <QueryClientProvider client={client}>
-      <UserProvider>
-        <CountdownProvider>
-          <ThemeProvider>
-            <KeyboardProvider>
-              <AppContent />
-            </KeyboardProvider>
-          </ThemeProvider>
-        </CountdownProvider>
-      </UserProvider>
-      <Toast />
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={client}>
+        <UserProvider>
+          <CountdownProvider>
+            <ThemeProvider>
+              <KeyboardProvider>
+                <AppContent />
+              </KeyboardProvider>
+            </ThemeProvider>
+          </CountdownProvider>
+        </UserProvider>
+        <Toast />
+      </QueryClientProvider>
+    </Provider>
   );
 }
