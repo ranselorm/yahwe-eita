@@ -10,25 +10,26 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
 import { useLogin } from "@/hooks/useLogin";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData, saveUserToken } from "@/utils";
-import LoadingScreen from "@/components/LoadingScreen";
 
 const client = new QueryClient();
 
 const AppContent = () => {
   const isDarkMode = useColorScheme() === "dark";
   const BG = isDarkMode ? "#000000" : "#FFFFFF";
-  const [loading, setLoading] = useState(true);
-  const { user, logout, globalEmail, globalPassword, setUser } = useUser();
+
+  const { user, setAccessToken, logout, globalEmail, globalPassword, setUser } =
+    useUser();
 
   console.log({ globalEmail, globalPassword });
-  const mutation = useLogin();
+  const loginMutation = useLogin();
 
   const updateUserSession = async (responseData: any) => {
     try {
       const decodedToken: any = jwtDecode(responseData?.data?.id_token);
+      console.log(decodedToken, "DECODED TOKEN");
       const updatedUser = {
         isLoggedIn: true,
         name: decodedToken.name,
@@ -49,46 +50,35 @@ const AppContent = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
+      const token = user?.token || localStorage.getItem("token");
+      if (!token || !user?.isLoggedIn) {
         return router.replace("/(auth)");
       }
 
       const { exp } = jwtDecode<{ exp: number }>(token);
       if (Date.now() > exp * 1000) {
         if (globalEmail && globalPassword) {
-          mutation.mutate(
-            { email: globalEmail, password: globalPassword },
-            {
-              onSuccess: async (data) => {
-                updateUserSession(data);
-                router.replace("/(tabs)");
-              },
-              onError: (error) => {
-                console.error("Login failed:", error?.message);
-                Toast.show({
-                  type: "error",
-                  text1: "Login failed",
-                  text2: "Wrong email or password.",
-                  position: "top",
-                });
-              },
-            }
-          );
+          try {
+            const res = await loginMutation.mutateAsync({
+              email: globalEmail,
+              password: globalPassword,
+            });
+          } catch {
+            // 5️⃣ silent login failed → clear and redirect
+            logout();
+            localStorage.removeItem("token");
+            router.replace("/login");
+          }
         } else {
           logout();
           localStorage.removeItem("token");
           router.replace("/login");
         }
       }
-      setLoading(false);
     };
-    checkAuth();
-  }, [user, mutation, logout, router]);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+    checkAuth();
+  }, [user, loginMutation, logout, router]);
 
   return (
     <>
