@@ -29,7 +29,6 @@ export default function ProfileScreen() {
     clearUserData();
     router.replace("/(auth)/login");
   };
-
   const { user } = useUser();
 
   return (

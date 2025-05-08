@@ -12,7 +12,7 @@ export const saveUserData = async (userData: any) => {
 export const saveUserToken = async (token: string) => {
   try {
     await AsyncStorage.setItem("token", JSON.stringify(token));
-    console.log("token saved");
+    console.log("id token saved in local storage", token);
   } catch (error) {
     console.error("Error saving user token", error);
   }
@@ -31,7 +31,8 @@ export const getUserData = async () => {
 export const clearUserData = async () => {
   try {
     await AsyncStorage.removeItem("userData");
-    console.log("user cleared!!!");
+    // await AsyncStorage.removeItem("token");
+    console.log("user cleared and token cleared from local storage");
   } catch (error) {
     console.error("Error clearing user data:", error);
   }

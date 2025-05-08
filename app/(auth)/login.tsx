@@ -53,6 +53,8 @@ export default function LoginScreen() {
   };
 
   const handleLogin = () => {
+    setGlobalEmail(email);
+    setGlobalPassword(password);
     mutation.mutate(
       { email, password },
       {
