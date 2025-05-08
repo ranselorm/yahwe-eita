@@ -18,7 +18,8 @@ const AppContent = () => {
   const isDarkMode = useColorScheme() === "dark";
   const BG = isDarkMode ? "#000000" : "#FFFFFF";
 
-  const { user, setAccessToken, logout } = useUser();
+  const { user, setAccessToken, logout, globalEmail, globalPassword } =
+    useUser();
   const loginMutation = useLogin();
 
   useEffect(() => {
@@ -30,11 +31,11 @@ const AppContent = () => {
 
       const { exp } = jwtDecode<{ exp: number }>(token);
       if (Date.now() > exp * 1000) {
-        if (user.email && user.password) {
+        if (globalEmail && globalPassword) {
           try {
             const res = await loginMutation.mutateAsync({
-              email: user.email,
-              password: user.password,
+              email: globalEmail,
+              password: globalPassword,
             });
             // assume res.accessToken is your new token
             const newToken = res.accessToken;

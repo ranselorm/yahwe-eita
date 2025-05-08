@@ -18,6 +18,10 @@ interface UserContextType {
   setSponsorId: (id: number) => void;
   accessToken: string;
   setAccessToken: (token: string) => void;
+  globalEmail: string;
+  setGlobalEmail: (email: string) => void;
+  globalPassword: string;
+  setGlobalPassword: (password: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -26,6 +30,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [sponsorId, setSponsorId] = useState<number>(0);
   const [accessToken, setAccessToken] = useState<string>("");
+  const [globalEmail, setGlobalEmail] = useState<string>("");
+  const [globalPassword, setGlobalPassword] = useState<string>("");
 
   const loginUser = (userData: User | null) => {
     if (userData) {
@@ -49,6 +55,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setSponsorId,
         accessToken,
         setAccessToken,
+        globalEmail,
+        setGlobalEmail,
+        globalPassword,
+        setGlobalPassword,
       }}
     >
       {children}
