@@ -20,6 +20,8 @@ const AppContent = () => {
 
   const { user, setAccessToken, logout, globalEmail, globalPassword } =
     useUser();
+
+  console.log({ globalEmail, globalPassword });
   const loginMutation = useLogin();
 
   useEffect(() => {
@@ -37,11 +39,6 @@ const AppContent = () => {
               email: globalEmail,
               password: globalPassword,
             });
-            // assume res.accessToken is your new token
-            const newToken = res.accessToken;
-            // 4️⃣ update context + storage
-            setAccessToken(newToken);
-            localStorage.setItem("token", newToken);
           } catch {
             // 5️⃣ silent login failed → clear and redirect
             logout();

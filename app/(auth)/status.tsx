@@ -16,7 +16,7 @@ import { useRegister } from "@/hooks/useRegister";
 import { useUser } from "@/context/userContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { jwtDecode } from "jwt-decode";
-import { saveUserData } from "@/utils";
+import { saveUserData, saveUserToken } from "@/utils";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import PendingDots from "@/components/PendingDots";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -105,8 +105,9 @@ export default function StatusScreen() {
         exp: decodedToken.exp,
         token: responseData?.data?.access_token,
       };
-      setUser(updatedUser);
       await saveUserData(updatedUser);
+      await saveUserToken(responseData?.data?.id_token);
+      setUser(updatedUser);
     } catch (error) {
       console.error("Error updating session:", error);
       Alert.alert("Error", "Failed to update user session.");

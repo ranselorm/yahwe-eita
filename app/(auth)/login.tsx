@@ -11,7 +11,7 @@ import {
 import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { saveUserData } from "@/utils";
+import { saveUserData, saveUserToken } from "@/utils";
 import { useUser } from "@/context/userContext";
 import { jwtDecode } from "jwt-decode";
 import Toast from "react-native-toast-message";
@@ -28,6 +28,7 @@ export default function LoginScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
   const { setUser } = useUser();
+  const { setGlobalEmail, setGlobalPassword } = useUser();
 
   const updateUserSession = async (responseData: any) => {
     try {
@@ -35,15 +36,16 @@ export default function LoginScreen() {
       console.log(decodedToken, "DECODED TOKEN");
       const updatedUser = {
         isLoggedIn: true,
-        name: `${decodedToken.name}`,
+        name: decodedToken.name,
         id: decodedToken.sub,
         email: decodedToken.email,
         picture: decodedToken.picture,
         exp: decodedToken.exp,
         token: responseData?.data?.access_token,
       };
-      setUser(updatedUser);
       await saveUserData(updatedUser);
+      await saveUserToken(responseData?.data?.id_token);
+      setUser(updatedUser);
     } catch (error) {
       console.error("Error updating session:", error);
       Alert.alert("Error", "Failed to update user session.");
