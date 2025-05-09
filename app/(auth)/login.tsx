@@ -19,6 +19,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LoadingScreen from "@/components/LoadingScreen";
 import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");

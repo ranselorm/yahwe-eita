@@ -1,8 +1,12 @@
 import { useUser } from "@/context/userContext";
 import { Stack, Redirect } from "expo-router";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function AuthLayout() {
-  const { user } = useUser();
+  const user = useSelector((state: RootState) => state.user.user);
+
+  console.log(user, "IN USER");
   if (user?.isLoggedIn) {
     return <Redirect href="/(tabs)" />;
   }

@@ -35,6 +35,7 @@ const userSlice = createSlice({
     },
     logout(state) {
       state.user = null;
+      state.accessToken = "";
     },
     setSponsorId(state, action: PayloadAction<number>) {
       state.sponsorId = action.payload;
