@@ -18,7 +18,7 @@ const LoadingScreen = () => {
     >
       <View className="items-center justify-center flex-1">
         <View className="items-center flex-row">
-          <View className="w-20 h-20">
+          <View className="w-2 h-2">
             <Image
               source={require("@/assets/images/logo.png")}
               className="w-full h-full"
@@ -43,6 +43,11 @@ const LoadingScreen = () => {
         />
       </View>
     </SafeAreaView>
+    // <SafeAreaView
+    //   className={`flex-1 items-center justify-center p-6 bg-yellow-500 `}
+    // >
+    //   <ActivityIndicator size={"large"} />
+    // </SafeAreaView>
   );
 };
 

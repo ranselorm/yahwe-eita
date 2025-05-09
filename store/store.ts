@@ -1,13 +1,19 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
+// store.ts
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+
 import userReducer from "./userSlice";
 import themeReducer from "./themeSlice";
-
-const rootReducer = combineReducers({
-  user: userReducer,
-  theme: themeReducer,
-});
 
 const persistConfig = {
   key: "root",
@@ -15,13 +21,20 @@ const persistConfig = {
   whitelist: ["user", "theme"],
 };
 
+const rootReducer = combineReducers({
+  user: userReducer,
+  theme: themeReducer,
+});
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
+  middleware: (getDefault) =>
+    getDefault({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
     }),
 });
 

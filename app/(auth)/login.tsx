@@ -19,8 +19,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LoadingScreen from "@/components/LoadingScreen";
 import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/store/store";
+// import { useSelector, useDispatch } from "react-redux";
+// import { RootState } from "@/store/store";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -31,6 +31,7 @@ export default function LoginScreen() {
   const isDarkMode = colorScheme === "dark";
   const { setUser } = useUser();
   const { setGlobalEmail, setGlobalPassword } = useUser();
+  // const dispatch = useDispatch();
 
   const updateUserSession = async (responseData: any) => {
     try {
@@ -47,7 +48,7 @@ export default function LoginScreen() {
       };
       await saveUserData(updatedUser);
       await saveUserToken(responseData?.data?.id_token);
-      setUser(updatedUser);
+      // dispatch; //UPDATE STATE LATER WITH SETUSER
     } catch (error) {
       console.error("Error updating session:", error);
       Alert.alert("Error", "Failed to update user session.");

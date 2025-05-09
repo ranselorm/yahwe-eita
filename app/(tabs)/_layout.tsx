@@ -5,14 +5,16 @@ import { View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useUser } from "@/context/userContext";
 import { useColorScheme } from "react-native";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function TabsLayout() {
-  const { user } = useUser();
-  console.log(user, "in tabs");
+  const user = useSelector((state: RootState) => state.user.user);
 
-  const isDarkMode = useColorScheme() === "light";
+  const theme = useSelector((s: RootState) => s.theme.theme);
+  const isDarkMode = theme === "dark";
 
-  if (!user) {
+  if (!user?.isLoggedIn) {
     return <Redirect href="/(auth)/login" />;
   }
 

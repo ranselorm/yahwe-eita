@@ -34,12 +34,6 @@ function SettingsItem({ title, icon }: { title: string; icon: string }) {
 export default function SettingsScreen() {
   const { logout } = useUser();
 
-  const handleLogout = () => {
-    logout();
-    clearUserData();
-    router.replace("/(auth)/login");
-  };
-
   const isDarkMode = useColorScheme() === "dark";
 
   return (
@@ -82,10 +76,7 @@ export default function SettingsScreen() {
         </View>
       </View>
 
-      <Pressable
-        className="flex-row items-center mt-10 mb-20  mx-auto"
-        onPress={handleLogout}
-      >
+      <Pressable className="flex-row items-center mt-10 mb-20  mx-auto">
         <MaterialIcons name="logout" size={24} color="red" />
         <Text className="text-red-500 text-lg font-semibold ml-4">Logout</Text>
       </Pressable>

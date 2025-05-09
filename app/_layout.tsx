@@ -1,30 +1,33 @@
-import { Alert } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PersistGate } from "redux-persist/integration/react";
+import React from "react";
 import { Provider } from "react-redux";
-import { persistor, store } from "@/store/store";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import * as SplashScreen from "expo-splash-screen";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { Stack } from "expo-router";
 import Toast from "react-native-toast-message";
+import { useSelector } from "react-redux";
+import { StatusBar } from "expo-status-bar";
+import { Stack } from "expo-router";
+import { RootState } from "@/store/store";
+import { store, persistor } from "@/store/store";
+import LoadingScreen from "@/components/LoadingScreen";
 
-const client = new QueryClient();
+const queryClient = new QueryClient();
 
-const AppContent = () => {
-  const theme = useSelector((state: RootState) => state.theme.theme);
+SplashScreen.preventAutoHideAsync();
+
+// AppContent
+function AppContent() {
+  const theme = useSelector((s: RootState) => s.theme.theme);
   const isDarkMode = theme === "dark";
-  const BG = isDarkMode ? "#000000" : "#FFFFFF";
+
+  SplashScreen.hideAsync();
 
   return (
     <>
-      <StatusBar
-        style={isDarkMode ? "light" : "dark"}
-        backgroundColor={BG}
-        translucent={false}
-      />
+      <StatusBar style={isDarkMode ? "light" : "dark"} />
       <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="settings" />
@@ -32,19 +35,19 @@ const AppContent = () => {
       </Stack>
     </>
   );
-};
+}
 
 export default function RootLayout() {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <QueryClientProvider client={client}>
+      <PersistGate persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
           <KeyboardProvider>
             <AppContent />
           </KeyboardProvider>
         </QueryClientProvider>
+        <Toast />
       </PersistGate>
-      <Toast />
     </Provider>
   );
 }
