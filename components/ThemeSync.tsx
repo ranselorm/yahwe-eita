@@ -1,4 +1,3 @@
-// src/components/ThemeSync.tsx
 import { useEffect } from "react";
 import { Appearance } from "react-native";
 import { useDispatch } from "react-redux";
