@@ -14,14 +14,16 @@ import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from "axios";
-import { useUser } from "@/context/userContext";
 import { StatusBar } from "react-native";
+import { setAccessToken } from "@/store/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function SponsorScreen() {
   const [phone, setPhone] = useState("");
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { setAccessToken } = useUser();
+
+  const dispatch = useDispatch();
 
   const { isLoading, refetch } = useSponsor(phone, {
     queryKey: ["sponsor", phone],
@@ -36,7 +38,7 @@ export default function SponsorScreen() {
 
     try {
       const { data } = await refetch({ throwOnError: true });
-      setAccessToken(data?.data?.accessToken);
+      dispatch(setAccessToken(data?.data?.accessToken));
 
       Toast.show({ type: "success", text1: "Sponsor found" });
       setTimeout(() => {

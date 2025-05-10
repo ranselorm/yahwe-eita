@@ -1,6 +1,7 @@
+import "../global.css";
 import React from "react";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+// import { PersistGate } from "redux-persist/integration/react";
 import * as SplashScreen from "expo-splash-screen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -9,7 +10,7 @@ import { useSelector } from "react-redux";
 import { StatusBar } from "expo-status-bar";
 import { Stack } from "expo-router";
 import { RootState } from "@/store/store";
-import { store, persistor } from "@/store/store";
+import { store } from "@/store/store";
 import LoadingScreen from "@/components/LoadingScreen";
 
 const queryClient = new QueryClient();
@@ -40,14 +41,14 @@ function AppContent() {
 export default function RootLayout() {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <QueryClientProvider client={queryClient}>
-          <KeyboardProvider>
-            <AppContent />
-          </KeyboardProvider>
-        </QueryClientProvider>
-        <Toast />
-      </PersistGate>
+      {/* <PersistGate persistor={persistor}> */}
+      <QueryClientProvider client={queryClient}>
+        <KeyboardProvider>
+          <AppContent />
+        </KeyboardProvider>
+      </QueryClientProvider>
+      <Toast />
+      {/* </PersistGate> */}
     </Provider>
   );
 }

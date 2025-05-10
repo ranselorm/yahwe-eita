@@ -7,34 +7,30 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
-
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useUser } from "@/context/userContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { setSponsorId } from "@/store/userSlice";
+import { RootState } from "@/store/store";
 
 export default function ConfirmationScreen() {
   const { sponsor } = useLocalSearchParams();
   const sponsorData = sponsor ? JSON.parse(sponsor as string) : null;
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
-
-  const { setSponsorId } = useUser();
+  const theme = useSelector((s: RootState) => s.theme.theme);
+  const isDarkMode = theme === "dark";
   const sponsorId = sponsorData?.id;
 
+  const dispatch = useDispatch();
+
   const handlePress = () => {
-    setSponsorId(sponsorId);
+    dispatch(setSponsorId(sponsorId));
     router.push("/phone");
   };
 
   return (
     <>
-      <StatusBar
-        barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor="transparent"
-        translucent
-      />
       <SafeAreaView
         className={`flex-1 p-3 ${isDarkMode ? "bg-black" : "bg-white"}`}
       >

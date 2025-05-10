@@ -209,12 +209,12 @@ export default function WelcomeScreen() {
       >
         <View className="flex-row items-center justify-between p-6">
           <View className="items-center justify-left flex-row">
-            <View className="w-16 h-16">
+            {/* <View className="w-16 h-16">
               <Image
                 source={require("@/assets/images/logo.png")}
                 className="w-full h-full"
               />
-            </View>
+            </View> */}
             <Text
               className={`text-lg font-bold text-center -ml-6 ${
                 isDarkMode ? "text-white" : "text-black"

@@ -18,7 +18,6 @@ import * as yup from "yup";
 import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useRegister } from "@/hooks/useRegister";
-import { useUser } from "@/context/userContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useVerify, VerifyType } from "@/hooks/useVerify";
 import { useVerifyGhanaCard } from "@/hooks/useVerifyGhanaCard";
@@ -26,6 +25,8 @@ import axios from "axios";
 import { useFee } from "@/hooks/useFee";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 dayjs.extend(customParseFormat);
 
@@ -51,15 +52,18 @@ const validationSchema = yup.object().shape({
 });
 
 export default function RegisterScreen() {
-  const isDarkMode = useColorScheme() === "dark";
+  // const isDarkMode = useColorScheme() === "dark";
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { accessToken } = useUser();
   const [feeId, setFeeId] = useState("qGD7Wwq7JylaI");
-  const { sponsorId } = useUser();
   const { name, phoneNumber, network } = useLocalSearchParams();
   const fullName = name ? JSON.parse(name as string) : null;
   const phone = phoneNumber ? JSON.parse(phoneNumber as string) : null;
   const channel = network ? JSON.parse(network as string) : null;
+  const { accessToken, sponsorId } = useSelector((s: RootState) => s.user);
+  const theme = useSelector((s: RootState) => s.theme.theme);
+  const isDarkMode = theme === "dark";
+
+  console.log({ accessToken, sponsorId });
 
   const monthMap: Record<string, string> = {
     january: "01",
@@ -221,7 +225,7 @@ export default function RegisterScreen() {
           }, 1000);
         },
         onError: (error) => {
-          console.log(error?.response?.data, "Axios response:");
+          // console.log(error?.response?.data, "Axios response:");
           Toast.show({
             type: "error",
             text1: "Registration Failed",
@@ -294,7 +298,7 @@ export default function RegisterScreen() {
       >
         <View className="flex-1 justify-center items-center bg-black/60 p-6">
           <View className="bg-white p-6 rounded-lg w-full">
-            <View className="items-center">
+            {/* <View className="items-center">
               <Image
                 source={require("@/assets/images/momo.png")}
                 className="w-12 h-12 rounded-xl"
@@ -302,7 +306,7 @@ export default function RegisterScreen() {
               <Text className="text-lg font-semibold my-4 text-center text-black">
                 Set up Mobile Money
               </Text>
-            </View>
+            </View> */}
 
             <TextInput
               value={phone}

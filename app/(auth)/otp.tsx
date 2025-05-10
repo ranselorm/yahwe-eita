@@ -17,13 +17,13 @@ import OTPTextInput from "react-native-otp-textinput";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData } from "@/utils";
-import { useUser } from "@/context/userContext";
 import { useRegister } from "@/hooks/useRegister";
 import { useCountdown } from "@/hooks/useCountdown";
 import { useResendOtp } from "@/hooks/useResendOtp";
+import { setUser } from "@/store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function OTPScreen() {
-  const { setUser } = useUser();
   const { pin_id, payload } = useLocalSearchParams<{
     pin_id: string;
     payload: any;
@@ -36,6 +36,8 @@ export default function OTPScreen() {
   const registerMutation = useRegister();
   const verifyOtpMutation = useVerifyOtp();
   const resendOtpMutation = useResendOtp();
+
+  const dispatch = useDispatch();
 
   const updateUserSession = async (responseData: any) => {
     try {
@@ -50,7 +52,7 @@ export default function OTPScreen() {
         token: responseData?.data?.access_token,
       };
 
-      setUser(updatedUser);
+      dispatch(setUser(updatedUser));
       await saveUserData(updatedUser);
     } catch (error) {
       console.error("Error updating session:", error);

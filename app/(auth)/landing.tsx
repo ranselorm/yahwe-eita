@@ -15,12 +15,12 @@ export default function Landing() {
       <View className="items-center px-4 flex-1 justify-between w-full">
         <View>
           <View className="mb-20 items-center justify-center flex-row">
-            <View className="w-20 h-20">
+            {/* <View className="w-20 h-20">
               <Image
                 source={require("@/assets/images/logo.png")}
                 className="w-full h-full"
               />
-            </View>
+            </View> */}
             <Text
               className={`text-2xl font-bold text-center -ml-6 ${
                 isDarkMode ? "text-white" : "text-black"

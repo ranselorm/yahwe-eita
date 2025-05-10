@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useVerify, VerifyType } from "@/hooks/useVerify";
-import { useUser } from "@/context/userContext";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -17,13 +16,15 @@ import { Picker } from "@react-native-picker/picker";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function PhoneScreen() {
   const [phone, setPhone] = useState("");
   const [channel, setChannel] = useState("mtn-gh");
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { accessToken } = useUser();
+  const { accessToken } = useSelector((s: RootState) => s.user);
   console.log(accessToken);
 
   const { data, error, isFetching, refetch } = useVerify(

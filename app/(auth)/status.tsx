@@ -20,6 +20,8 @@ import { saveUserData, saveUserToken } from "@/utils";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import PendingDots from "@/components/PendingDots";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/userSlice";
 
 export default function StatusScreen() {
   const isDark = useColorScheme() === "dark";
@@ -29,12 +31,11 @@ export default function StatusScreen() {
     payload: string;
   }>();
   const parsedPayload = payload ? JSON.parse(payload) : {};
-
   const [timeLeft, setTimeLeft] = useState(15);
   const [isChecking, setIsChecking] = useState(false);
   const [done, setDone] = useState(false);
   const [isStillPending, setIsStillPending] = useState(false);
-  const { setUser } = useUser();
+  const dispatch = useDispatch();
 
   const showErrorToast = (message: string) => {
     Toast.show({
@@ -107,7 +108,7 @@ export default function StatusScreen() {
       };
       await saveUserData(updatedUser);
       await saveUserToken(responseData?.data?.id_token);
-      setUser(updatedUser);
+      dispatch(setUser(updatedUser));
     } catch (error) {
       console.error("Error updating session:", error);
       Alert.alert("Error", "Failed to update user session.");
@@ -144,11 +145,11 @@ export default function StatusScreen() {
 
   return (
     <>
-      <StatusBar
+      {/* <StatusBar
         barStyle={isDark ? "light-content" : "dark-content"}
         backgroundColor="transparent"
         translucent
-      />
+      /> */}
 
       <SafeAreaView
         className={`flex-1 items-center p-6 ${

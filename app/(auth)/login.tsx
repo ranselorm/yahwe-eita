@@ -17,21 +17,21 @@ import { jwtDecode } from "jwt-decode";
 import Toast from "react-native-toast-message";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LoadingScreen from "@/components/LoadingScreen";
-import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-// import { useSelector, useDispatch } from "react-redux";
-// import { RootState } from "@/store/store";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
+import { setGlobalEmail, setGlobalPassword, setUser } from "@/store/userSlice";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("p@ssw0rd123");
   const router = useRouter();
   const mutation = useLogin();
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === "dark";
-  const { setUser } = useUser();
-  const { setGlobalEmail, setGlobalPassword } = useUser();
-  // const dispatch = useDispatch();
+  const theme = useSelector((s: RootState) => s.theme.theme);
+  // const {globalEmail, globalPassword} = useSelector((state: RootState) => state.user);
+
+  const isDarkMode = theme === "dark";
+  const dispatch = useDispatch();
 
   const updateUserSession = async (responseData: any) => {
     try {
@@ -48,7 +48,8 @@ export default function LoginScreen() {
       };
       await saveUserData(updatedUser);
       await saveUserToken(responseData?.data?.id_token);
-      // dispatch; //UPDATE STATE LATER WITH SETUSER
+      dispatch(setUser(updatedUser));
+      console.log("User session updated successfully:", updatedUser);
     } catch (error) {
       console.error("Error updating session:", error);
       Alert.alert("Error", "Failed to update user session.");
@@ -56,8 +57,8 @@ export default function LoginScreen() {
   };
 
   const handleLogin = () => {
-    setGlobalEmail(email);
-    setGlobalPassword(password);
+    dispatch(setGlobalEmail(email));
+    dispatch(setGlobalPassword(password));
     mutation.mutate(
       { email, password },
       {
@@ -82,12 +83,6 @@ export default function LoginScreen() {
 
   return (
     <>
-      {/* <StatusBar
-        barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor="transparent"
-        translucent
-      /> */}
-
       <SafeAreaView
         className={`flex-1 p-6 ${isDarkMode ? "bg-black" : "bg-white"}  w-full`}
       >

@@ -1,10 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
+import { router } from "expo-router";
 
 const Page = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      router.push("/(auth)/sponsor");
+    }, 2000);
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Page</Text>
+      <Text className="font-bold text-4xl">Page</Text>
     </View>
   );
 };

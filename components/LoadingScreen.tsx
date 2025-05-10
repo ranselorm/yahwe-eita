@@ -18,12 +18,12 @@ const LoadingScreen = () => {
     >
       <View className="items-center justify-center flex-1">
         <View className="items-center flex-row">
-          <View className="w-2 h-2">
+          {/* <View className="w-2 h-2">
             <Image
               source={require("@/assets/images/logo.png")}
               className="w-full h-full"
             />
-          </View>
+          </View> */}
           <Text
             className={`text-xl font-bold text-center -ml-6 ${
               isDarkMode ? "text-white" : "text-black"
@@ -36,11 +36,11 @@ const LoadingScreen = () => {
       </View>
       <View className="flex-row mx-auto items-center">
         <Text className="text-sm">Powered By</Text>
-        <Image
+        {/* <Image
           source={require("@/assets/images/berth.png")}
           className="w-32 h-16"
           resizeMode="contain"
-        />
+        /> */}
       </View>
     </SafeAreaView>
     // <SafeAreaView
