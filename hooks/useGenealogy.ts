@@ -1,6 +1,8 @@
 import { useUser } from "@/context/userContext";
+import { RootState } from "@/store/store";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/geneology";
 
@@ -20,7 +22,7 @@ const fetchGenealogy = async (token: string) => {
 };
 
 export const useGenealogy = () => {
-  const { user } = useUser();
+  const { user } = useSelector((state: RootState) => state.user);
   const token = user?.token;
 
   return useQuery({

@@ -93,71 +93,71 @@ export default function LoginScreen() {
             color={`${isDarkMode ? "white" : "black"}`}
           />
         </TouchableOpacity>
-        <KeyboardAwareScrollView
+        {/* <KeyboardAwareScrollView
           bottomOffset={10}
           className="flex-1"
           contentContainerStyle={{
             justifyContent: "center",
             flex: 1,
           }}
-        >
-          <View className="justify-center items-center flex-1 px-3">
-            <View className="items-center mb-12">
-              <MaterialCommunityIcons
-                name="account-outline"
-                size={38}
-                color="black"
-                className="mb-2"
-              />
+        > */}
+        <View className="justify-center items-center flex-1 px-3">
+          <View className="items-center mb-12">
+            <MaterialCommunityIcons
+              name="account-outline"
+              size={38}
+              color="black"
+              className="mb-2"
+            />
+            <Text
+              className={`text-2xl font-semibold mb-6 ${
+                isDarkMode ? "text-white" : "text-secondary-100"
+              }`}
+            >
+              Welcome Back
+            </Text>
+          </View>
+          <TextInput
+            placeholder="Email"
+            placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+            keyboardType="email-address"
+            onChangeText={setEmail}
+            value={email}
+            autoCapitalize="none"
+            className={`border rounded-xl p-3 text-base text-center w-full ${
+              isDarkMode
+                ? "border-white text-white"
+                : "border-secondary-100 text-secondary-100"
+            }`}
+          />
+          <TextInput
+            placeholder="Password"
+            placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
+            keyboardType="email-address"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            className={`border rounded-xl p-3 text-base text-center w-full mt-4 ${
+              isDarkMode
+                ? "border-white text-white"
+                : "border-secondary-100 text-secondary-100"
+            }`}
+          />
+          <View className="flex-row justify-end items-center w-full mt-6">
+            <TouchableOpacity
+              onPress={() => router.push("/(auth)/reset-password")}
+            >
               <Text
-                className={`text-2xl font-semibold mb-6 ${
+                className={`${
                   isDarkMode ? "text-white" : "text-secondary-100"
                 }`}
               >
-                Welcome Back
+                Forgot password?
               </Text>
-            </View>
-            <TextInput
-              placeholder="Email"
-              placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-              keyboardType="email-address"
-              onChangeText={setEmail}
-              value={email}
-              autoCapitalize="none"
-              className={`border rounded-xl p-3 text-base text-center w-full ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor={isDarkMode ? "#CCCCCC" : "#666666"}
-              keyboardType="email-address"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              className={`border rounded-xl p-3 text-base text-center w-full mt-4 ${
-                isDarkMode
-                  ? "border-white text-white"
-                  : "border-secondary-100 text-secondary-100"
-              }`}
-            />
-            <View className="flex-row justify-end items-center w-full mt-6">
-              <TouchableOpacity
-                onPress={() => router.push("/(auth)/reset-password")}
-              >
-                <Text
-                  className={`${
-                    isDarkMode ? "text-white" : "text-secondary-100"
-                  }`}
-                >
-                  Forgot password?
-                </Text>
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           </View>
-        </KeyboardAwareScrollView>
+        </View>
+        {/* </KeyboardAwareScrollView> */}
 
         <Pressable
           className={`w-full max-w-sm mt-8 p-3 rounded-xl items-center mx-auto ${

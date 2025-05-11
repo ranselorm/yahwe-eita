@@ -127,13 +127,9 @@ export default function WelcomeScreen() {
 
     return (
       <SafeAreaView
-        className={`flex-1 p-6 w-screen ${
-          isDarkMode ? "bg-black" : "bg-white"
-        }`}
+        className={`flex-1 w-screen ${isDarkMode ? "bg-black" : "bg-white"}`}
       >
-        <View className="flex-1 px-6 -mt-16">
-          {/* <FontAwesome name="handshake-o" size={30} color="#dc6115" /> */}
-
+        <View className="flex-1 px-6 mt-12">
           <Text
             className={`text-2xl font-bold uppercase ${
               isDarkMode ? "text-white" : "text-black"
@@ -208,15 +204,15 @@ export default function WelcomeScreen() {
         className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}
       >
         <View className="flex-row items-center justify-between p-6">
-          <View className="items-center justify-left flex-row">
-            {/* <View className="w-16 h-16">
+          <View className="items-center flex-row">
+            <View className="w-16 h-16">
               <Image
                 source={require("@/assets/images/logo.png")}
                 className="w-full h-full"
               />
-            </View> */}
+            </View>
             <Text
-              className={`text-lg font-bold text-center -ml-6 ${
+              className={`text-lg font-bold text-center ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >

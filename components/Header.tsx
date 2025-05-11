@@ -9,6 +9,8 @@ import React from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useUser } from "@/context/userContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -24,8 +26,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
-  const { user } = useUser();
-
+  const { user } = useSelector((state: RootState) => state.user);
   return (
     <>
       <View className="flex-row justify-between items-center mt-4">
@@ -62,7 +63,10 @@ const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
             </View>
           </View>
         ) : (
-          <TouchableOpacity onPress={() => router.push("/settings")}>
+          <TouchableOpacity
+            onPress={() => router.push("/settings")}
+            className="opacity-0"
+          >
             <View
               className={`w-10 h-10 rounded-xl border border-gray-400  justify-center items-center`}
             >
@@ -77,6 +81,7 @@ const Header: React.FC<HeaderProps> = ({ isProfileScreen }) => {
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => router.push("/notifications")}
+          className="opacity-0"
         >
           <View className="w-10 h-10 rounded-xl border border-gray-400  justify-center items-center">
             <Ionicons

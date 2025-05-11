@@ -35,7 +35,6 @@ export default function HomeScreen() {
   //hooks
   const inviteMutation = useInvite();
   const { data: homeData, refetch } = useHome();
-
   console.log(homeData, "HOME DATA");
 
   const handleInvite = () => {

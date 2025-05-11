@@ -64,7 +64,6 @@ function ReferralCard({
   // progress: number;
 }) {
   const isDarkMode = useColorScheme() === "dark";
-  console.log("STATUS", status);
 
   return (
     <View

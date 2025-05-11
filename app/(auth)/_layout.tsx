@@ -18,7 +18,6 @@ export default function AuthLayout() {
       <Stack.Screen name="sponsor" />
       <Stack.Screen name="confirmation" />
       <Stack.Screen name="phone" />
-      {/* <Stack.Screen name="verify" /> */}
       <Stack.Screen name="register" />
       <Stack.Screen name="status" />
       <Stack.Screen name="login" />

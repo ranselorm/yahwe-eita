@@ -11,10 +11,8 @@ export interface UserData {
   dateOfBirth: string;
 }
 
-// your API root
 const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/register";
 
-// now hook takes token *and* validateOnly
 export const useRegister = (token: string, validateOnly = false) => {
   return useMutation<any, AxiosError, UserData>({
     mutationFn: async (userData: UserData) => {

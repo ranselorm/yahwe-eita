@@ -16,20 +16,24 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { clearUserData } from "@/utils";
 import { router } from "expo-router";
 import ProgressBar from "@/components/ProgressBar";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
 // import BalanceCard from "../components/BalanceCard";
+import { logout } from "@/store/userSlice";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
   const { data, isLoading } = useProfile();
-  const { logout } = useUser();
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
     clearUserData();
     router.replace("/(auth)/login");
   };
-  const { user } = useUser();
 
   return (
     <>

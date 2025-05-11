@@ -1,6 +1,7 @@
-import { useUser } from "@/context/userContext";
+import { RootState } from "@/store/store";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 interface InvitePayload {
   name: string;
@@ -19,8 +20,10 @@ const sendInvite = async (payload: InvitePayload, token: string) => {
 };
 
 export const useInvite = () => {
-  const { user } = useUser();
+  const { user } = useSelector((state: RootState) => state.user);
   const token = user?.token;
+
+  console.log(token, "AFTER LOGIN");
 
   return useMutation({
     mutationFn: (payload: InvitePayload) => sendInvite(payload, token!),

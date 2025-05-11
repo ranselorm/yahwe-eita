@@ -1,7 +1,9 @@
 // hooks/useRegister.ts
 import { useUser } from "@/context/userContext";
+import { RootState } from "@/store/store";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { useSelector } from "react-redux";
 
 export interface FeeData {
   phone: string;
@@ -13,7 +15,7 @@ export interface FeeData {
 const API_URL = "https://yahwe-eita-api.azurewebsites.net/api/fee";
 
 export const useFee = () => {
-  const { accessToken } = useUser();
+  const { accessToken } = useSelector((state: RootState) => state.user);
   return useMutation<any, AxiosError, FeeData>({
     mutationFn: async (feeData: FeeData) => {
       const url = `${API_URL}`;

@@ -232,7 +232,7 @@ export default function RegisterScreen() {
             text2:
               (error as any)?.response?.data?.message ||
               "Something went wrong!",
-            position: "bottom",
+            position: "top",
           });
         },
       });

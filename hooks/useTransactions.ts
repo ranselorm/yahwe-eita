@@ -1,6 +1,8 @@
 import { useUser } from "@/context/userContext";
+import { RootState } from "@/store/store";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const API_URL = `https://yahwe-eita-api.azurewebsites.net/api/transactions/mobile`;
 
@@ -22,7 +24,7 @@ const fetchTransactions = async (
 };
 
 export const useTransactions = () => {
-  const { user } = useUser();
+  const { user } = useSelector((state: RootState) => state.user);
   const token = user?.token;
 
   return useQuery({

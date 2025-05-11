@@ -12,7 +12,7 @@ export default function TabsLayout() {
   const user = useSelector((state: RootState) => state.user.user);
 
   const theme = useSelector((s: RootState) => s.theme.theme);
-  const isDarkMode = theme === "dark";
+  const isDarkMode = theme === "light";
 
   if (!user?.isLoggedIn) {
     return <Redirect href="/(auth)/login" />;

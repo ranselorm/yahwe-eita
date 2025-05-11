@@ -26,9 +26,10 @@ function AppContent() {
 
   return (
     <>
-      <StatusBar style={isDarkMode ? "light" : "dark"} />
+      {/* <StatusBar style={isDarkMode ? "light" : "dark"} /> */}
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="test" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="settings" />
@@ -43,9 +44,9 @@ export default function RootLayout() {
     <Provider store={store}>
       {/* <PersistGate persistor={persistor}> */}
       <QueryClientProvider client={queryClient}>
-        <KeyboardProvider>
-          <AppContent />
-        </KeyboardProvider>
+        {/* <KeyboardProvider> */}
+        <AppContent />
+        {/* </KeyboardProvider> */}
       </QueryClientProvider>
       <Toast />
       {/* </PersistGate> */}

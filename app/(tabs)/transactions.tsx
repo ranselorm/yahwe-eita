@@ -6,7 +6,7 @@ import {
   useColorScheme,
   ActivityIndicator,
 } from "react-native";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
@@ -14,58 +14,90 @@ import moment from "moment";
 
 function Card({
   name,
+  type,
   amount,
   date,
   desc,
+  reference,
+  status,
 }: {
   name: string;
+  type: string;
   amount: number;
   date: string;
   desc: string;
+  reference: string;
+  status: string;
 }) {
   const isDarkMode = useColorScheme() === "dark";
 
   return (
     <View
       className={`px-4 py-4 mt-3 rounded-xl border ${
-        isDarkMode ? "bg-[#2d2d2d]" : "bg-gray-100 border-gray-300"
+        isDarkMode ? "bg-black border-white" : " bg-white border-black"
       }`}
     >
-      <View className="flex-row justify-between items-center">
-        <Text
-          className={`text-sm font-bold ${
-            isDarkMode ? "text-white" : "text-black"
-          }`}
-        >
-          {name}
-        </Text>
+      <View className="flex-row items-start justify-between">
+        <View className="flex-row items-start gap-x-3">
+          {type === "AIRTIME" ? (
+            <View className="bg-green-300 p-2 rounded-full">
+              <Feather name="phone" size={20} color="gray" />
+            </View>
+          ) : (
+            <View className="bg-green-300 p-2 rounded-full">
+              <FontAwesome name="money" size={20} color="gray" />
+            </View>
+          )}
+
+          <View>
+            <Text
+              className={`text-lg ${isDarkMode ? "text-white" : "text-black"}`}
+            >
+              {type}
+            </Text>
+          </View>
+        </View>
         <View className="flex-row items-center justify-between gap-x-4">
           <Text
-            className={`py-1 rounded-full text-xl font-bold text-green-500`}
+            className={`text-xl ${isDarkMode ? "text-white" : "text-black"}`}
           >
-            + GHS {amount}
-          </Text>
-          <View
-            className={`${
-              isDarkMode ? "bg-white" : "bg-black"
-            } w-2 h-2 bg-black rounded-full`}
-          />
-          <Text
-            className={`text-base font-bold ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            {timeAgo(date)}
+            GHS {amount}
           </Text>
         </View>
       </View>
-      <Text
-        className={`text-sm font-bold mt-4 ${
-          isDarkMode ? "text-white" : "text-black"
+      <View className="px-12">
+        <Text
+          className={`text-xs font-bold ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
+          {desc}
+        </Text>
+      </View>
+
+      <View
+        className={`w-full h-[1px] my-4 rounded-full ${
+          isDarkMode ? "bg-white" : "bg-gray-400"
         }`}
-      >
-        {desc}
-      </Text>
+      />
+      <View className="flex-row items-center justify-between">
+        <View className="flex-row items-center gap-x-2">
+          <Text
+            className={`text-base ${isDarkMode ? "text-white" : "text-black"}`}
+          >
+            {timeAgo(date)}
+          </Text>
+          <View
+            className={`${
+              isDarkMode ? "bg-white" : "bg-black/50"
+            } w-2 h-2 rounded-full`}
+          />
+          <Text>{reference}</Text>
+        </View>
+        <View className="bg-green-300 p-1 rounded-lg">
+          <Text>{status}</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -77,15 +109,9 @@ function timeAgo(date: any) {
 export default function Transactions() {
   const isDarkMode = useColorScheme() === "dark";
   const [refreshing, setRefreshing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    data,
-    isLoading: transactionsLoading,
-    refetch,
-    error,
-  } = useTransactions();
-  console.log(data?.transactions);
+  const { data, isLoading, refetch, error } = useTransactions();
+  console.log(data?.transactions[0], "transactions");
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -114,7 +140,9 @@ export default function Transactions() {
       </View>
 
       {isLoading ? (
-        <ActivityIndicator />
+        <SafeAreaView className="flex-1 items-center justify-center">
+          <ActivityIndicator />
+        </SafeAreaView>
       ) : data?.transactions.length === 0 ? (
         <View className="flex-1 items-center justify-center px-4">
           <FontAwesome name="exchange" size={24} color="black" />{" "}
@@ -132,12 +160,15 @@ export default function Transactions() {
           renderItem={({ item }) => (
             <Card
               name={item?.user?.name}
+              type={item?.type}
               amount={item.amount}
               date={item.createdAt}
               desc={item.description}
+              reference={item.reference}
+              status={item.status}
             />
           )}
-          className="mt-6 pb-20"
+          className="mt-6 pb-5"
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
