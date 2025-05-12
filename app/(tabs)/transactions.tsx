@@ -40,12 +40,17 @@ function Card({
       <View className="flex-row items-start justify-between">
         <View className="flex-row items-start gap-x-3">
           {type === "AIRTIME" ? (
-            <View className="bg-green-300 p-2 rounded-full">
-              <Feather name="phone" size={20} color="gray" />
+            <View className="bg-orange-200 p-2 rounded-full">
+              <Feather name="phone" size={20} color="#ea580c" />
             </View>
           ) : (
             <View className="bg-green-300 p-2 rounded-full">
-              <FontAwesome name="money" size={20} color="gray" />
+              <FontAwesome
+                name="money"
+                size={20}
+                color="#16a34a"
+                // className="bg-green-600"
+              />
             </View>
           )}
 
@@ -59,18 +64,16 @@ function Card({
         </View>
         <View className="flex-row items-center justify-between gap-x-4">
           <Text
-            className={`text-xl ${isDarkMode ? "text-white" : "text-black"}`}
+            className={`text-xl font-bold ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
           >
-            GHS {amount}
+            GH₵ {amount}
           </Text>
         </View>
       </View>
       <View className="px-12">
-        <Text
-          className={`text-xs font-bold ${
-            isDarkMode ? "text-white" : "text-black"
-          }`}
-        >
+        <Text className={`text-sm ${isDarkMode ? "text-white" : "text-black"}`}>
           {desc}
         </Text>
       </View>
@@ -108,7 +111,7 @@ function Card({
           }`}
         >
           <Text
-            className={`text-base ${isDarkMode ? "text-white" : "text-black"}`}
+            className={`text-xs ${isDarkMode ? "text-white" : "text-black"}`}
           >
             {status}
           </Text>

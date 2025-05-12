@@ -107,20 +107,24 @@ export default function StatusScreen() {
         idToken: responseData?.data?.id_token,
         password: parsedPayload.password,
       };
-      await saveUserData(updatedUser);
+      const userData = await saveUserData(updatedUser);
       dispatch(setUser(updatedUser));
+      return userData;
     } catch (error) {
       console.error("Error updating session:", error);
       Alert.alert("Error", "Failed to update user session.");
+      return null;
     }
   };
 
   const handleSubmit = async () => {
     try {
       registerMutation.mutate(parsedPayload, {
-        onSuccess: (data) => {
-          updateUserSession(data);
-          router.replace("/(tabs)");
+        onSuccess: async (data) => {
+          const userDatas = await updateUserSession(data);
+          if (userDatas) {
+            router.replace("/(tabs)");
+          }
         },
         onError: (error) => {
           console.log(error?.response?.data, "Axios response:");

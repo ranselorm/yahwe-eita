@@ -46,11 +46,13 @@ export default function LoginScreen() {
         idToken: responseData?.data?.id_token,
         password: password,
       };
-      await saveUserData(updatedUser);
+      const userData = await saveUserData(updatedUser);
       dispatch(setUser(updatedUser));
+      return userData;
     } catch (error) {
       console.error("Error updating session:", error);
       Alert.alert("Error", "Failed to update user session.");
+      return null;
     }
   };
 
@@ -61,8 +63,10 @@ export default function LoginScreen() {
       { email, password },
       {
         onSuccess: async (data) => {
-          updateUserSession(data);
-          router.replace("/(tabs)");
+          const userDatas = await updateUserSession(data);
+          if (userDatas) {
+            router.replace("/(tabs)");
+          }
         },
         onError: (error) => {
           console.error("Login failed:", error.message);

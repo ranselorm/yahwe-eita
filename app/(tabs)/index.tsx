@@ -139,59 +139,17 @@ export default function HomeScreen() {
             >
               {/* GHS {homeData?.balance} */}
 
-              <Text>GHS {homeData?.balance}</Text>
+              <Text>GH₵ {homeData?.balance}</Text>
             </Text>
-
-            {/* <View className="flex-row justify-between mt-6">
-            {[
-              { label: "Topup", icon: "add" },
-              { label: "Withdraw", icon: "arrow-downward" },
-              { label: "History", icon: "history" },
-              { label: "Details", icon: "info" },
-            ].map((item, index) => (
-              <View key={index} className="items-center">
-                <Pressable
-                  className={`w-12 h-12 rounded-full items-center justify-center ${
-                    item.label === "Topup" ? "bg-primary" : "bg-white"
-                  }`}
-                >
-                  {item.label !== "Details" ? (
-                    <MaterialIcons
-                      name={item.icon}
-                      size={24}
-                      color={`${item.label === "Topup" ? "white" : "black"}`}
-                    />
-                  ) : (
-                    <Ionicons name="menu-outline" size={24} color="black" />
-                  )}
-                </Pressable>
-                <Text className="text-sm mt-1 text-gray-500">{item.label}</Text>
-              </View>
-            ))}
-          </View> */}
           </View>
-          {/* <Pressable onPress={() => setModalVisible(true)}>
-          <View className="bg-primary w-full py-3 px-3 rounded-full mt-6 flex-row justify-between items-center">
-            <Text className="text-white text-lg font-semibold">
-              Create new referral code
-            </Text>
-            <MaterialCommunityIcons
-              name="email-open-outline"
-              size={24}
-              // color="white"
-              className="text-primary bg-white p-1 rounded-full"
-            />
-          </View>
-        </Pressable> */}
 
-          {/* Stats Card */}
-          <View className="flex-row justify-between w-full mt-6 gap-x-2">
+          <View className="flex-row justify-between w-full mt-12 gap-x-2">
             <View className="bg-accent p-6 w-[47%] rounded-xl">
               <Text className="text-white">Cash Earnings</Text>
               <View className="flex-row items-center justify-between mt-5">
                 <FontAwesome name="money" size={24} color="white" />
                 <Text className="text-white text-xl font-semibold">
-                  GHS{homeData?.earnedThisWeek}
+                  GH₵ {homeData?.earnedThisWeek}
                 </Text>
               </View>
             </View>
@@ -212,7 +170,7 @@ export default function HomeScreen() {
           </View>
 
           {/* Recruits */}
-          <View className="mt-6">
+          <View className="mt-12">
             <View className="flex-row justify-between mb-4">
               <Text
                 className={`font-semibold text-lg ${
