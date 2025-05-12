@@ -6,8 +6,8 @@ interface User {
   name: string;
   email: string;
   picture: string;
-  exp: string;
   token: string;
+  idToken: string;
 }
 
 interface UserState {

@@ -6,7 +6,6 @@ import { RootState } from "@/store/store";
 export default function AuthLayout() {
   const user = useSelector((state: RootState) => state.user.user);
 
-  console.log(user, "IN USER");
   if (user?.isLoggedIn) {
     return <Redirect href="/(tabs)" />;
   }

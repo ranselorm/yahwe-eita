@@ -32,7 +32,7 @@ export const clearUserData = async () => {
   try {
     await AsyncStorage.removeItem("userData");
     // await AsyncStorage.removeItem("token");
-    console.log("user cleared and token cleared from local storage");
+    console.log("user cleared from local storage");
   } catch (error) {
     console.error("Error clearing user data:", error);
   }

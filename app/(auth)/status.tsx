@@ -13,19 +13,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import axios from "axios";
 import { useRegister } from "@/hooks/useRegister";
-import { useUser } from "@/context/userContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 import { saveUserData, saveUserToken } from "@/utils";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import PendingDots from "@/components/PendingDots";
 import LoadingScreen from "@/components/LoadingScreen";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/store/userSlice";
+import { RootState } from "@/store/store";
 
 export default function StatusScreen() {
   const isDark = useColorScheme() === "dark";
-  const { accessToken } = useUser();
+  const { accessToken } = useSelector((state: RootState) => state.user);
   const { reference, payload } = useLocalSearchParams<{
     reference: string;
     payload: string;
@@ -103,11 +103,11 @@ export default function StatusScreen() {
         id: decodedToken.sub,
         email: decodedToken.email,
         picture: decodedToken.picture,
-        exp: decodedToken.exp,
         token: responseData?.data?.access_token,
+        idToken: responseData?.data?.id_token,
+        password: parsedPayload.password,
       };
       await saveUserData(updatedUser);
-      await saveUserToken(responseData?.data?.id_token);
       dispatch(setUser(updatedUser));
     } catch (error) {
       console.error("Error updating session:", error);

@@ -18,6 +18,7 @@ import {
 import { router } from "expo-router";
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import OnboardingDots from "@/components/OnboardingDots";
 
 const { width, height: windowHeight } = Dimensions.get("window");
 
@@ -129,16 +130,15 @@ export default function WelcomeScreen() {
       <SafeAreaView
         className={`flex-1 w-screen ${isDarkMode ? "bg-black" : "bg-white"}`}
       >
-        <View className="flex-1 px-6 mt-12">
+        <View className="flex-1 px-6 -mt-6">
           <Text
-            className={`text-2xl font-bold uppercase ${
+            className={`text-2xl font-bold uppercase text-center ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
             {item.title}
           </Text>
 
-          {/* Fixed height description area */}
           <View style={{ height: windowHeight * 0.55 }} className="w-full mt-6">
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -147,7 +147,7 @@ export default function WelcomeScreen() {
               {descriptionParagraphs.map((para: any, idx: any) => (
                 <Text
                   key={idx}
-                  className={`text-lg text-left ${
+                  className={`text-lg text-center ${
                     isDarkMode ? "text-white" : "text-black"
                   } ${idx > 0 ? "mt-4" : ""}`}
                 >
@@ -158,7 +158,7 @@ export default function WelcomeScreen() {
           </View>
 
           {/* Checkbox only on last screen */}
-          <View className="flex-row items-center mt-6">
+          <View className="flex-row items-center mt-3">
             {index === onboardingData.length - 1 && (
               <View className="flex-row items-center justify-between">
                 <View className="flex-row items-center">
@@ -181,7 +181,7 @@ export default function WelcomeScreen() {
                 openURL("https://www.yahwe-eitaglobal.com/#features")
               }
             >
-              <View className="flex-row items-center justify-center mt-6 gap-x-3">
+              <View className="flex-row items-center justify-center mt-3 gap-x-3">
                 <EvilIcons name="external-link" size={24} color="#3b82f6" />
                 <Text
                   className={`text-lg text-center ${
@@ -250,6 +250,10 @@ export default function WelcomeScreen() {
           contentContainerStyle={{ flexGrow: 1 }}
         />
 
+        <OnboardingDots
+          total={onboardingData.length}
+          activeIndex={currentIndex}
+        />
         <Pressable
           onPress={handleNext}
           className={`absolute bottom-3 left-10 right-10 rounded-xl py-3 ${

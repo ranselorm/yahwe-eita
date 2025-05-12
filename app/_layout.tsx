@@ -6,12 +6,12 @@ import * as SplashScreen from "expo-splash-screen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
-import { useSelector } from "react-redux";
 import { StatusBar } from "expo-status-bar";
 import { Stack } from "expo-router";
 import { RootState } from "@/store/store";
 import { store } from "@/store/store";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useColorScheme } from "react-native";
 
 const queryClient = new QueryClient();
 
@@ -19,14 +19,14 @@ SplashScreen.preventAutoHideAsync();
 
 // AppContent
 function AppContent() {
-  const theme = useSelector((s: RootState) => s.theme.theme);
-  const isDarkMode = theme === "dark";
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
 
   SplashScreen.hideAsync();
 
   return (
     <>
-      {/* <StatusBar style={isDarkMode ? "light" : "dark"} /> */}
+      <StatusBar style={isDarkMode ? "light" : "dark"} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="test" />

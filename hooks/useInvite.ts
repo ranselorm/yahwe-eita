@@ -23,8 +23,6 @@ export const useInvite = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const token = user?.token;
 
-  console.log(token, "AFTER LOGIN");
-
   return useMutation({
     mutationFn: (payload: InvitePayload) => sendInvite(payload, token!),
   });

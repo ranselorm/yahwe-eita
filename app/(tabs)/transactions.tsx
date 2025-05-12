@@ -33,8 +33,8 @@ function Card({
 
   return (
     <View
-      className={`px-4 py-4 mt-3 rounded-xl border ${
-        isDarkMode ? "bg-black border-white" : " bg-white border-black"
+      className={`px-4 py-4 mt-3 rounded-xl ${
+        isDarkMode ? "bg-black border-white" : " bg-gray-100 border-black"
       }`}
     >
       <View className="flex-row items-start justify-between">
@@ -92,10 +92,26 @@ function Card({
               isDarkMode ? "bg-white" : "bg-black/50"
             } w-2 h-2 rounded-full`}
           />
-          <Text>{reference}</Text>
+          <Text
+            className={`text-base ${isDarkMode ? "text-white" : "text-black"}`}
+          >
+            {reference}
+          </Text>
         </View>
-        <View className="bg-green-300 p-1 rounded-lg">
-          <Text>{status}</Text>
+        <View
+          className={`p-2 rounded-full ${
+            status === "COMPLETED"
+              ? "bg-green-300"
+              : status === "PROCESSING"
+              ? "bg-yellow-200"
+              : "bg-red-300"
+          }`}
+        >
+          <Text
+            className={`text-base ${isDarkMode ? "text-white" : "text-black"}`}
+          >
+            {status}
+          </Text>
         </View>
       </View>
     </View>
