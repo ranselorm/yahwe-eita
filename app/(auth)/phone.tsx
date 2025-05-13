@@ -177,7 +177,7 @@ export default function PhoneScreen() {
 
         {/* Bottom Button */}
         <Pressable
-          className={`w-full max-w-sm mx-auto p-3 rounded-xl items-center ${
+          className={`w-full max-w-sm mx-auto p-3 rounded-xl items-center mb-5 ${
             isDarkMode ? "bg-white" : "bg-black"
           } ${isFetching || phone.length < 9 ? "opacity-50" : ""} ${
             !responseData ? "opacity-50" : ""
@@ -187,7 +187,7 @@ export default function PhoneScreen() {
               pathname: "/(auth)/register",
               params: {
                 name: JSON.stringify(responseData?.name),
-                phoneNumber: JSON.stringify(phone),
+                phoneNumber: JSON.stringify(`233${phone}`),
                 network: JSON.stringify(channel),
               },
             })

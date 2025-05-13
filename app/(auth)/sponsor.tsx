@@ -28,8 +28,12 @@ export default function SponsorScreen() {
 
   const dispatch = useDispatch();
 
-  const { isLoading, refetch } = useSponsor(phone, {
-    queryKey: ["sponsor", phone],
+  const phoneNumber = `233${phone}`;
+
+  console.log(phoneNumber, "phone number");
+
+  const { isLoading, refetch } = useSponsor(phoneNumber, {
+    queryKey: ["sponsor", phoneNumber],
     enabled: false,
   });
 
@@ -107,7 +111,7 @@ export default function SponsorScreen() {
                   if (text.startsWith("0")) {
                     setPhone(text.slice(1));
                   } else {
-                    setPhone(`233${text}`);
+                    setPhone(`${text}`);
                   }
                 }}
                 keyboardType="phone-pad"

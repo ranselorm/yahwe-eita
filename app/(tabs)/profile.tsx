@@ -7,10 +7,8 @@ import {
   Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ReferralCard from "../../components/ReferralCard";
 import ReferralList from "@/components/ReferralList";
 import Header from "@/components/Header";
-import { useUser } from "@/context/userContext";
 import { useProfile } from "@/hooks/useProfile";
 import { MaterialIcons } from "@expo/vector-icons";
 import { clearUserData } from "@/utils";

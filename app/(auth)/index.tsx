@@ -15,7 +15,12 @@ import {
   Linking,
 } from "react-native";
 import { router } from "expo-router";
-import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  EvilIcons,
+  FontAwesome,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OnboardingDots from "@/components/OnboardingDots";
 import { Image } from "expo-image";
@@ -24,7 +29,7 @@ const { width, height: windowHeight } = Dimensions.get("window");
 
 const onboardingData = [
   {
-    title: "Welcome",
+    title: "WELCOME",
     text: "Congratulations on your decision to join Yahwe-eita Culture Ventures, a registered company.\n\nYahwe-eita Culture, is a Sales and Marketing concept designed to drive sales of goods and services online. The concept is a membership affiliate programme that is designed essentially to reward loyal customers of a chosen brand, via a simple referral and compensation formula.",
   },
   {
@@ -127,72 +132,94 @@ export default function WelcomeScreen() {
     const descriptionParagraphs = item.text.split("\n\n");
 
     return (
-      <SafeAreaView
-        className={`flex-1 w-screen ${isDarkMode ? "bg-black" : "bg-white"}`}
-      >
-        <View className="flex-1 px-6 -mt-6">
-          <Text
-            className={`text-2xl font-bold uppercase text-center ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
+      <SafeAreaView className={`flex-1 w-screen`}>
+        {/* icon */}
+        {index !== 3 && (
+          <View className="w-40 h-40 bg-[#94b993] items-center justify-center mx-auto -mt-6 rounded-xl mb-12">
+            {item.title === "WELCOME" ? (
+              <FontAwesome name="handshake-o" size={70} color="#619b5e" />
+            ) : item.title === "OUR PURPOSE" ? (
+              <AntDesign name="rocket1" size={70} color="#619b5e" />
+            ) : item.title === "OUR CORPORATE VALUES" ? (
+              <AntDesign name="hearto" size={70} color="#619b5e" />
+            ) : (
+              ""
+            )}
+          </View>
+        )}
+        <View className="flex-1 px-6">
+          <View
+            style={{ height: windowHeight * 0.66 }}
+            className="w-full -mt-6"
           >
-            {item.title}
-          </Text>
-
-          <View style={{ height: windowHeight * 0.55 }} className="w-full mt-6">
             <ScrollView
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 10 }}
             >
+              <Text
+                className={`text-2xl font-bold uppercase text-center mb-7 mt-5 ${
+                  isDarkMode ? "text-white" : "text-white"
+                }`}
+              >
+                {item.title}
+              </Text>
               {descriptionParagraphs.map((para: any, idx: any) => (
                 <Text
                   key={idx}
                   className={`text-lg text-center ${
-                    isDarkMode ? "text-white" : "text-black"
-                  } ${idx > 0 ? "mt-4" : ""}`}
+                    isDarkMode ? "text-white" : "text-white"
+                  } ${idx > 0 ? "mt-2" : ""}`}
                 >
                   {para.trim()}
                 </Text>
               ))}
+              <View>
+                <View className="flex-row items-center mt-3">
+                  {index === onboardingData.length - 1 && (
+                    <View className="flex-row items-center justify-between">
+                      <View className="flex-row items-center">
+                        <Checkbox checked={isChecked} onChange={setIsChecked} />
+                        <Text
+                          className={`ml-2 text-lg ${
+                            isDarkMode ? "text-white" : "text-black"
+                          }`}
+                        >
+                          I agree to the{" "}
+                          <Text className="font-bold">
+                            Terms and Conditions
+                          </Text>
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                </View>
+                {item.title === "TERMS AND CONDITIONS" && (
+                  <TouchableOpacity
+                    onPress={() =>
+                      openURL("https://www.yahwe-eitaglobal.com/#features")
+                    }
+                  >
+                    <View className="flex-row items-center justify-center mt-3 gap-x-3">
+                      <EvilIcons
+                        name="external-link"
+                        size={24}
+                        color="#3b82f6"
+                      />
+                      <Text
+                        className={`text-lg text-center ${
+                          isDarkMode ? "text-blue-500" : "text-blue-500"
+                        }`}
+                      >
+                        How It Works
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              </View>
             </ScrollView>
           </View>
 
           {/* Checkbox only on last screen */}
-          <View className="flex-row items-center mt-3">
-            {index === onboardingData.length - 1 && (
-              <View className="flex-row items-center justify-between">
-                <View className="flex-row items-center">
-                  <Checkbox checked={isChecked} onChange={setIsChecked} />
-                  <Text
-                    className={`ml-2 text-lg ${
-                      isDarkMode ? "text-white" : "text-black"
-                    }`}
-                  >
-                    I agree to the{" "}
-                    <Text className="font-bold">Terms and Conditions</Text>
-                  </Text>
-                </View>
-              </View>
-            )}
-          </View>
-          {item.title === "TERMS AND CONDITIONS" && (
-            <TouchableOpacity
-              onPress={() =>
-                openURL("https://www.yahwe-eitaglobal.com/#features")
-              }
-            >
-              <View className="flex-row items-center justify-center mt-3 gap-x-3">
-                <EvilIcons name="external-link" size={24} color="#3b82f6" />
-                <Text
-                  className={`text-lg text-center ${
-                    isDarkMode ? "text-blue-500" : "text-blue-500"
-                  }`}
-                >
-                  How It Works
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
         </View>
       </SafeAreaView>
     );
@@ -200,10 +227,8 @@ export default function WelcomeScreen() {
 
   return (
     <>
-      <SafeAreaView
-        className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"}`}
-      >
-        <View className="flex-row items-center justify-between p-6">
+      <SafeAreaView className={`flex-1 bg-[#619b5e]`}>
+        <View className="flex-row items-center justify-between px-6 py-1">
           <View className="items-center flex-row">
             <View className="w-16 h-16">
               <Image source={{ uri: "logo" }} className="w-full h-full" />
@@ -232,6 +257,7 @@ export default function WelcomeScreen() {
             </Text>
           </Pressable>
         </View>
+
         <FlatList
           ref={flatListRef}
           data={onboardingData}
@@ -253,7 +279,7 @@ export default function WelcomeScreen() {
         />
         <Pressable
           onPress={handleNext}
-          className={`absolute bottom-3 left-10 right-10 rounded-xl py-3 ${
+          className={`absolute bottom-6 left-10 right-10 rounded-xl py-3 ${
             currentIndex === onboardingData.length - 1 && !isChecked
               ? "bg-gray-400"
               : "bg-primary"

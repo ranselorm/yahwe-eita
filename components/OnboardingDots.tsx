@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: "20%",
     left: "20%",
-    bottom: 70,
+    bottom: 80,
   },
   dot: {
     width: 10,
