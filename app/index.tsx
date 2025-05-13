@@ -47,12 +47,13 @@ const Page = () => {
         const decodedToken = jwtDecode(user?.idToken);
         if ((decodedToken.exp ?? 0) * 1000 < currentDate.getTime()) {
           console.log("Token expired");
-          console.log("Global login values before mutation", {
-            globalEmail,
-            globalPassword,
-          });
+          console.log(
+            "Global login values before mutation",
+            user?.email,
+            user?.password
+          );
           loginMutation.mutate(
-            { email: globalEmail, password: globalPassword },
+            { email: user?.email, password: user?.password },
             {
               onSuccess: async (data) => {
                 const userDatas = await updateUserSession(data);
