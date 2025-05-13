@@ -1,14 +1,9 @@
-import {
-  ActivityIndicator,
-  Text,
-  View,
-  useColorScheme,
-  Image,
-} from "react-native";
+import { ActivityIndicator, Text, View, useColorScheme } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { Image } from "expo-image";
 
 const LoadingScreen = () => {
   const theme = useSelector((s: RootState) => s.theme.theme);
@@ -22,10 +17,7 @@ const LoadingScreen = () => {
       <View className="items-center justify-center flex-1">
         <View className="items-center flex-row">
           <View className="w-2 h-2">
-            <Image
-              source={require("@/assets/images/logo.png")}
-              className="w-full h-full"
-            />
+            <Image source={{ uri: "logo" }} className="w-full h-full" />
           </View>
           <Text
             className={`text-xl font-bold text-center -ml-6 ${
@@ -39,11 +31,7 @@ const LoadingScreen = () => {
       </View>
       <View className="flex-row mx-auto items-center">
         <Text className="text-sm">Powered By</Text>
-        <Image
-          source={require("@/assets/images/berth.png")}
-          className="w-32 h-16"
-          resizeMode="contain"
-        />
+        <Image source={{ uri: "berth" }} className="w-32 h-16" />
       </View>
     </SafeAreaView>
     // <SafeAreaView

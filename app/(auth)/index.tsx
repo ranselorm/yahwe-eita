@@ -206,10 +206,7 @@ export default function WelcomeScreen() {
         <View className="flex-row items-center justify-between p-6">
           <View className="items-center flex-row">
             <View className="w-16 h-16">
-              <Image
-                source={require("@/assets/images/logo.png")}
-                className="w-full h-full"
-              />
+              <Image source={{ uri: "logo" }} className="w-full h-full" />
             </View>
             <Text
               className={`text-lg font-bold text-center ${

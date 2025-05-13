@@ -22,7 +22,6 @@ import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
 import { useHome } from "@/hooks/useHome";
-import { StatusBar } from "react-native";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -34,7 +33,7 @@ export default function HomeScreen() {
 
   //hooks
   const inviteMutation = useInvite();
-  const { data: homeData, refetch } = useHome();
+  const { data: homeData, refetch, isLoading } = useHome();
   // console.log(homeData, "HOME DATA");
 
   const handleInvite = () => {

@@ -60,6 +60,7 @@ const Page = () => {
                 if (userDatas) {
                   router.replace("/(tabs)");
                 }
+                console.log("LOGIN SUCCESS", data);
               },
               onError: (error) => {
                 console.error("Login failed:", error.message);

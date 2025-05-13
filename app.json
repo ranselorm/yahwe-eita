@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true
     },
@@ -29,9 +29,14 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash.png",
-          // "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": ["./assets/images/logo.png", "./assets/images/berth.png"]
         }
       ]
     ],
