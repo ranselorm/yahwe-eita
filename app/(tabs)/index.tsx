@@ -23,6 +23,8 @@ import Toast from "react-native-toast-message";
 import { useInvite } from "@/hooks/useInvite";
 import Countdown from "@/components/Countdown";
 import { useHome } from "@/hooks/useHome";
+import AirtimePlaceholder from "@/components/placeholders/AirtimePlaceholder";
+import CashPlaceholder from "@/components/placeholders/CashPlaceholder";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -35,7 +37,7 @@ export default function HomeScreen() {
 
   //hooks
   const inviteMutation = useInvite();
-  const { data: homeData, refetch, isLoading } = useHome();
+  const { data: homeData, refetch, isLoading, isFetching } = useHome();
   // console.log(homeData, "HOME DATA");
 
   const handleInvite = () => {
@@ -100,7 +102,7 @@ export default function HomeScreen() {
           <View
             className={`${
               isDarkMode ? "bg-white" : "bg-dark-100"
-            } w-full p-4 mt-12 rounded-xl ${timeIsUp && "bg-[#004302]"}`}
+            } w-full p-4 mt-12 mb-10 rounded-xl ${timeIsUp && "bg-green-900"}`}
           >
             <View className="flex-row gap-x-2 items-center">
               <Ionicons name="time-outline" size={24} color="white" />
@@ -120,54 +122,60 @@ export default function HomeScreen() {
             <ProgressBar level={homeData?.level} progress={homeData?.level} />
           </View>
           {/* Balance Card */}
-          <View
-            className={`p-4 rounded-xl mt-8 ${
-              isDarkMode ? "bg-dark-100" : "bg-gray-100"
-            }`}
-          >
-            <Text
-              className={`text-base mb-3 ${
-                isDarkMode ? "text-white" : "text-black"
+          {isLoading || isFetching ? (
+            <AirtimePlaceholder />
+          ) : (
+            <View
+              className={`p-4 rounded-xl ${
+                isDarkMode ? "bg-dark-100" : "bg-gray-100"
               }`}
             >
-              Self Reward Airtime:
-            </Text>
-            <Text
-              className={`text-3xl font-bold ${
-                isDarkMode ? "text-white" : "text-black"
-              }`}
-            >
-              {/* GHS {homeData?.balance} */}
+              <Text
+                className={`text-base mb-3 ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
+                Self Reward Airtime:
+              </Text>
+              <Text
+                className={`text-3xl font-bold ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
+                <Text>GH₵ {homeData?.balance}</Text>
+              </Text>
+            </View>
+          )}
 
-              <Text>GH₵ {homeData?.balance}</Text>
-            </Text>
-          </View>
-
-          <View className="flex-row justify-between w-full mt-12 gap-x-2">
-            <View className="bg-accent p-6 w-[47%] rounded-xl">
-              <Text className="text-white">Cash Earnings</Text>
-              <View className="flex-row items-center justify-between mt-5">
-                <FontAwesome name="money" size={24} color="white" />
-                <Text className="text-white text-xl font-semibold">
-                  GH₵ {homeData?.earnedThisWeek}
-                </Text>
+          {isLoading || isFetching ? (
+            <CashPlaceholder />
+          ) : (
+            <View className="flex-row justify-between w-full mt-12 gap-x-2">
+              <View className="bg-green-900 p-6 w-[47%] rounded-xl">
+                <Text className="text-white">Cash Earnings</Text>
+                <View className="flex-row items-center justify-between mt-5">
+                  <FontAwesome name="money" size={24} color="white" />
+                  <Text className="text-white text-xl font-semibold">
+                    GH₵ {homeData?.earnedThisWeek}
+                  </Text>
+                </View>
+              </View>
+              <View className="bg-gray-100 p-6 w-[47%] rounded-xl">
+                <Text className="text-black">Downlines</Text>
+                <View className="flex-row items-center justify-between mt-5">
+                  <MaterialCommunityIcons
+                    name="account-check-outline"
+                    size={24}
+                    color="black"
+                  />
+                  <Text className="text-black text-xl font-semibold">
+                    {homeData?.totalRecruits}{" "}
+                    {homeData?.totalRecruits > 1 ? "Downlines" : "Downline"}
+                  </Text>
+                </View>
               </View>
             </View>
-            <View className="bg-gray-100 p-6 w-[47%] rounded-xl">
-              <Text className="text-black">Downlines</Text>
-              <View className="flex-row items-center justify-between mt-5">
-                <MaterialCommunityIcons
-                  name="account-check-outline"
-                  size={24}
-                  color="black"
-                />
-                <Text className="text-black text-xl font-semibold">
-                  {homeData?.totalRecruits}{" "}
-                  {homeData?.totalRecruits > 1 ? "Downlines" : "Downline"}
-                </Text>
-              </View>
-            </View>
-          </View>
+          )}
 
           {/* Recruits */}
           <View className="mt-12">

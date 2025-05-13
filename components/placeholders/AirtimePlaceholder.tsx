@@ -3,7 +3,7 @@ import { StyleSheet, Pressable, View, useColorScheme } from "react-native";
 import { MotiView } from "moti";
 import { Skeleton } from "moti/skeleton";
 
-export default function SkeletonPlaceholder() {
+export default function AirtimePlaceholder() {
   const colorScheme = useColorScheme();
 
   const isDarkMode = colorScheme === "dark";
@@ -14,7 +14,7 @@ export default function SkeletonPlaceholder() {
       transition={{
         type: "timing",
       }}
-      style={[styles.container, styles.padded]}
+      style={[styles.container]}
       animate={{ backgroundColor: isDarkMode ? "#000000" : "#ffffff" }}
     >
       {/* <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
@@ -42,8 +42,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-  },
-  padded: {
-    padding: 16,
   },
 });

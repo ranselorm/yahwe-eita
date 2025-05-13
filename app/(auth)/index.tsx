@@ -137,11 +137,11 @@ export default function WelcomeScreen() {
         {index !== 3 && (
           <View className="w-40 h-40 bg-[#94b993] items-center justify-center mx-auto -mt-6 rounded-xl mb-12">
             {item.title === "WELCOME" ? (
-              <FontAwesome name="handshake-o" size={70} color="#619b5e" />
+              <FontAwesome name="handshake-o" size={60} color="#619b5e" />
             ) : item.title === "OUR PURPOSE" ? (
-              <AntDesign name="rocket1" size={70} color="#619b5e" />
+              <AntDesign name="rocket1" size={60} color="#619b5e" />
             ) : item.title === "OUR CORPORATE VALUES" ? (
-              <AntDesign name="hearto" size={70} color="#619b5e" />
+              <AntDesign name="hearto" size={60} color="#619b5e" />
             ) : (
               ""
             )}
