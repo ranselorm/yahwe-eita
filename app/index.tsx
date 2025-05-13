@@ -42,27 +42,6 @@ const Page = () => {
     }
   };
 
-  // useEffect(() => {
-
-  //   const checkAuth = async () => {
-  //     try {
-  //       const user = await getUserData();
-  //       console.log(user, "user data:");
-  //       if (user) {
-  //         dispatch(setUser(user));
-  //         router.replace("/(tabs)");
-  //       } else {
-  //         console.log("cannot find user data");
-  //         router.replace("/login");
-  //       }
-  //     } catch (err) {
-  //       console.error("Auth check failed:", err);
-  //       router.replace("/login");
-  //     }
-  //   };
-  //   checkAuth();
-  // }, []);
-
   useEffect(() => {
     const currentDate = new Date();
     (async () => {
@@ -72,6 +51,10 @@ const Page = () => {
         const decodedToken = jwtDecode(user?.idToken);
         if ((decodedToken.exp ?? 0) * 1000 < currentDate.getTime()) {
           console.log("Token expired");
+          console.log("Global login values before mutation", {
+            globalEmail,
+            globalPassword,
+          });
           loginMutation.mutate(
             { email: globalEmail, password: globalPassword },
             {
@@ -91,6 +74,10 @@ const Page = () => {
         } else {
           console.log("Redirecting to tabs");
           dispatch(setUser(user));
+          console.log("Global login values after user was dispatched", {
+            globalEmail,
+            globalPassword,
+          });
           router.replace("/(tabs)");
         }
       } else {
@@ -98,8 +85,6 @@ const Page = () => {
         console.log("Token not found");
       }
     })();
-
-    // checkAuth();
   }, []);
 
   return <LoadingScreen />;
