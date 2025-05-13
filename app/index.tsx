@@ -1,20 +1,16 @@
-import { Alert, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import React, { useEffect } from "react";
 import { router } from "expo-router";
 import LoadingScreen from "@/components/LoadingScreen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { setUser, logout } from "@/store/userSlice";
 import { getUserData, saveUserData } from "@/utils";
 import { RootState } from "@/store/store";
 import { useLogin } from "@/hooks/useLogin";
-import Toast from "react-native-toast-message";
 
 const Page = () => {
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state);
   const { globalEmail, globalPassword } = useSelector(
     (state: RootState) => state.user
   );
