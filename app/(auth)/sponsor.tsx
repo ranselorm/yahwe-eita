@@ -23,6 +23,9 @@ export default function SponsorScreen() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
 
+  console.log(phone, "phone number");
+  const isValidPhone = phone.length === 12 && phone.startsWith("233");
+
   const dispatch = useDispatch();
 
   const { isLoading, refetch } = useSponsor(phone, {
@@ -104,7 +107,7 @@ export default function SponsorScreen() {
                   if (text.startsWith("0")) {
                     setPhone(text.slice(1));
                   } else {
-                    setPhone(text);
+                    setPhone(`233${text}`);
                   }
                 }}
                 keyboardType="phone-pad"

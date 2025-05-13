@@ -3,10 +3,11 @@ import moment from "moment";
 import { Text } from "react-native";
 
 interface CountdownProps {
-  createdAt: string; // e.g. "2025-04-07T14:23:37.365Z"
+  createdAt: string;
+  onTimeUp: () => void;
 }
 
-const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
+const Countdown: React.FC<CountdownProps> = ({ createdAt, onTimeUp }) => {
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const Countdown: React.FC<CountdownProps> = ({ createdAt }) => {
 
       if (duration.asMilliseconds() <= 0) {
         setTimeLeft("00d 00h 00m 00s");
+        onTimeUp();
         return;
       }
 

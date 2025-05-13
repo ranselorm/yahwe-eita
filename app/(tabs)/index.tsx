@@ -31,6 +31,7 @@ export default function HomeScreen() {
   const [phone, setPhone] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [timeIsUp, setTimeIsUp] = useState(false);
 
   //hooks
   const inviteMutation = useInvite();
@@ -75,14 +76,12 @@ export default function HomeScreen() {
     setRefreshing(false);
   }, [refetch]);
 
+  const handleTimeUp = () => {
+    setTimeIsUp(true);
+  };
+
   return (
     <>
-      {/* <StatusBar
-        barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor="transparent"
-        translucent
-      /> */}
-
       <SafeAreaView
         className={`flex-1 ${isDarkMode ? "bg-black" : "bg-white"} px-6`}
       >
@@ -101,7 +100,7 @@ export default function HomeScreen() {
           <View
             className={`${
               isDarkMode ? "bg-white" : "bg-dark-100"
-            } w-full p-4 mt-12 rounded-xl`}
+            } w-full p-4 mt-12 rounded-xl ${timeIsUp && "bg-[#004302]"}`}
           >
             <View className="flex-row gap-x-2 items-center">
               <Ionicons name="time-outline" size={24} color="white" />
@@ -110,14 +109,15 @@ export default function HomeScreen() {
                   isDarkMode ? "text-black" : "text-white"
                 } text-lg font-semibold`}
               >
-                Time left until next level:{" "}
-                <Countdown createdAt={homeData?.userInfo?.createdAt} />
+                {!timeIsUp ? "Time left until next level" : "Your time is up"}:{" "}
+                <Countdown
+                  createdAt={homeData?.userInfo?.createdAt}
+                  onTimeUp={handleTimeUp}
+                />
               </Text>
             </View>
-            {/* <View className="flex-row items-center justify-between mt-4 px-4"> */}
+
             <ProgressBar level={homeData?.level} progress={homeData?.level} />
-            {/* <Text className="text-white">Level: {homeData?.level}</Text> */}
-            {/* </View> */}
           </View>
           {/* Balance Card */}
           <View

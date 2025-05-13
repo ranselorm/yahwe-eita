@@ -12,10 +12,14 @@ import { router } from "expo-router";
 import { useGenealogy } from "@/hooks/useGenealogy";
 
 const UserNode = ({ user }: { user: any }) => {
+  console.log("user", user.name);
   return (
-    <View className="items-center justify-center relative min-w-[70px]">
+    <View className="items-center justify-center relative min-w-[80px]">
       <View className="items-center justify-center bg-white shadow p-2 rounded-lg w-14 h-14 text-center border border-gray-300 z-10">
         <Ionicons name="person-outline" size={18} color="black" />
+        <Text className="text-[8px] text-center">
+          {user?.name?.split(" ")[1] || user?.name}
+        </Text>
       </View>
 
       {user?.recruits?.length > 0 && (
