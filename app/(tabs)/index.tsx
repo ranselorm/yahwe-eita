@@ -25,6 +25,8 @@ import Countdown from "@/components/Countdown";
 import { useHome } from "@/hooks/useHome";
 import AirtimePlaceholder from "@/components/placeholders/AirtimePlaceholder";
 import CashPlaceholder from "@/components/placeholders/CashPlaceholder";
+import CountdownPlaceholder from "@/components/placeholders/CountdownPlaceholder";
+import DownlinesPlaceholder from "@/components/placeholders/DownlinesPlaceholder";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -99,28 +101,40 @@ export default function HomeScreen() {
         >
           <Header />
           {/* Countdown */}
-          <View
-            className={`${
-              isDarkMode ? "bg-white" : "bg-dark-100"
-            } w-full p-4 mt-12 mb-10 rounded-xl ${timeIsUp && "bg-green-900"}`}
-          >
-            <View className="flex-row gap-x-2 items-center">
-              <Ionicons name="time-outline" size={24} color="white" />
-              <Text
-                className={`${
-                  isDarkMode ? "text-black" : "text-white"
-                } text-lg font-semibold`}
-              >
-                {!timeIsUp ? "Time left until next level" : "Your time is up"}:{" "}
-                <Countdown
-                  createdAt={homeData?.userInfo?.createdAt}
-                  onTimeUp={handleTimeUp}
-                />
-              </Text>
-            </View>
+          {
+            <View
+              className={`${
+                isDarkMode ? "bg-white" : "bg-dark-100"
+              } w-full p-4 mt-12 mb-10 rounded-xl ${
+                timeIsUp && "bg-green-900"
+              }`}
+            >
+              <View className="flex-row gap-x-2 items-center">
+                <Ionicons name="time-outline" size={24} color="white" />
+                <Text
+                  className={`${
+                    isDarkMode ? "text-black" : "text-white"
+                  } text-lg font-semibold items-center justify-center`}
+                >
+                  {!timeIsUp ? "Time left until next level" : "Your time is up"}
+                  :{" "}
+                  {isLoading ? (
+                    // <CountdownPlaceholder />
+                    <View className="">
+                      <ActivityIndicator size={"small"} />
+                    </View>
+                  ) : (
+                    <Countdown
+                      createdAt={homeData?.userInfo?.createdAt}
+                      onTimeUp={handleTimeUp}
+                    />
+                  )}
+                </Text>
+              </View>
 
-            <ProgressBar level={homeData?.level} progress={homeData?.level} />
-          </View>
+              <ProgressBar level={homeData?.level} progress={homeData?.level} />
+            </View>
+          }
           {/* Balance Card */}
           {isLoading || isFetching ? (
             <AirtimePlaceholder />
@@ -190,62 +204,66 @@ export default function HomeScreen() {
             </View>
 
             {/* Referral List */}
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              className="mt-2 w-full flex-1"
-            >
-              <View className="flex-row gap-x-3 justify-center items-center w-full ">
-                {homeData?.userInfo?.recruits?.length > 0 ? (
-                  homeData?.userInfo.recruits?.map(
-                    (item: any, index: number) => (
-                      <View
-                        key={index}
-                        className={`w-[116px] h-24 rounded-lg items-center justify-center  ${
-                          isDarkMode ? "bg-dark-100" : "bg-gray-200"
-                        }`}
-                      >
-                        <View className="absolute top-1 right-2">
-                          {item?.verified === true ? (
-                            <MaterialCommunityIcons
-                              name="account-check-outline"
-                              size={20}
-                              color={`${isDarkMode ? "white" : "black"}`}
-                            />
-                          ) : (
-                            <MaterialCommunityIcons
-                              name="account-alert-outline"
-                              size={20}
-                              color={`${isDarkMode ? "white" : "black"}`}
-                            />
-                          )}
-                        </View>
+            {isLoading || isFetching ? (
+              <DownlinesPlaceholder />
+            ) : (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className="mt-2 w-full flex-1"
+              >
+                <View className="flex-row gap-x-3 justify-center items-center w-full ">
+                  {homeData?.userInfo?.recruits?.length > 0 ? (
+                    homeData?.userInfo.recruits?.map(
+                      (item: any, index: number) => (
                         <View
-                          className={`${
-                            item.verified === true
-                              ? "border-green-500"
-                              : "border-gray-300"
-                          } bg-white  h-8 w-8 rounded-full items-center justify-center border-2`}
+                          key={index}
+                          className={`w-[116px] h-24 rounded-lg items-center justify-center  ${
+                            isDarkMode ? "bg-dark-100" : "bg-gray-200"
+                          }`}
                         >
-                          <Text>{item.name[0]}</Text>
+                          <View className="absolute top-1 right-2">
+                            {item?.verified === true ? (
+                              <MaterialCommunityIcons
+                                name="account-check-outline"
+                                size={20}
+                                color={`${isDarkMode ? "white" : "black"}`}
+                              />
+                            ) : (
+                              <MaterialCommunityIcons
+                                name="account-alert-outline"
+                                size={20}
+                                color={`${isDarkMode ? "white" : "black"}`}
+                              />
+                            )}
+                          </View>
+                          <View
+                            className={`${
+                              item.verified === true
+                                ? "border-green-500"
+                                : "border-gray-300"
+                            } bg-white  h-8 w-8 rounded-full items-center justify-center border-2`}
+                          >
+                            <Text>{item.name[0]}</Text>
+                          </View>
+                          <Text
+                            className={`text-xs text-center font-bold ${
+                              isDarkMode ? "text-white" : "text-black"
+                            } mt-2`}
+                          >
+                            {item.name}
+                          </Text>
                         </View>
-                        <Text
-                          className={`text-xs text-center font-bold ${
-                            isDarkMode ? "text-white" : "text-black"
-                          } mt-2`}
-                        >
-                          {item.name}
-                        </Text>
-                      </View>
+                      )
                     )
-                  )
-                ) : (
-                  <View className="flex-1 items-center justify-center h-full w-full max-w-xl">
-                    <Text>No recruits</Text>
-                  </View>
-                )}
-              </View>
-            </ScrollView>
+                  ) : (
+                    <View className="flex-1 items-center justify-center h-full w-full max-w-xl">
+                      <Text>No recruits</Text>
+                    </View>
+                  )}
+                </View>
+              </ScrollView>
+            )}
           </View>
           {/* <ReferralList /> */}
         </ScrollView>
