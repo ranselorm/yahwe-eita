@@ -24,6 +24,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import OnboardingDots from "@/components/OnboardingDots";
 import { Image } from "expo-image";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const { width, height: windowHeight } = Dimensions.get("window");
 
@@ -231,7 +232,10 @@ export default function WelcomeScreen() {
         <View className="flex-row items-center justify-between px-6 py-1">
           <View className="items-center flex-row">
             <View className="w-16 h-16">
-              <Image source={{ uri: "logo" }} className="w-full h-full" />
+              <Image
+                source={{ uri: "logo" }}
+                style={{ width: 60, height: 60 }}
+              />
             </View>
             <Text
               className={`text-lg font-bold text-center ${

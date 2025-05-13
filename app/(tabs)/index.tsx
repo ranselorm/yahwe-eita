@@ -132,7 +132,11 @@ export default function HomeScreen() {
                 </Text>
               </View>
 
-              <ProgressBar level={homeData?.level} progress={homeData?.level} />
+              <ProgressBar
+                level={homeData?.level}
+                progress={homeData?.level}
+                onTimeUp={timeIsUp}
+              />
             </View>
           }
           {/* Balance Card */}

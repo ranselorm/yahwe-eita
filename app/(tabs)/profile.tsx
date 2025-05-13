@@ -18,6 +18,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 // import BalanceCard from "../components/BalanceCard";
 import { logout } from "@/store/userSlice";
+import AirtimePlaceholder from "@/components/placeholders/AirtimePlaceholder";
+import CashPlaceholder from "@/components/placeholders/CashPlaceholder";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
@@ -82,13 +84,19 @@ export default function ProfileScreen() {
               >
                 Number of downlines: {data?.totalRecruits}
               </Text>
-              {/* <View className="border border-gray-400 px-3 py-1 rounded-full">
-                <Text className="text-gray-500 ">Sort By ▼</Text>
-              </View> */}
             </View>
+
             <View className="my-8">
               {/* <ReferralCard /> */}
-              <ReferralList recruits={data?.userInfo?.recruits} />
+              {isLoading ? (
+                <CashPlaceholder />
+              ) : (
+                <ReferralList recruits={data?.userInfo?.recruits} />
+              )}
+            </View>
+            {isLoading ? (
+              <AirtimePlaceholder />
+            ) : (
               <View
                 className={`p-4 mt-20 rounded-full flex-row justify-between ${
                   isDarkMode ? "bg-gray-900" : "bg-gray-100"
@@ -109,7 +117,7 @@ export default function ProfileScreen() {
                   {data?.balance} GHS
                 </Text>
               </View>
-            </View>
+            )}
           </View>
         </ScrollView>
         <Pressable

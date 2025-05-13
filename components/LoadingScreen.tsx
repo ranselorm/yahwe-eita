@@ -17,7 +17,7 @@ const LoadingScreen = () => {
       <View className="items-center justify-center flex-1">
         <View className="items-center flex-row">
           <View className="w-20 h-20">
-            <Image source={{ uri: "logo" }} className="w-full h-full" />
+            <Image source={{ uri: "logo" }} style={{ width: 60, height: 60 }} />
           </View>
           <Text
             className={`text-xl font-bold text-center -ml-6 ${
@@ -31,7 +31,7 @@ const LoadingScreen = () => {
       </View>
       <View className="flex-row mx-auto items-center">
         <Text className="text-sm">Powered By</Text>
-        <Image source={{ uri: "berth" }} className="w-32 h-16" />
+        <Image source={{ uri: "berth" }} style={{ width: 100, height: 30 }} />
       </View>
     </SafeAreaView>
   );

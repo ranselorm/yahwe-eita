@@ -77,7 +77,7 @@ function ReferralCard({
             isDarkMode ? "text-white" : "text-black"
           }`}
         >
-          Recruit
+          Downline
         </Text>
         <Text
           className={`${
@@ -201,7 +201,7 @@ export default function GenealogyScreen() {
           className="mt-6"
         />
       )}
-
+      {/* 
       <View className="mx-auto  items-center mb-6">
         <Pressable
           className="w-12 h-12 bg-black rounded-full items-center justify-center"
@@ -212,9 +212,9 @@ export default function GenealogyScreen() {
         <Text className="text-black text-semibold text-sm mt-2">
           Invite More Referrals
         </Text>
-      </View>
+      </View> */}
 
-      <Modal visible={isModalVisible} transparent animationType="slide">
+      {/* <Modal visible={isModalVisible} transparent animationType="slide">
         <View className="flex-1 justify-center items-center bg-black/60">
           <View className="bg-white p-6 rounded-lg w-80">
             <Text className="text-lg font-semibold mb-4 text-black">
@@ -257,7 +257,7 @@ export default function GenealogyScreen() {
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </SafeAreaView>
   );
 }

@@ -301,7 +301,7 @@ export default function RegisterScreen() {
             <View className="items-center">
               <Image
                 source={{ uri: "momo" }}
-                className="w-12 h-12 rounded-xl"
+                style={{ width: 100, height: 30, borderRadius: 4 }}
               />
               <Text className="text-lg font-semibold my-4 text-center text-black">
                 Set up Mobile Money
