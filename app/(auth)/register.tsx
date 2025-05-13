@@ -9,7 +9,6 @@ import {
   Platform,
   TouchableOpacity,
   Modal,
-  Image,
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,6 +26,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { Image } from "expo-image";
 
 dayjs.extend(customParseFormat);
 
@@ -298,15 +298,15 @@ export default function RegisterScreen() {
       >
         <View className="flex-1 justify-center items-center bg-black/60 p-6">
           <View className="bg-white p-6 rounded-lg w-full">
-            {/* <View className="items-center">
+            <View className="items-center">
               <Image
-                source={require("@/assets/images/momo.png")}
+                source={{ uri: "momo" }}
                 className="w-12 h-12 rounded-xl"
               />
               <Text className="text-lg font-semibold my-4 text-center text-black">
                 Set up Mobile Money
               </Text>
-            </View> */}
+            </View>
 
             <TextInput
               value={phone}
@@ -328,7 +328,6 @@ export default function RegisterScreen() {
                 )}
               </Text>
             </Pressable>
-
             <Pressable
               className="mt-4 items-center"
               onPress={() => setIsModalVisible(false)}

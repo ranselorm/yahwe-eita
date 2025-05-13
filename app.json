@@ -36,7 +36,11 @@
       [
         "expo-asset",
         {
-          "assets": ["./assets/images/logo.png", "./assets/images/berth.png"]
+          "assets": [
+            "./assets/images/logo.png",
+            "./assets/images/berth.png",
+            "./assets/images/momo.png"
+          ]
         }
       ]
     ],

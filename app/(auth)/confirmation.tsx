@@ -18,8 +18,7 @@ import { RootState } from "@/store/store";
 export default function ConfirmationScreen() {
   const { sponsor } = useLocalSearchParams();
   const sponsorData = sponsor ? JSON.parse(sponsor as string) : null;
-  const theme = useSelector((s: RootState) => s.theme.theme);
-  const isDarkMode = theme === "dark";
+  const isDarkMode = useColorScheme() === "dark";
   const sponsorId = sponsorData?.id;
 
   const dispatch = useDispatch();

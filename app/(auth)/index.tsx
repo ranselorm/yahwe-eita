@@ -8,7 +8,6 @@ import {
   Text,
   Pressable,
   useColorScheme,
-  Image,
   NativeSyntheticEvent,
   NativeScrollEvent,
   ScrollView,
@@ -19,6 +18,7 @@ import { router } from "expo-router";
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OnboardingDots from "@/components/OnboardingDots";
+import { Image } from "expo-image";
 
 const { width, height: windowHeight } = Dimensions.get("window");
 

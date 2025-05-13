@@ -6,8 +6,8 @@ import { RootState } from "@/store/store";
 import { Image } from "expo-image";
 
 const LoadingScreen = () => {
-  const theme = useSelector((s: RootState) => s.theme.theme);
-  const isDarkMode = theme === "dark";
+  const isDarkMode = useColorScheme() === "dark";
+
   return (
     <SafeAreaView
       className={`flex-1 items-center p-6 ${
@@ -16,7 +16,7 @@ const LoadingScreen = () => {
     >
       <View className="items-center justify-center flex-1">
         <View className="items-center flex-row">
-          <View className="w-2 h-2">
+          <View className="w-20 h-20">
             <Image source={{ uri: "logo" }} className="w-full h-full" />
           </View>
           <Text
@@ -34,11 +34,6 @@ const LoadingScreen = () => {
         <Image source={{ uri: "berth" }} className="w-32 h-16" />
       </View>
     </SafeAreaView>
-    // <SafeAreaView
-    //   className={`flex-1 items-center justify-center p-6 bg-yellow-500 `}
-    // >
-    //   <ActivityIndicator size={"large"} />
-    // </SafeAreaView>
   );
 };
 

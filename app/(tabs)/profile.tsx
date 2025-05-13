@@ -32,7 +32,7 @@ export default function ProfileScreen() {
   const handleLogout = () => {
     dispatch(logout());
     clearUserData();
-    router.replace("/(auth)/login");
+    router.replace("/(auth)");
   };
 
   return (
