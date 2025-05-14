@@ -8,9 +8,7 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
 import { Stack } from "expo-router";
-import { RootState } from "@/store/store";
 import { store } from "@/store/store";
-import LoadingScreen from "@/components/LoadingScreen";
 import { useColorScheme } from "react-native";
 
 const queryClient = new QueryClient();
