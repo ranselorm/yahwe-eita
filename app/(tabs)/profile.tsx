@@ -16,7 +16,6 @@ import { router } from "expo-router";
 import ProgressBar from "@/components/ProgressBar";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-// import BalanceCard from "../components/BalanceCard";
 import { logout } from "@/store/userSlice";
 import AirtimePlaceholder from "@/components/placeholders/AirtimePlaceholder";
 import CashPlaceholder from "@/components/placeholders/CashPlaceholder";
