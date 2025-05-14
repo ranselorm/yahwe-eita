@@ -27,10 +27,10 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("p@ssw0rd123");
   const router = useRouter();
   const mutation = useLogin();
-  const theme = useSelector((s: RootState) => s.theme.theme);
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
   // const {globalEmail, globalPassword} = useSelector((state: RootState) => state.user);
 
-  const isDarkMode = theme === "dark";
   const dispatch = useDispatch();
 
   const updateUserSession = async (responseData: any) => {

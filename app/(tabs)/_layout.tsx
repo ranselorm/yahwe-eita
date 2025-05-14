@@ -9,8 +9,8 @@ import { RootState } from "@/store/store";
 
 export default function TabsLayout() {
   const user = useSelector((state: RootState) => state.user.user);
-  const theme = useSelector((s: RootState) => s.theme.theme);
-  const isDarkMode = theme === "light";
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
 
   if (!user?.isLoggedIn) {
     return <Redirect href="/(auth)/login" />;
@@ -24,7 +24,7 @@ export default function TabsLayout() {
         tabBarActiveTintColor: isDarkMode ? "black" : "white",
         tabBarStyle: {
           // backgroundColor: "red",
-          backgroundColor: isDarkMode ? "white" : "black",
+          backgroundColor: isDarkMode ? "black" : "white",
           borderColor: "#D3D3D3",
           borderTopWidth: 0.5,
           height: 60,
@@ -46,7 +46,7 @@ export default function TabsLayout() {
               <Octicons
                 name="home"
                 size={24}
-                color={`${isDarkMode ? "black" : "white"}`}
+                color={`${isDarkMode ? "white" : "black"}`}
               />
               {focused ? (
                 <View
@@ -83,7 +83,7 @@ export default function TabsLayout() {
               <MaterialCommunityIcons
                 name="account-group-outline"
                 size={30}
-                color={`${isDarkMode ? "black" : "white"}`}
+                color={`${isDarkMode ? "white" : "black"}`}
               />
               {focused ? (
                 <View
@@ -120,7 +120,7 @@ export default function TabsLayout() {
               <FontAwesome
                 name="exchange"
                 size={24}
-                color={`${isDarkMode ? "black" : "white"}`}
+                color={`${isDarkMode ? "white" : "black"}`}
               />
               {focused ? (
                 <View
@@ -157,7 +157,7 @@ export default function TabsLayout() {
               <MaterialCommunityIcons
                 name="account-outline"
                 size={30}
-                color={`${isDarkMode ? "black" : "white"}`}
+                color={`${isDarkMode ? "white" : "black"}`}
               />
               {focused ? (
                 <View

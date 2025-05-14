@@ -60,8 +60,8 @@ export default function RegisterScreen() {
   const phone = phoneNumber ? JSON.parse(phoneNumber as string) : null;
   const channel = network ? JSON.parse(network as string) : null;
   const { accessToken, sponsorId } = useSelector((s: RootState) => s.user);
-  const theme = useSelector((s: RootState) => s.theme.theme);
-  const isDarkMode = theme === "dark";
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
 
   console.log({ accessToken, sponsorId });
 
