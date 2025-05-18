@@ -36,6 +36,7 @@ export default function StatusScreen() {
   const [isStillPending, setIsStillPending] = useState(false);
   const dispatch = useDispatch();
 
+  console.log(parsedPayload, "Parsed Payload");
   const showErrorToast = (message: string) => {
     Toast.show({
       type: "error",
@@ -166,7 +167,7 @@ export default function StatusScreen() {
             <MaterialIcons name="error-outline" size={62} color="#dc6115" />
           ) : (
             <></>
-            // <PendingDots /> 
+            // <PendingDots />
           )}
 
           {done ? (

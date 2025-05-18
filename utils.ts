@@ -39,8 +39,7 @@ export const clearUserData = async () => {
   }
 };
 
-
 export const isValidDate = (date: string) => {
-    const parsedDate = dayjs(date, "YYYY-MM-DD", true);
-    return parsedDate.isValid();
-  };
+  const parsedDate = dayjs(date, "YYYY-MM-DD", true);
+  return parsedDate.isValid();
+};

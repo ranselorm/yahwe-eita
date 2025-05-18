@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Alert,
 } from "react-native";
 import { router } from "expo-router";
 import {
@@ -133,7 +134,7 @@ export default function WelcomeScreen() {
     return (
       <SafeAreaView className={`flex-1 w-screen`}>
         {/* icon */}
-        {index !== 3 && (
+        {/* {index !== 3 && (
           <View className="w-40 h-40 bg-[#94b993] items-center justify-center mx-auto -mt-6 rounded-xl mb-12">
             {item.title === "WELCOME" ? (
               <FontAwesome name="handshake-o" size={60} color="#619b5e" />
@@ -145,15 +146,29 @@ export default function WelcomeScreen() {
               ""
             )}
           </View>
-        )}
+        )} */}
+
         <View className="flex-1 px-6">
-          <View
-            className="w-full -mt-6 h-[98%]"
-          >
+          <View className="w-full -mt-6 h-[90%]">
             <ScrollView
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 80 }}
             >
+              <View className="items-center justify-center">
+                <View className="w-16 h-16">
+                  <Image
+                    source={{ uri: "logo" }}
+                    style={{ width: 60, height: 60 }}
+                  />
+                </View>
+                <Text
+                  className={`text-xl font-bold text-center mt-4 ${
+                    isDarkMode ? "text-dark" : "text-white"
+                  }`}
+                >
+                  YAHWE-EITA
+                </Text>
+              </View>
               <Text
                 className={`text-2xl font-bold uppercase text-center mb-7 mt-5 ${
                   isDarkMode ? "text-white" : "text-white"
@@ -198,11 +213,7 @@ export default function WelcomeScreen() {
                     }
                   >
                     <View className="flex-row items-center justify-center gap-x-3">
-                      <EvilIcons
-                        name="external-link"
-                        size={24}
-                        color="white"
-                      />
+                      <EvilIcons name="external-link" size={24} color="white" />
                       <Text
                         className={`text-lg text-center ${
                           isDarkMode ? "text-white" : "text-white"
@@ -226,8 +237,8 @@ export default function WelcomeScreen() {
   return (
     <>
       <SafeAreaView className={`flex-1 bg-[#619b5e]`}>
-        <View className="flex-row items-center justify-between px-6 py-1">
-          <View className="items-center flex-row">
+        <View className="flex-row items-center justify-end px-6 py-1 z-10">
+          {/* <View className="items-center flex-row">
             <View className="w-16 h-16">
               <Image
                 source={{ uri: "logo" }}
@@ -241,7 +252,7 @@ export default function WelcomeScreen() {
             >
               YAHWE-EITA
             </Text>
-          </View>
+          </View> */}
           <Pressable
             className={`py-2 px-4 rounded-full ${
               isDarkMode ? "bg-white" : "bg-black"
@@ -250,7 +261,7 @@ export default function WelcomeScreen() {
             // onPress={() => router.push("/(auth)/status")}
           >
             <Text
-              onPress={() => router.push("/(auth)/login")}
+              // onPress={() => router.push("/(auth)/login")}
               className={`font-bold ${
                 isDarkMode ? "text-black" : "text-white"
               }`}
@@ -258,6 +269,20 @@ export default function WelcomeScreen() {
               Login
             </Text>
           </Pressable>
+          {/* <TouchableOpacity
+            className={`py-2 px-4 rounded-full ${
+              isDarkMode ? "bg-white" : "bg-black"
+            }`}
+            onPress={() => Alert.alert("Hello")}
+          >
+            <Text
+              className={`font-bold ${
+                isDarkMode ? "text-black" : "text-white"
+              }`}
+            >
+              Login
+            </Text>
+          </TouchableOpacity> */}
         </View>
 
         <FlatList

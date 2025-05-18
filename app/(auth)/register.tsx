@@ -121,7 +121,6 @@ export default function RegisterScreen() {
     ghanaCardNumber: "",
   });
 
-
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
@@ -174,7 +173,6 @@ export default function RegisterScreen() {
     }
   }, [formData.ghanaCardNumber, ghanaCardVerifyRefetch]);
 
-
   // handle results
   useEffect(() => {
     if (ghanaCardVerifyFetching) return;
@@ -210,7 +208,9 @@ export default function RegisterScreen() {
     email: formData.email,
     password: formData.password,
     phone: phone && phone,
-    dateOfBirth: ghanaCardData?.dateOfBirth ? toIsoDate(ghanaCardData?.dateOfBirth || "") : `${year}-${addLeadingZero(month)}-${addLeadingZero(day)}`,
+    dateOfBirth: ghanaCardData?.dateOfBirth
+      ? toIsoDate(ghanaCardData?.dateOfBirth || "")
+      : `${year}-${addLeadingZero(month)}-${addLeadingZero(day)}`,
     sponsorId: sponsorId,
     ghanaCardNumber: formData.ghanaCardNumber,
     channel: channel,
@@ -292,9 +292,7 @@ export default function RegisterScreen() {
     !formData.email ||
     !formData.password ||
     !formData.ghanaCardNumber ||
-    !isValidDate(
-      `${year}-${addLeadingZero(month)}-${addLeadingZero(day)}`
-    ) ||
+    // !isValidDate(`${year}-${addLeadingZero(month)}-${addLeadingZero(day)}`) ||
     registerMutation.isPending;
 
   return (
@@ -313,7 +311,7 @@ export default function RegisterScreen() {
             <View className="items-center">
               <Image
                 source={{ uri: "momo" }}
-                style={{ width: 100, height: 30, borderRadius: 4 }}
+                style={{ width: 100, height: 100, borderRadius: 4 }}
               />
               <Text className="text-lg font-semibold my-4 text-center text-black">
                 Set up Mobile Money
@@ -362,14 +360,16 @@ export default function RegisterScreen() {
           </TouchableOpacity>
 
           <Text
-            className={`text-2xl font-semibold ml-2 ${isDarkMode ? "text-white" : "text-secondary-100"
-              }`}
+            className={`text-2xl font-semibold ml-2 ${
+              isDarkMode ? "text-white" : "text-secondary-100"
+            }`}
           >
             Register
           </Text>
           <Text
-            className={`text-lg font-semibold ml-2 opacity-0 ${isDarkMode ? "text-white" : "text-secondary-100"
-              }`}
+            className={`text-lg font-semibold ml-2 opacity-0 ${
+              isDarkMode ? "text-white" : "text-secondary-100"
+            }`}
           >
             Reg
           </Text>
@@ -388,10 +388,11 @@ export default function RegisterScreen() {
               value={fullName}
               editable={false}
               selectTextOnFocus={false}
-              className={`border rounded-xl p-3 text-base text-center bg-gray-100  border-gray-300 ${isDarkMode
-                ? "border-white text-white"
-                : "border-secondary-100 text-secondary-100"
-                }`}
+              className={`border rounded-xl p-3 text-base text-center bg-gray-100  border-gray-300 ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
 
             <TextInput
@@ -399,10 +400,11 @@ export default function RegisterScreen() {
               value={formData.email}
               onChangeText={(value) => handleChange("email", value)}
               keyboardType="email-address"
-              className={`border rounded-xl p-3 text-base text-center ${isDarkMode
-                ? "border-white text-white"
-                : "border-secondary-100 text-secondary-100"
-                }`}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
 
             <TextInput
@@ -410,10 +412,11 @@ export default function RegisterScreen() {
               value={formData.password}
               onChangeText={(value) => handleChange("password", value)}
               secureTextEntry
-              className={`border rounded-xl p-3 text-base text-center ${isDarkMode
-                ? "border-white text-white"
-                : "border-secondary-100 text-secondary-100"
-                }`}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
 
             {/* <TextInput
@@ -431,10 +434,11 @@ export default function RegisterScreen() {
               placeholder="GHANA CARD NUMBER"
               value={formData.ghanaCardNumber}
               onChangeText={(value) => handleChange("ghanaCardNumber", value)}
-              className={`border rounded-xl p-3 text-base text-center ${isDarkMode
-                ? "border-white text-white"
-                : "border-secondary-100 text-secondary-100"
-                }`}
+              className={`border rounded-xl p-3 text-base text-center ${
+                isDarkMode
+                  ? "border-white text-white"
+                  : "border-secondary-100 text-secondary-100"
+              }`}
             />
 
             {ghanaCardVerifyFetching ? (
@@ -447,37 +451,49 @@ export default function RegisterScreen() {
               ""
             )}
 
-            {formData.ghanaCardNumber && (!ghanaCardData?.dateOfBirth && ghanaCardData?.name) && !ghanaCardVerifyFetching &&
-              <View className="gap-y-2">
-                <Text className="text-red-500 text-center">Date of birth not found.</Text>
-                <Text className="text-center">Kindly enter your date of birth</Text>
-                <View className="flex-row items-center w-full justify-between mt-2">
-                  <TextInput
-                    maxLength={4}
-                    multiline={false}
-                    value={year}
-                    onChangeText={(value) => setYear(value)}
-                    keyboardType="numeric"
-                    placeholder="YYYY"
-                    className="w-1/4 border rounded-xl p-3 text-base h-[90%] text-center border-secondary-100 text-secondary-100 dark:border-white dark:text-white" />
-                  <TextInput
-                    multiline={false}
-                    maxLength={2}
-                    value={month}
-                    onChangeText={(value) => setMonth(value)}
-                    keyboardType="numeric"
-                    placeholder="MM"
-                    className="w-1/4 border rounded-xl p-3 text-base h-[90%] text-center border-secondary-100 text-secondary-100 dark:border-white dark:text-white" />
-                  <TextInput
-                    multiline={false}
-                    maxLength={2}
-                    value={day}
-                    onChangeText={(value) => setDay(value)}
-                    keyboardType="numeric"
-                    placeholder="DD"
-                    className="w-1/4 border rounded-xl p-3 text-base h-[90%] text-center border-secondary-100 text-secondary-100 dark:border-white dark:text-white" />
-                </View>
-              </View>
+            {
+              formData.ghanaCardNumber &&
+                !ghanaCardData?.dateOfBirth &&
+                ghanaCardData?.name &&
+                !ghanaCardVerifyFetching && (
+                  <View className="gap-y-2">
+                    <Text className="text-red-500 text-center">
+                      Date of birth not found.
+                    </Text>
+                    <Text className="text-center">
+                      Kindly enter your date of birth
+                    </Text>
+                    <View className="flex-row items-center w-full justify-between mt-2">
+                      <TextInput
+                        maxLength={4}
+                        multiline={false}
+                        value={year}
+                        onChangeText={(value) => setYear(value)}
+                        keyboardType="numeric"
+                        placeholder="YYYY"
+                        className="w-1/4 border rounded-xl p-3 text-base h-[90%] text-center border-secondary-100 text-secondary-100 dark:border-white dark:text-white"
+                      />
+                      <TextInput
+                        multiline={false}
+                        maxLength={2}
+                        value={month}
+                        onChangeText={(value) => setMonth(value)}
+                        keyboardType="numeric"
+                        placeholder="MM"
+                        className="w-1/4 border rounded-xl p-3 text-base h-[90%] text-center border-secondary-100 text-secondary-100 dark:border-white dark:text-white"
+                      />
+                      <TextInput
+                        multiline={false}
+                        maxLength={2}
+                        value={day}
+                        onChangeText={(value) => setDay(value)}
+                        keyboardType="numeric"
+                        placeholder="DD"
+                        className="w-1/4 border rounded-xl p-3 text-base h-[90%] text-center border-secondary-100 text-secondary-100 dark:border-white dark:text-white"
+                      />
+                    </View>
+                  </View>
+                )
               // <TextInput
               //   placeholder="DATE OF BIRTH YYYY-MM-DD"
               //   value={ghanaCardData?.dateOfBirth}
@@ -503,13 +519,15 @@ export default function RegisterScreen() {
         </View>
         {/* </KeyboardAwareScrollView> */}
         <Pressable
-          className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${isDarkMode ? "bg-white" : "bg-secondary-100"
-            } ${isButtonDisabled ? "opacity-50" : ""}`}
+          className={`w-full max-w-sm p-3 rounded-xl items-center mx-auto  ${
+            isDarkMode ? "bg-white" : "bg-secondary-100"
+          } ${isButtonDisabled ? "opacity-50" : ""}`}
           onPress={handleSubmit}
         >
           <Text
-            className={`text-lg font-semibold ${isDarkMode ? "text-secondary-100" : "text-white"
-              }`}
+            className={`text-lg font-semibold ${
+              isDarkMode ? "text-secondary-100" : "text-white"
+            }`}
           >
             {registerMutation.isPending ? (
               <ActivityIndicator size={"small"} />
